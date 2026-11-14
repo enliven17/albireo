@@ -1,0 +1,151 @@
+<!doctype html>
+<!-- Source for the brand kit boards. Each .board is captured to brand/kit/<id>.png at its own size. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Albireo brand kit</title>
+<style>
+  @font-face { font-family: Inter; src: url(../../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2) format("woff2"); font-weight: 100 900; }
+  @font-face { font-family: JBM; src: url(../../node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2) format("woff2"); font-weight: 100 800; }
+  :root { --space:#05060A; --panel:#0B0D14; --raise:#11141D; --ink:#ECEAE4; --mute:#8B90A0; --dim:#565B69; --gold:#FFA630; --blue:#6E9BFF; --bad:#FF6B5E; --line:rgba(236,234,228,.1); }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: #000; font-family: Inter, sans-serif; color: var(--ink); }
+  .board { position: relative; width: 1920px; height: 1080px; background: var(--space); overflow: hidden; padding: 96px; display: flex; flex-direction: column; }
+  .og { width: 1200px; height: 630px; padding: 64px; }
+  .label { font-family: JBM, monospace; font-size: 15px; letter-spacing: .14em; text-transform: uppercase; color: var(--mute); }
+  .label b { color: var(--gold); font-weight: 400; margin-right: 18px; }
+  .head { display: flex; justify-content: space-between; align-items: baseline; }
+  h1 { font-size: 96px; font-weight: 500; letter-spacing: -.045em; line-height: .95; margin-top: 40px; }
+  h1 span { color: var(--mute); }
+  .mono { font-family: JBM, monospace; }
+  .grid { display: grid; gap: 1px; background: var(--line); }
+  .cell { background: var(--space); padding: 36px; }
+  .foot { margin-top: auto; display: flex; justify-content: space-between; font-family: JBM, monospace; font-size: 14px; color: var(--dim); }
+  img.px { image-rendering: pixelated; }
+  .swatch { height: 300px; display: flex; flex-direction: column; justify-content: flex-end; padding: 28px; font-family: JBM, monospace; font-size: 15px; }
+  .rule { display: grid; grid-template-columns: 60px 1fr; gap: 16px; padding: 22px 0; border-top: 1px solid var(--line); font-size: 24px; }
+  .rule .k { font-family: JBM, monospace; font-size: 18px; }
+</style>
+</head>
+<body>
+
+<!-- 01 logo -->
+<section class="board" id="01-logo">
+  <div class="head"><p class="label"><b>01</b>Logo</p><p class="label">Albireo brand kit v1</p></div>
+  <div style="flex:1; display:grid; place-items:center;">
+    <div style="position:relative; padding:72px; outline:1px dashed rgba(236,234,228,.18);">
+      <img class="px" src="../logo/lockup-color.svg" style="height:150px; display:block;">
+      <span class="mono" style="position:absolute; left:0; top:-28px; font-size:13px; color:var(--dim);">clear space = height of the blue star</span>
+    </div>
+  </div>
+  <div class="grid" style="grid-template-columns: repeat(4,1fr);">
+    <div class="cell" style="display:flex; gap:28px; align-items:center;"><img class="px" src="../logo/mark-color.svg" style="height:72px"><span class="label">Mark, colour</span></div>
+    <div class="cell" style="display:flex; gap:28px; align-items:center;"><img class="px" src="../logo/mark-white.svg" style="height:72px"><span class="label">Mark, white</span></div>
+    <div class="cell" style="display:flex; gap:28px; align-items:center; background:var(--ink);"><img class="px" src="../logo/mark-ink.svg" style="height:72px"><span class="label" style="color:var(--space)">Mark, ink</span></div>
+    <div class="cell" style="display:flex; gap:28px; align-items:center;"><img class="px" src="../logo/mark-gold.svg" style="height:72px"><span class="label">Mark, gold</span></div>
+  </div>
+  <p class="mono" style="margin-top:32px; font-size:17px; color:var(--mute); max-width:1100px; line-height:1.6;">Two pixel stars. The large gold one is Albireo A and stands for web traffic, the small blue one is Albireo B and stands for API traffic. The wordmark is set in the same 5 by 7 pixel grid.</p>
+</section>
+
+<!-- 02 colour -->
+<section class="board" id="02-colour">
+  <div class="head"><p class="label"><b>02</b>Colour</p><p class="label">Albireo brand kit v1</p></div>
+  <h1>Deep space, two lights. <span>Nothing else.</span></h1>
+  <div class="grid" style="grid-template-columns: repeat(4,1fr); margin-top:72px;">
+    <div class="swatch" style="background:var(--space); outline:1px solid var(--line);"><span>Space</span><span style="color:var(--mute)">#05060A  background</span></div>
+    <div class="swatch" style="background:var(--panel)"><span>Panel</span><span style="color:var(--mute)">#0B0D14  surfaces</span></div>
+    <div class="swatch" style="background:var(--gold); color:var(--space)"><span>Gold, Albireo A</span><span>#FFA630  web, primary</span></div>
+    <div class="swatch" style="background:var(--blue); color:var(--space)"><span>Blue, Albireo B</span><span>#6E9BFF  API</span></div>
+  </div>
+  <div class="grid" style="grid-template-columns: repeat(4,1fr);">
+    <div class="swatch" style="height:170px; background:var(--ink); color:var(--space)"><span>Ink</span><span>#ECEAE4  text</span></div>
+    <div class="swatch" style="height:170px; background:var(--mute); color:var(--space)"><span>Mute</span><span>#8B90A0  secondary text</span></div>
+    <div class="swatch" style="height:170px; background:var(--dim)"><span>Dim</span><span>#565B69  tertiary, rules</span></div>
+    <div class="swatch" style="height:170px; background:var(--bad); color:var(--space)"><span>Signal</span><span>#FF6B5E  errors only</span></div>
+  </div>
+  <div class="foot"><span>Gold always means web. Blue always means API. Never swap them.</span><span>Hairlines: ink at 10% opacity</span></div>
+</section>
+
+<!-- 03 type -->
+<section class="board" id="03-type">
+  <div class="head"><p class="label"><b>03</b>Type</p><p class="label">Albireo brand kit v1</p></div>
+  <div style="display:grid; grid-template-columns: 1.4fr 1fr; gap:96px; margin-top:56px; flex:1;">
+    <div>
+      <p class="label">Inter, display and text</p>
+      <p style="font-size:150px; font-weight:500; letter-spacing:-.045em; line-height:.92; margin-top:28px;">Every number,<br><span style="color:var(--mute)">verified.</span></p>
+      <p style="font-size:28px; line-height:1.5; color:var(--mute); margin-top:48px; max-width:900px;">Albireo gives every Stellar project trusted web and API analytics. Free, cookieless, and sealed on Stellar every day.</p>
+    </div>
+    <div>
+      <p class="label">JetBrains Mono, labels and data</p>
+      <p class="mono" style="font-size:88px; margin-top:28px; line-height:1;">110,058</p>
+      <p class="mono" style="font-size:16px; letter-spacing:.14em; color:var(--mute); margin-top:20px;">VISITORS, 30 DAYS</p>
+      <p class="mono" style="font-size:22px; margin-top:56px; line-height:1.9;">
+        <span style="color:var(--gold)">[ OK ]</span> origin bound<br>
+        <span style="color:var(--gold)">[ Web ]</span> API  Wallets  Trust<br>
+        GET /accounts/:account  <span style="color:var(--mute)">168 ms</span>
+      </p>
+    </div>
+  </div>
+  <p class="mono" style="font-size:24px; color:var(--mute); letter-spacing:.06em;"> .'`^",:;Il!i&gt;&lt;~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&amp;8%B@$</p>
+  <div class="foot" style="margin-top:28px;"><span>The glyph ramp above draws every ASCII image, from faint to full ink.</span><span>Both faces are self hosted. No font CDNs.</span></div>
+</section>
+
+<!-- 04 usage -->
+<section class="board" id="04-usage">
+  <div class="head"><p class="label"><b>04</b>Usage</p><p class="label">Albireo brand kit v1</p></div>
+  <div style="display:grid; grid-template-columns: 1fr 1fr; gap:96px; margin-top:56px;">
+    <div>
+      <p class="label" style="margin-bottom:20px;">Do</p>
+      <div class="rule"><span class="k" style="color:var(--gold)">+</span><span>Show state with brackets: <span class="mono" style="color:var(--gold)">[ OK ]</span>, <span class="mono">[✓]</span>, <span class="mono">[ Web ]</span></span></div>
+      <div class="rule"><span class="k" style="color:var(--gold)">+</span><span>Separate with hairlines and space, square corners everywhere</span></div>
+      <div class="rule"><span class="k" style="color:var(--gold)">+</span><span>Draw imagery in glyphs, lit by the two stars</span></div>
+      <div class="rule"><span class="k" style="color:var(--gold)">+</span><span>Write short, plain sentences joined with commas and full stops</span></div>
+      <div class="rule"><span class="k" style="color:var(--gold)">+</span><span>Numbers in mono with tabular figures</span></div>
+      <div class="rule"><span class="k" style="color:var(--gold)">+</span><span>Ease out slowly: Lenis lerp 0.075, power3 and power4 out</span></div>
+    </div>
+    <div>
+      <p class="label" style="margin-bottom:20px;">Don't</p>
+      <div class="rule"><span class="k" style="color:var(--dim)">×</span><span style="color:var(--mute)">Pills or fully rounded chips and buttons</span></div>
+      <div class="rule"><span class="k" style="color:var(--dim)">×</span><span style="color:var(--mute)">Coloured accent lines under headings or beside cards</span></div>
+      <div class="rule"><span class="k" style="color:var(--dim)">×</span><span style="color:var(--mute)">Decorative dots, status dots or dot separators</span></div>
+      <div class="rule"><span class="k" style="color:var(--dim)">×</span><span style="color:var(--mute)">Em dashes in any copy</span></div>
+      <div class="rule"><span class="k" style="color:var(--dim)">×</span><span style="color:var(--mute)">Gold for API data or blue for web data</span></div>
+      <div class="rule"><span class="k" style="color:var(--dim)">×</span><span style="color:var(--mute)">Gradients, glows or drop shadows on the logo</span></div>
+    </div>
+  </div>
+  <div class="foot"><span>Voice: calm, exact, verifiable. Say what is measured and how.</span><span>Never claim a number you cannot prove.</span></div>
+</section>
+
+<!-- 05 applications -->
+<section class="board" id="05-applications">
+  <div class="head"><p class="label"><b>05</b>Applications</p><p class="label">Albireo brand kit v1</p></div>
+  <div style="display:grid; grid-template-columns: 1.35fr 1fr; gap:32px; margin-top:44px;">
+    <div style="display:flex; flex-direction:column; gap:32px;">
+      <img src="src/hero.png" style="width:100%; height:340px; object-fit:cover; object-position:center bottom; outline:1px solid var(--line);">
+      <img src="src/split.png" style="width:100%; height:340px; object-fit:cover; object-position:center 40%; outline:1px solid var(--line);">
+    </div>
+    <div style="display:flex; flex-direction:column; gap:32px;">
+      <img src="src/card.png" style="width:100%; height:552px; object-fit:cover; object-position:center 30%; outline:1px solid var(--line);">
+      <div class="grid" style="grid-template-columns: repeat(3,1fr); height:128px;">
+        <div class="cell" style="display:grid; place-items:center; padding:0;"><img class="px" src="../logo/app-icon.svg" style="height:96px"></div>
+        <div class="cell" style="display:grid; place-items:center; padding:0;"><img class="px" src="../logo/app-icon.svg" style="height:48px"></div>
+        <div class="cell" style="display:grid; place-items:center; padding:0;"><img class="px" src="../logo/app-icon.svg" style="height:16px"></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Landing hero, the split, a verified public card and the app icon at 96, 48 and 16 px.</span><span>albireo</span></div>
+</section>
+
+<!-- social card -->
+<section class="board og" id="og">
+  <img src="src/sky.png" style="position:absolute; left:0; top:-40px; width:100%; height:120%; object-fit:cover; object-position:center 25%;">
+  <div style="position:absolute; inset:0; background:linear-gradient(0deg, var(--space) 18%, transparent 70%);"></div>
+  <img class="px" src="../logo/lockup-color.svg" style="position:relative; height:34px; width:fit-content;">
+  <div style="position:relative; margin-top:auto;">
+    <p style="font-size:76px; font-weight:500; letter-spacing:-.045em; line-height:.95;">Every number,<br><span style="color:var(--mute)">verified.</span></p>
+    <p class="mono" style="font-size:17px; color:var(--mute); margin-top:22px;">Trusted, privacy-first web and API analytics for Stellar.</p>
+  </div>
+</section>
+
+</body>
+</html>

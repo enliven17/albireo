@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+@theme {
+  --color-space: #05060a;
+  --color-panel: #0b0d14;
+  --color-raise: #11141d;
+  --color-ink: #eceae4;
+  --color-mute: #8b90a0;
+  --color-dim: #565b69;
+  --color-gold: #ffa630;
+  --color-blue: #6e9bff;
+  --color-bad: #ff6b5e;
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
+}
+
+:root { color-scheme: dark; }
+html, body { background: var(--color-space); color: var(--color-ink); }
+body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+::selection { background: var(--color-gold); color: var(--color-space); }
+
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+@layer components {
+.hair { border-color: rgb(236 234 228 / 0.1); }
+.label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-mute); }
+.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+.btn { display: inline-flex; align-items: center; gap: .6rem; height: 44px; padding: 0 1.1rem; font-family: var(--font-mono); font-size: 13px; letter-spacing: .02em; border: 1px solid rgb(236 234 228 / .16); transition: background .25s, color .25s, border-color .25s; }
+.btn:hover { border-color: rgb(236 234 228 / .5); }
+.btn-solid { background: var(--color-ink); color: var(--color-space); border-color: var(--color-ink); }
+.btn-solid:hover { background: var(--color-gold); border-color: var(--color-gold); }
+.btn .arrow { transition: transform .3s cubic-bezier(.22,1,.36,1); }
+.btn:hover .arrow { transform: translateX(3px); }
+
+.tab { font-family: var(--font-mono); font-size: 12px; color: var(--color-mute); padding: .35rem .2rem; transition: color .2s; }
+.tab:hover { color: var(--color-ink); }
+.tab[aria-selected="true"], .tab[aria-pressed="true"] { color: var(--color-ink); }
+.tab[aria-selected="true"]::before, .tab[aria-pressed="true"]::before { content: "["; color: var(--color-gold); margin-right: .25rem; }
+.tab[aria-selected="true"]::after, .tab[aria-pressed="true"]::after { content: "]"; color: var(--color-gold); margin-left: .25rem; }
+
+}
+
+a, button { -webkit-tap-highlight-color: transparent; }
+:focus-visible { outline: 1px solid var(--color-gold); outline-offset: 3px; }
+
+/* ascii footer: a gold to blue copy of the wordmark sits on the dim one and follows the cursor */
+@property --spot { syntax: "<length>"; inherits: true; initial-value: 0px; }
+.ascii-word { --x: 50%; --y: 50%; transition: --spot .5s cubic-bezier(.22,1,.36,1); }
+.ascii-word:hover { --spot: 190px; }
+.ascii-word-color {
+  color: transparent;
+  background: linear-gradient(90deg, var(--color-gold), #ffd9a0, var(--color-blue), #bcd0ff, var(--color-gold));
+  background-size: 200% 100%;
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-mask-image: radial-gradient(circle var(--spot) at var(--x) var(--y), #000 30%, transparent 100%), linear-gradient(100deg, transparent 35%, rgba(0,0,0,.6) 50%, transparent 65%);
+  mask-image: radial-gradient(circle var(--spot) at var(--x) var(--y), #000 30%, transparent 100%), linear-gradient(100deg, transparent 35%, rgba(0,0,0,.6) 50%, transparent 65%);
+  -webkit-mask-size: 100% 100%, 250% 100%; mask-size: 100% 100%, 250% 100%;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  animation: ascii-hue 9s linear infinite, ascii-sweep 6s ease-in-out infinite;
+  animation-play-state: paused;
+}
+.ascii-word.is-visible .ascii-word-color { animation-play-state: running; }
+@keyframes ascii-hue { to { background-position: -200% 0; } }
+@keyframes ascii-sweep { 0% { -webkit-mask-position: 0 0, 150% 0; mask-position: 0 0, 150% 0; } 100% { -webkit-mask-position: 0 0, -50% 0; mask-position: 0 0, -50% 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .ascii-word-color { animation: none; }
+  *, *::before, *::after { transition-duration: 0s !important; }
+}
+
+@keyframes fadein { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+/* block glyphs need a face whose full block fills the cell, system monospace faces do */
+.ascii-pre { font-family: Consolas, "Cascadia Mono", Menlo, "DejaVu Sans Mono", monospace; line-height: 1; letter-spacing: 0; }
