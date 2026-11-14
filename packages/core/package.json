@@ -1,0 +1,12 @@
+{
+  "name": "@albireo/core",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./normalize": "./normalize.ts",
+    "./filter": "./filter.ts",
+    "./session": "./session.ts",
+    "./merkle": "./merkle.ts",
+    "./histogram": "./histogram.ts"
+  }
+}
