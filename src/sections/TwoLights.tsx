@@ -1,12 +1,8 @@
 import { useRef } from 'react'
 import { Container } from '../components/Section'
-import { AreaChart } from '../components/charts'
-import { useCountUp, useReveal } from '../lib/reveal'
-import { PROJECTS, apiStats, webStats } from '../lib/data'
-
-const halcyon = PROJECTS[0]
-const web = webStats(halcyon, 30)
-const api = apiStats(halcyon, 30)
+import { AreaChart, CountUp } from '../components/viz'
+import { useReveal } from '../lib/reveal'
+import { useApi, type Stats } from '../lib/api'
 
 const SIDES = [
   {
@@ -15,8 +11,8 @@ const SIDES = [
     title: 'Web analytics',
     body: 'Cookieless page analytics on an Umami core. Works with static HTML, single page apps and server rendered frameworks.',
     metrics: ['Page views and unique visitors', 'Referrers and campaigns', 'Session duration and bounce rate', 'Country, device and browser', 'Custom events', 'Stellar Wallets Kit funnel'],
-    figure: { value: web.total, label: 'visitors, 30 days' },
-    data: web.visitors,
+    figure: 'visitors, 30 days',
+    pick: (x: Stats) => ({ value: x.web.total, data: x.web.visitors }),
   },
   {
     tone: 'blue' as const,
@@ -24,15 +20,15 @@ const SIDES = [
     title: 'API analytics',
     body: 'Projects dual export OpenTelemetry: one stream to their own APM, one to Albireo. Traces and logs are dropped at the door, only counters and histograms are kept.',
     metrics: ['Request volume per route', 'Status code distribution', 'Latency p50 and p95', 'Stellar aware route names', 'Secret key redaction', '24 months of rollups'],
-    figure: { value: api.total, label: 'requests, 30 days' },
-    data: api.requests,
+    figure: 'requests, 30 days',
+    pick: (x: Stats) => ({ value: x.api.total, data: x.api.requests }),
   },
 ]
 
 export default function TwoLights() {
   const root = useRef<HTMLElement>(null)
   useReveal(root)
-  useCountUp(root)
+  const { data } = useApi<Stats>('/api/stats?tenant=albireo&days=30')
 
   return (
     <section ref={root} className="py-32">
@@ -42,16 +38,18 @@ export default function TwoLights() {
         </h2>
 
         <div className="mt-20 grid gap-px bg-[rgb(236_234_228/0.1)] lg:grid-cols-2">
-          {SIDES.map((s) => (
+          {SIDES.map((s) => {
+            const live = data ? s.pick(data) : null
+            return (
             <article key={s.star} className="bg-space p-0 pb-12 lg:p-10 lg:first:pl-0 lg:last:pr-0" data-reveal>
               <h3 className={`text-3xl font-medium tracking-tight ${s.tone === 'gold' ? 'text-gold' : 'text-blue'}`}>{s.title}</h3>
               <p className="mt-4 max-w-md text-[15px] leading-relaxed text-mute">{s.body}</p>
 
               <div className="mt-10 flex items-baseline gap-3">
-                <span className="num text-5xl" data-count={s.figure.value}>{s.figure.value.toLocaleString('en-US')}</span>
-                <span className="label">{s.figure.label}</span>
+                <CountUp value={live?.value ?? null} className="text-5xl" />
+                <span className="label">{s.figure}</span>
               </div>
-              <div className="mt-6"><AreaChart data={s.data} tone={s.tone} height={150} /></div>
+              <div className="mt-6">{live ? <AreaChart data={live.data} tone={s.tone} height={150} /> : <div className="h-[174px]" />}</div>
 
               <ul className="mt-10 grid gap-x-8 sm:grid-cols-2">
                 {s.metrics.map((m) => (
@@ -61,9 +59,10 @@ export default function TwoLights() {
                 ))}
               </ul>
             </article>
-          ))}
+            )
+          })}
         </div>
-        <p className="label mt-6 text-dim">Demo data from a sample project</p>
+        <p className="label mt-6 text-dim">Live: Albireo measuring its own site and API</p>
       </Container>
     </section>
   )

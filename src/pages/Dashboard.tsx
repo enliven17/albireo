@@ -1,194 +1,244 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
+import gsap from 'gsap'
 import Nav from '../components/Nav'
 import DemoTabs from '../components/DemoTabs'
-import { AreaChart, GlyphBars, Stat } from '../components/charts'
-import { Check } from '../sections/Reviewers'
-import { PROJECTS, TODAY, apiStats, bySlug, day, dur, fmt, pct, trustScore, walletStats, webStats, type Project } from '../lib/data'
-import { prove, short } from '../lib/seal'
+import LiveFeed from '../components/LiveFeed'
+import { AreaChart, Check, CountUp, GlyphBars, GlyphRing, Panel, Shimmer, Sparkline, type Tone } from '../components/viz'
+import { useApi, type Point, type Seal, type Stats } from '../lib/api'
+import { dur, explorerTx, fmt, ms, pct, short } from '../lib/format'
+import { reducedMotion } from '../lib/smooth'
 
 const RANGES = [7, 30, 90] as const
 const TABS = ['Web', 'API', 'Wallets', 'Trust'] as const
 type Tab = (typeof TABS)[number]
 
-function Panel({ title, children, className = '' }: { title: string; children: React.ReactNode; className?: string }) {
+
+function Kpi({ label, value, format, series, tone = 'gold', note, noteTone }: {
+  label: string; value: number | null; format?: (n: number) => string; series?: Point[]; tone?: Tone; note?: string; noteTone?: 'good' | 'bad'
+}) {
   return (
-    <section className={`hair border bg-panel p-5 sm:p-6 ${className}`}>
-      <h2 className="label">{title}</h2>
-      <div className="mt-5">{children}</div>
-    </section>
+    <div className="hair group relative overflow-hidden border bg-panel p-5 transition-colors duration-500 hover:bg-raise" data-panel>
+      <p className="label">{label}</p>
+      <div className="mt-4 flex items-end justify-between gap-3">
+        <CountUp value={value} format={format} className="text-[clamp(1.7rem,2.6vw,2.4rem)] leading-none text-ink" />
+        {series && <div className="opacity-70 transition-opacity group-hover:opacity-100"><Sparkline data={series} tone={tone} /></div>}
+      </div>
+      {note && <p className={`num mt-3 text-[12px] ${noteTone === 'good' ? 'text-gold' : noteTone === 'bad' ? 'text-bad' : 'text-mute'}`}>{note}</p>}
+    </div>
   )
 }
 
-function WebTab({ p, days }: { p: Project; days: number }) {
-  const s = useMemo(() => webStats(p, days), [p, days])
+/** a hairline box that slides to the active tab */
+function Tabs({ value, onChange }: { value: Tab; onChange: (t: Tab) => void }) {
+  const wrap = useRef<HTMLDivElement>(null)
+  const box = useRef<HTMLSpanElement>(null)
+  useLayoutEffect(() => {
+    const el = wrap.current?.querySelector<HTMLElement>(`[data-tab="${value}"]`)
+    if (!el || !box.current) return
+    gsap.to(box.current, { x: el.offsetLeft, width: el.offsetWidth, duration: reducedMotion() ? 0 : 0.45, ease: 'power3.out' })
+  }, [value])
+  return (
+    <div ref={wrap} role="tablist" aria-label="Views" className="relative flex gap-1">
+      <span ref={box} aria-hidden className="hair absolute inset-y-0 left-0 border bg-raise" />
+      {TABS.map((t) => (
+        <button key={t} data-tab={t} role="tab" type="button" aria-selected={value === t} onClick={() => onChange(t)}
+          className={`relative px-4 py-2 font-mono text-[12px] transition-colors ${value === t ? 'text-ink' : 'text-mute hover:text-ink'}`}>{t}</button>
+      ))}
+    </div>
+  )
+}
+
+function WebTab({ s, tenant }: { s: Stats; tenant: string }) {
+  const w = s.web
   return (
     <div className="grid gap-4">
-      <div className="grid grid-cols-2 gap-x-6 gap-y-8 lg:grid-cols-4">
-        <Stat label="Visitors" value={fmt(s.total)} note={`${s.delta >= 0 ? '+' : ''}${pct(s.delta)} vs previous`} tone={s.delta >= 0 ? 'gold' : 'bad'} />
-        <Stat label="Page views" value={fmt(s.pageviews)} note={`${(s.pageviews / s.total).toFixed(2)} per visitor`} />
-        <Stat label="Bounce rate" value={pct(s.bounce)} />
-        <Stat label="Avg session" value={dur(s.session)} />
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <Kpi label="Visitors" value={w.total} series={w.visitors} note={w.delta === null ? 'no earlier period yet' : `${w.delta >= 0 ? '+' : ''}${pct(w.delta)} vs previous`} noteTone={w.delta === null ? undefined : w.delta >= 0 ? 'good' : 'bad'} />
+        <Kpi label="Page views" value={w.pageviews} series={w.pageviewSeries} note={w.total ? `${(w.pageviews / w.total).toFixed(2)} per visitor` : undefined} />
+        <Kpi label="Bounce rate" value={w.bounce} format={(n) => pct(n)} />
+        <Kpi label="Avg visit" value={w.session} format={(n) => dur(Math.round(n))} />
       </div>
-      <Panel title="Visitors per day"><AreaChart data={s.visitors} tone="gold" /></Panel>
+      <div className="grid gap-4 xl:grid-cols-[1.7fr_1fr]">
+        <Panel title="Visitors per day"><AreaChart data={w.visitors} tone="gold" /></Panel>
+        <Panel title="Live"><LiveFeed tenant={tenant} /></Panel>
+      </div>
       <div className="grid gap-4 lg:grid-cols-2">
-        <Panel title="Top pages"><GlyphBars rows={s.pages} /></Panel>
-        <Panel title="Referrers"><GlyphBars rows={s.referrers} /></Panel>
-        <Panel title="Countries"><GlyphBars rows={s.countries} /></Panel>
-        <Panel title="Devices"><GlyphBars rows={s.devices} /></Panel>
+        <Panel title="Top pages"><GlyphBars rows={w.pages} /></Panel>
+        <Panel title="Referrers"><GlyphBars rows={w.referrers} /></Panel>
+        <Panel title="Countries"><GlyphBars rows={w.countries} /></Panel>
+        <Panel title="Devices"><GlyphBars rows={w.devices} /></Panel>
+        <Panel title="Browsers"><GlyphBars rows={w.browsers} /></Panel>
+        <Panel title="Custom events"><GlyphBars rows={w.events} tone="blue" empty="No custom events tracked yet" /></Panel>
       </div>
     </div>
   )
 }
 
-function ApiTab({ p, days }: { p: Project; days: number }) {
-  const s = useMemo(() => apiStats(p, days), [p, days])
-  if (!p.requests) {
-    return (
-      <Panel title="API analytics">
-        <p className="max-w-lg text-sm leading-relaxed text-mute">{p.name} has not connected an API yet. Add the second OpenTelemetry exporter and request volume, status codes and latency appear here within a minute.</p>
-        <Link to="/#install" className="btn mt-6">See the OpenTelemetry snippet <span className="arrow">→</span></Link>
-      </Panel>
-    )
-  }
+function ApiTab({ s }: { s: Stats }) {
+  const a = s.api
   return (
     <div className="grid gap-4">
-      <div className="grid grid-cols-2 gap-x-6 gap-y-8 lg:grid-cols-4">
-        <Stat label="Requests" value={fmt(s.total)} note={`${fmt(Math.round(s.total / days))} per day`} tone="blue" />
-        <Stat label="Error rate" value={pct(s.errorRate, 2)} note="5xx responses" tone={s.errorRate > 0.01 ? 'bad' : undefined} />
-        <Stat label="Latency p50" value={`${s.p50} ms`} />
-        <Stat label="Latency p95" value={`${s.p95} ms`} />
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <Kpi label="Requests" value={a.total} series={a.requests} tone="blue" note={`${fmt(Math.round(a.total / s.days))} per day`} />
+        <Kpi label="Error rate" value={a.errorRate} format={(n) => pct(n, 2)} note="5xx responses" noteTone={a.errorRate && a.errorRate > 0.01 ? 'bad' : undefined} />
+        <Kpi label="Latency p50" value={a.p50} format={(n) => ms(Math.round(n))} />
+        <Kpi label="Latency p95" value={a.p95} format={(n) => ms(Math.round(n))} series={a.latency} tone="ink" />
       </div>
-      <Panel title="Requests per day, p95 dashed"><AreaChart data={s.requests} tone="blue" overlay={{ data: s.latency, label: 'p95' }} /></Panel>
+      <Panel title="Requests per day, p95 dashed"><AreaChart data={a.requests} tone="blue" overlay={{ data: a.latency, label: 'p95', unit: ' ms' }} /></Panel>
       <div className="grid gap-4 lg:grid-cols-[1fr_1.6fr]">
-        <Panel title="Status codes"><GlyphBars rows={s.status} tone="blue" value={(r) => pct(r.share, 2)} /></Panel>
+        <Panel title="Status codes"><GlyphBars rows={a.status} tone="blue" /></Panel>
         <Panel title="Routes, normalized">
-          <div className="overflow-x-auto" data-lenis-prevent>
-            <table className="w-full min-w-[480px] text-left text-sm">
-              <thead><tr className="hair border-b">{['Route', 'Share', 'p50', 'p95'].map((h) => <th key={h} className="label pb-3 font-normal">{h}</th>)}</tr></thead>
-              <tbody>
-                {s.routes.map((r) => (
-                  <tr key={r.label} className="hair border-b last:border-0">
-                    <td className="py-3 font-mono text-[12px]">{r.label}</td>
-                    <td className="num py-3 text-mute">{pct(r.share)}</td>
-                    <td className="num py-3">{r.p50} ms</td>
-                    <td className={`num py-3 ${r.p95 > 400 ? 'text-bad' : ''}`}>{r.p95} ms</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          {a.routes.length ? (
+            <div className="overflow-x-auto" data-lenis-prevent>
+              <table className="w-full min-w-[520px] text-left text-sm">
+                <thead><tr className="hair border-b">{['Route', 'Requests', 'p50', 'p95', '5xx'].map((h) => <th key={h} className="label pb-3 font-normal">{h}</th>)}</tr></thead>
+                <tbody>
+                  {a.routes.map((r) => (
+                    <tr key={r.label} className="hair border-b transition-colors last:border-0 hover:bg-raise">
+                      <td className="py-3 pr-4 font-mono text-[12px]">{r.label}</td>
+                      <td className="num py-3 pr-4 text-mute">{fmt(r.value)}</td>
+                      <td className="num py-3 pr-4">{ms(r.p50)}</td>
+                      <td className={`num py-3 pr-4 ${(r.p95 ?? 0) > 800 ? 'text-bad' : ''}`}>{ms(r.p95)}</td>
+                      <td className={`num py-3 ${r.errors ? 'text-bad' : 'text-dim'}`}>{r.errors}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : <p className="font-mono text-[12px] text-dim">No API traffic in this range yet</p>}
+        </Panel>
+      </div>
+      <p className="font-mono text-[11px] text-dim">Albireo measures its own API with its own API analytics: every request to /api is one histogram sample here.</p>
+    </div>
+  )
+}
+
+function WalletsTab({ s }: { s: Stats }) {
+  const top = s.wallets.funnel[0].value
+  const empty = !s.wallets.funnel.some((f) => f.value)
+  return (
+    <div className="grid gap-4 lg:grid-cols-2">
+      <Panel title="Signing funnel">
+        <GlyphBars rows={s.wallets.funnel.map((f) => ({ label: f.label, value: f.value, share: top ? f.value / top : 0 }))} value={(r) => `${fmt(r.value)}  ${pct(r.share, 0)}`} />
+        {empty && <p className="mt-6 text-sm leading-relaxed text-mute">This project does not ask visitors to connect a wallet, so the funnel stays empty. Projects that wrap Stellar Wallets Kit with @albireo/swk see every step here.</p>}
+      </Panel>
+      <Panel title="Wallet share">
+        <GlyphBars rows={s.wallets.share} empty="No wallet connections yet" />
+        <p className="mt-6 text-sm text-mute">Wallet id and network only. Albireo never stores an address, a transaction or an amount.</p>
+      </Panel>
+    </div>
+  )
+}
+
+function TrustTab({ s, tenant }: { s: Stats; tenant: string }) {
+  const { data } = useApi<{ seals: Seal[]; account: string | null }>(`/api/seals?tenant=${tenant}`)
+  const t = s.trust
+  const checks: [string, boolean][] = [
+    ['Domain in stellar.toml, SEP-1', t.checks.sep1],
+    ['DNS TXT record', t.checks.dns],
+    ['Meta tag on the site', t.checks.meta],
+    ['Origin binding enforced', t.checks.origin],
+    ['Included in a recent seal', t.checks.sealed],
+  ]
+  return (
+    <div className="grid gap-4 lg:grid-cols-[1fr_1.5fr]">
+      <Panel title="Trust score" action={<span className="font-mono text-[11px] text-dim">{t.formula}</span>}>
+        <div className="flex justify-center py-2"><GlyphRing score={t.score} /></div>
+        <ul className="mt-4">
+          {checks.map(([label, on]) => (
+            <li key={label} className="hair flex items-baseline justify-between border-t py-3 text-sm"><span className={on ? '' : 'text-mute'}>{label}</span><Check on={on} /></li>
+          ))}
+        </ul>
+      </Panel>
+      <div className="grid gap-4">
+        <Panel title="Daily seals on Stellar testnet">
+          {!data && <Shimmer />}
+          {data && !data.seals.length && <p className="font-mono text-[12px] text-dim">The first seal is written at 00:30 UTC.</p>}
+          <ul>
+            {data?.seals.map((x) => (
+              <li key={x.day} className="hair grid grid-cols-[6rem_1fr_auto] items-baseline gap-4 border-t py-3 font-mono text-[12px]">
+                <span className="text-mute">{x.day}</span>
+                <span className="truncate">root <span className="text-blue">{short(x.root, 10)}</span></span>
+                {x.tx_hash ? <a href={explorerTx(x.tx_hash)} target="_blank" rel="noreferrer" className="text-mute transition-colors hover:text-ink">tx {short(x.tx_hash)} ↗</a> : <span className="text-dim">pending</span>}
+              </li>
+            ))}
+          </ul>
+          <Link to={`/p/${tenant}`} className="btn mt-5">Verify a proof yourself <span className="arrow">→</span></Link>
+        </Panel>
+        <Panel title="Filtered traffic" action={<span className="num text-[12px] text-mute">{pct(t.filtered)} of all hits</span>}>
+          <GlyphBars rows={t.drops} tone="ink" empty="Nothing filtered in this range" />
+          <p className="mt-5 text-sm text-mute">Counted separately, never deleted, never shown as visitors.</p>
         </Panel>
       </div>
     </div>
   )
 }
 
-function WalletsTab({ p }: { p: Project }) {
-  const s = useMemo(() => walletStats(p), [p])
-  const top = s.funnel[0].value
-  return (
-    <div className="grid gap-4 lg:grid-cols-2">
-      <Panel title="Signing funnel">
-        <GlyphBars rows={s.funnel.map((f) => ({ label: f.label, share: f.value / top }))} value={(r) => `${fmt(Math.round(r.share * top))}  ${pct(r.share, 0)}`} />
-        <p className="mt-6 text-sm text-mute">{pct(s.funnel[3].value / s.funnel[2].value, 0)} of signature requests end in a signed transaction.</p>
-      </Panel>
-      <Panel title="Wallet share">
-        <GlyphBars rows={s.share} />
-        <p className="mt-6 text-sm text-mute">Captured by @albireo/swk. Wallet id and network only, never an address.</p>
-      </Panel>
-    </div>
-  )
-}
-
-function TrustTab({ p }: { p: Project }) {
-  const [seals, setSeals] = useState<{ date: number; root: string; leaf: string }[]>([])
-  useEffect(() => {
-    if (!p.checks.sealed) return setSeals([])
-    const dates = Array.from({ length: 7 }, (_, i) => TODAY - i * 86_400_000)
-    Promise.all(dates.map((d) => prove(p.slug, d).then((pr) => ({ date: d, root: pr.root, leaf: pr.leaf })))).then(setSeals)
-  }, [p])
-  const score = trustScore(p)
-  const checks: [string, boolean][] = [
-    ['Wallet sign in, SEP-10', true],
-    ['Domain in stellar.toml, SEP-1', p.checks.sep1],
-    ['DNS TXT record', p.checks.dns],
-    ['Origin binding enforced', p.checks.origin],
-    ['Included in daily seal', p.checks.sealed],
-  ]
-  return (
-    <div className="grid gap-4 lg:grid-cols-[1fr_1.5fr]">
-      <Panel title="Trust score">
-        <p className="num text-7xl leading-none text-gold">{score}</p>
-        <p className="mt-3 text-sm text-mute">Out of 100. The formula is open and versioned.</p>
-        <ul className="mt-6">
-          {checks.map(([label, on]) => (
-            <li key={label} className="hair flex items-baseline justify-between border-t py-3 text-sm"><span className={on ? '' : 'text-mute'}>{label}</span><Check on={on} /></li>
-          ))}
-        </ul>
-        <div className="mt-6">
-          <p className="label">Filtered traffic</p>
-          <p className="num mt-2 text-2xl">{pct(p.botRate)}</p>
-          <p className="mt-1 text-sm text-mute">Counted separately, never deleted.</p>
-        </div>
-      </Panel>
-      <Panel title="Daily seals">
-        {!p.checks.sealed && <p className="text-sm text-mute">Sealing starts once the domain is verified.</p>}
-        <ul>
-          {seals.map((s) => (
-            <li key={s.date} className="hair grid grid-cols-[auto_1fr_auto] items-baseline gap-4 border-t py-3 font-mono text-[12px]">
-              <span className="text-mute">{day(s.date)}</span>
-              <span className="truncate">root <span className="text-blue">{short(s.root, 10)}</span> <span className="text-dim">leaf {short(s.leaf)}</span></span>
-              <Link to={`/p/${p.slug}`} className="text-mute transition-colors hover:text-ink">verify →</Link>
-            </li>
-          ))}
-        </ul>
-      </Panel>
-    </div>
-  )
-}
-
 export default function Dashboard() {
-  const [params, setParams] = useSearchParams()
-  const project = bySlug(params.get('project') ?? '') ?? PROJECTS[0]
+  const [params] = useSearchParams()
+  const tenant = params.get('tenant') ?? 'albireo'
   const [days, setDays] = useState<number>(30)
   const [tab, setTab] = useState<Tab>('Web')
+  const { data, error, loading } = useApi<Stats>(`/api/stats?tenant=${tenant}&days=${days}`, 30_000)
+  const body = useRef<HTMLDivElement>(null)
 
-  useEffect(() => { document.title = `${project.name} on Albireo` }, [project])
+  useEffect(() => { document.title = `${data?.tenant.name ?? 'Dashboard'} on Albireo` }, [data])
+
+  // the command palette can switch tabs and ranges
+  useEffect(() => {
+    const on = (e: Event) => {
+      const { action, value } = (e as CustomEvent<{ action: string; value: string }>).detail
+      if (action === 'tab' && TABS.includes(value as Tab)) setTab(value as Tab)
+      if (action === 'range') setDays(Number(value))
+    }
+    window.addEventListener('albireo:cmd', on)
+    return () => window.removeEventListener('albireo:cmd', on)
+  }, [])
+
+  const ready = !!data
+  useLayoutEffect(() => {
+    if (!body.current || reducedMotion()) return
+    gsap.fromTo(body.current.querySelectorAll('[data-panel]'), { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out', stagger: 0.04 })
+  }, [tab, ready])
+
+  const domain = data?.trust.domains.find((d) => d.verified)?.domain
 
   return (
     <>
       <Nav />
-      <DemoTabs note="demo data" />
+      <DemoTabs note="live data" />
       <main id="main" className="mx-auto max-w-[1440px] px-4 pb-24 pt-10 sm:px-8">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <label htmlFor="project" className="label">Project</label>
-            <div className="mt-2 flex flex-wrap items-baseline gap-x-4 gap-y-2">
-              <select id="project" value={project.slug} onChange={(e) => setParams({ project: e.target.value })}
-                className="hair cursor-pointer appearance-none border-b bg-transparent pr-6 text-[clamp(1.8rem,4vw,2.8rem)] font-medium tracking-tight text-ink outline-none">
-                {PROJECTS.map((p) => <option key={p.slug} value={p.slug} className="bg-panel text-base">{p.name}</option>)}
-              </select>
-              <span className="font-mono text-[12px] text-mute">{project.domain}</span>
-              <span className="font-mono text-[12px] text-mute">SCF #{project.round}</span>
-            </div>
+            <h1 className="text-[clamp(2rem,4.5vw,3.4rem)] leading-none">{data?.tenant.name ?? tenant}</h1>
+            <p className="mt-3 flex flex-wrap gap-x-5 gap-y-1 font-mono text-[12px] text-mute">
+              {domain && <span>{domain}</span>}
+              {data?.tenant.category && <span>{data.tenant.category}</span>}
+              {data && <span><Check on={data.trust.checks.origin} /> origin bound</span>}
+              {data && <span><Check on={data.trust.checks.sealed} /> sealed</span>}
+            </p>
           </div>
-          <div className="flex flex-wrap items-center gap-6">
+          <div className="flex flex-wrap items-center gap-5">
             <div role="group" aria-label="Range" className="flex gap-4">
               {RANGES.map((r) => <button key={r} type="button" className="tab" aria-pressed={days === r} onClick={() => setDays(r)}>{r}d</button>)}
             </div>
+            <button type="button" onClick={() => window.dispatchEvent(new Event('albireo:palette'))} className="hair border px-3 py-1.5 font-mono text-[11px] text-mute transition-colors hover:text-ink">Ctrl K</button>
           </div>
         </div>
 
-        <div role="tablist" aria-label="Views" className="hair mt-10 flex gap-6 overflow-x-auto border-b pb-3">
-          {TABS.map((t) => <button key={t} role="tab" type="button" className="tab shrink-0 text-[13px]" aria-selected={tab === t} onClick={() => setTab(t)}>{t}</button>)}
+        <div className="hair mt-8 flex flex-wrap items-center justify-between gap-4 border-b pb-3">
+          <Tabs value={tab} onChange={setTab} />
+          {loading && data && <span className="font-mono text-[11px] text-dim">refreshing</span>}
         </div>
 
-        <div className="mt-8" role="tabpanel" aria-label={tab}>
-          {tab === 'Web' && <WebTab p={project} days={days} />}
-          {tab === 'API' && <ApiTab p={project} days={days} />}
-          {tab === 'Wallets' && <WalletsTab p={project} />}
-          {tab === 'Trust' && <TrustTab p={project} />}
+        <div ref={body} className="mt-6" role="tabpanel" aria-label={tab}>
+          {error && !data && <Panel title="Unavailable"><p className="text-sm text-mute">Could not load live data: {error}</p></Panel>}
+          {!data && !error && <div className="grid gap-4 lg:grid-cols-4">{Array.from({ length: 4 }, (_, i) => <div key={i} className="hair border bg-panel p-5"><Shimmer rows={3} /></div>)}</div>}
+          {data && tab === 'Web' && <WebTab s={data} tenant={tenant} />}
+          {data && tab === 'API' && <ApiTab s={data} />}
+          {data && tab === 'Wallets' && <WalletsTab s={data} />}
+          {data && tab === 'Trust' && <TrustTab s={data} tenant={tenant} />}
         </div>
       </main>
     </>

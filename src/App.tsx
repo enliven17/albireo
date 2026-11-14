@@ -5,16 +5,20 @@ import Dashboard from './pages/Dashboard'
 import Operator from './pages/Operator'
 import PublicCard from './pages/PublicCard'
 import NotFound from './pages/NotFound'
+import CommandPalette from './components/CommandPalette'
 
 export default function App() {
   useSmoothScroll()
   return (
-    <Routes>
+    <>
+      <CommandPalette />
+      <Routes>
       <Route path="/" element={<Landing />} />
       <Route path="/demo" element={<Dashboard />} />
       <Route path="/operator" element={<Operator />} />
       <Route path="/p/:slug" element={<PublicCard />} />
       <Route path="*" element={<NotFound />} />
-    </Routes>
+      </Routes>
+    </>
   )
 }

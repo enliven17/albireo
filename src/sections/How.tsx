@@ -1,10 +1,10 @@
-import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
+import { useLayoutEffect, useRef, type ReactNode } from 'react'
 import gsap from 'gsap'
 import { Container } from '../components/Section'
 import { Dim, LogStream, Ok, Terminal } from '../components/Terminal'
 import { reducedMotion } from '../lib/smooth'
-import { TODAY, day } from '../lib/data'
-import { prove, short } from '../lib/seal'
+import { useApi, type Seal } from '../lib/api'
+import { short } from '../lib/format'
 
 const LOG = [
   ['14:02:11', '/swap', 'accept', 'NG mobile'],
@@ -20,19 +20,18 @@ const LOG = [
 ]
 
 function SealTerminal() {
-  const [root, setRoot] = useState('')
-  useEffect(() => { prove('halcyon-dex', TODAY).then((p) => setRoot(p.root)) }, [])
+  const { data } = useApi<{ seals: Seal[]; account: string | null }>('/api/seals?tenant=albireo')
+  const last = data?.seals[0]
   return (
-    <Terminal title="anchor / daily seal">
-      <Dim>$ albireo seal --date {day(TODAY)}</Dim>{'\n'}
-      leaves    11 projects, sha256{'\n'}
-      root      <span className="text-blue">{root ? short(root, 10) : 'computing'}</span>{'\n'}
-      op        manage_data albireo:{day(TODAY)}{'\n'}
-      fee       100 stroops{'\n'}
-      ledger    included <Ok />{'\n'}
+    <Terminal title="anchor / latest seal, live">
+      <Dim>$ albireo seal --date {last?.day ?? 'yesterday'}</Dim>{'\n'}
+      leaves    {last ? `${last.leaves} project${last.leaves === 1 ? '' : 's'}, sha256` : 'loading'}{'\n'}
+      root      <span className="text-blue">{last ? short(last.root, 10) : '...'}</span>{'\n'}
+      op        manage_data albireo:{last?.day ?? ''}{'\n'}
+      network   stellar testnet{'\n'}
+      tx        {last?.tx_hash ? short(last.tx_hash, 10) : 'pending'} {last?.tx_hash && <Ok />}{'\n'}
       {'\n'}
-      <Dim>$ albireo prove halcyon-dex</Dim>{'\n'}
-      proof     4 siblings, root matches <Ok />
+      <Dim>verify it yourself on the public card</Dim>
     </Terminal>
   )
 }
@@ -42,13 +41,13 @@ const STEPS: { title: string; body: string; panel: ReactNode }[] = [
     title: 'Verify',
     body: 'Sign in with your Stellar wallet through SEP-10. Prove the domain with stellar.toml, a DNS record or a meta tag. Only verified origins can send data.',
     panel: (
-      <Terminal title="verifier / halcyon.exchange">
-        <Dim>$ curl halcyon.exchange/.well-known/stellar.toml</Dim>{'\n'}
-        ACCOUNTS = ["GBX7HQ...Q4ZD"]{'\n'}
+      <Terminal title="verifier / albireo-theta.vercel.app">
+        <Dim>$ albireo verify albireo-theta.vercel.app</Dim>{'\n'}
+        {'<meta name="albireo-verify" content="51a6...ecc8">'}{'\n'}
         {'\n'}
-        SEP-10 challenge signed by GBX7HQ...Q4ZD   <Ok />{'\n'}
-        account listed in stellar.toml          <Ok />{'\n'}
-        origin bound to halcyon.exchange        <Ok />{'\n'}
+        meta token matches enrollment           <Ok />{'\n'}
+        origin bound to albireo-theta.vercel.app <Ok />{'\n'}
+        stellar.toml ACCOUNTS check             <Dim>[ next ]</Dim>{'\n'}
         re-check scheduled  every 24h
       </Terminal>
     ),

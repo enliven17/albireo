@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { figlet } from '../lib/figlet'
 import { useScramble } from '../lib/useScramble'
 import { getLenis, reducedMotion } from '../lib/smooth'
-import { REPO, SPEC } from '../lib/site'
+import { REPO } from '../lib/site'
 import { Mark } from './Mark'
 
 const WORD = figlet('ALBIREO')
@@ -12,10 +12,10 @@ const COLUMNS = [
   { title: 'Product', links: [
     { label: 'Live demo', to: '/demo' },
     { label: 'Operator view', to: '/operator' },
-    { label: 'Public card', to: '/p/halcyon-dex' },
+    { label: 'Public card', to: '/p/albireo' },
   ] },
   { title: 'Project', links: [
-    { label: 'Read me', href: SPEC },
+    { label: 'Docs', to: '/docs' },
     { label: 'Source code', href: REPO },
     { label: 'Brand kit', href: `${REPO}/tree/main/brand` },
   ] },

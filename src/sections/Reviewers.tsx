@@ -1,18 +1,15 @@
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { Container } from '../components/Section'
+import { Check, Shimmer, Sparkline } from '../components/viz'
 import { useReveal } from '../lib/reveal'
-import { PROJECTS, fmt, trustScore } from '../lib/data'
-
-const ROWS = [...PROJECTS].sort((a, b) => trustScore(b) - trustScore(a)).slice(0, 6)
-
-export const Check = ({ on }: { on: boolean }) => (
-  <span className={`font-mono text-[11px] ${on ? 'text-gold' : 'text-dim'}`}>{on ? '[✓]' : '[ ]'}</span>
-)
+import { useApi, type Project } from '../lib/api'
+import { fmt } from '../lib/format'
 
 export default function Reviewers() {
   const root = useRef<HTMLElement>(null)
   useReveal(root)
+  const { data } = useApi<{ projects: Project[] }>('/api/projects?days=30')
 
   return (
     <section id="reviewers" ref={root} className="py-32">
@@ -23,37 +20,38 @@ export default function Reviewers() {
               Compare projects on the same yardstick.
             </h2>
             <p className="mt-6 max-w-md text-[15px] leading-relaxed text-mute" data-reveal>
-              The operator view lines up every enrolled project: traffic, API health, verification and trust. Filter by category or round, compare up to four side by side, and follow anomalies as they happen.
+              The operator view lines up every enrolled project: traffic, API health, verification and trust. The table on the right is live.
             </p>
             <div className="mt-8 flex flex-wrap gap-3" data-reveal>
               <Link to="/operator" className="btn btn-solid">Open operator view <span className="arrow">→</span></Link>
-              <Link to="/p/halcyon-dex" className="btn">See a public card</Link>
+              <Link to="/p/albireo" className="btn">See a public card</Link>
             </div>
           </div>
 
           <div className="hair overflow-x-auto border bg-panel" data-reveal data-lenis-prevent>
-            <table className="w-full min-w-[620px] text-left text-sm">
-              <thead>
-                <tr className="hair border-b">
-                  {['Project', 'Category', 'Visitors / day', 'API / day', 'SEP-1', 'Sealed', 'Trust'].map((h) => (
-                    <th key={h} className="label px-4 py-3 font-normal">{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {ROWS.map((p) => (
-                  <tr key={p.slug} className="hair border-b last:border-0 transition-colors hover:bg-raise">
-                    <td className="px-4 py-3.5">{p.name}</td>
-                    <td className="px-4 py-3.5 text-mute">{p.category}</td>
-                    <td className="num px-4 py-3.5">{fmt(p.visitors)}</td>
-                    <td className="num px-4 py-3.5">{p.requests ? fmt(p.requests) : <span className="text-dim">n/a</span>}</td>
-                    <td className="px-4 py-3.5"><Check on={p.checks.sep1} /></td>
-                    <td className="px-4 py-3.5"><Check on={p.checks.sealed} /></td>
-                    <td className="num px-4 py-3.5 text-gold">{trustScore(p)}</td>
+            {!data && <div className="p-6"><Shimmer rows={3} /></div>}
+            {data && (
+              <table className="w-full min-w-[620px] text-left text-sm">
+                <thead>
+                  <tr className="hair border-b">
+                    {['Project', 'Visitors, 30d', 'API, 30d', 'Trend', 'Verified', 'Sealed', 'Trust'].map((h) => <th key={h} className="label px-4 py-3 font-normal">{h}</th>)}
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {data.projects.map((p) => (
+                    <tr key={p.id} className="hair border-b transition-colors last:border-0 hover:bg-raise">
+                      <td className="px-4 py-3.5">{p.name}</td>
+                      <td className="num px-4 py-3.5">{fmt(p.visitors)}</td>
+                      <td className="num px-4 py-3.5">{fmt(p.requests)}</td>
+                      <td className="px-4 py-3.5"><Sparkline data={p.visitorSeries} width={80} height={22} /></td>
+                      <td className="px-4 py-3.5"><Check on={p.checks.origin} /></td>
+                      <td className="px-4 py-3.5"><Check on={p.checks.sealed} /></td>
+                      <td className="num px-4 py-3.5 text-gold">{p.trust}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </div>
         </div>
       </Container>
