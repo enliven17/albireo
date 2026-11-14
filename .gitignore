@@ -6,3 +6,5 @@ docs
 
 .vercel
 !packages/tracker/dist
+tsconfig.tsbuildinfo
+spool
