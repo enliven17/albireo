@@ -4,6 +4,7 @@ import { dbSites } from '../services/shared/sites.ts'
 import { dbSalt } from '../services/shared/salt.ts'
 import type { Record } from '../services/shared/spool.ts'
 import { persist } from '../services/writer/writer.ts'
+import { waitUntil } from '@vercel/functions'
 import { db, measured } from '../services/api/http.ts'
 
 // Serverless ingestion: records are written straight to Postgres after the 202 is sent.
@@ -16,5 +17,6 @@ export default measured(async (req: IncomingMessage, res: ServerResponse) => {
   instance ??= collector({ sites: dbSites(sql), spool: { push: (r) => void pending.push(r) }, salt: dbSalt(sql) })
   await instance.handle(req, res)
   const batch = pending.splice(0)
-  if (batch.length) await persist(sql, batch)
+  // the response is already sent; waitUntil keeps the function alive until the write commits
+  if (batch.length) waitUntil(persist(sql, batch).catch((err) => console.error('persist failed', err)))
 })

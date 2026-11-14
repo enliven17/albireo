@@ -12,6 +12,7 @@ export async function migrate(sql: Sql) {
 export async function connect(url = process.env.DATABASE_URL): Promise<Sql> {
   if (!url) throw new Error('DATABASE_URL is not set')
   const { default: pg } = await import('pg')
+  pg.types.setTypeParser(1082, (v: string) => v) // keep date columns as YYYY-MM-DD, no timezone shift
   return new pg.Pool({ connectionString: url, max: 10 })
 }
 
