@@ -1,0 +1,7 @@
+{
+  "name": "@albireo/swk",
+  "version": "1.0.0",
+  "type": "module",
+  "license": "MIT",
+  "exports": { ".": "./index.ts" }
+}

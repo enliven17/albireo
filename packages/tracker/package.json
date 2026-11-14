@@ -1,0 +1,8 @@
+{
+  "name": "@albireo/tracker",
+  "version": "1.0.0",
+  "type": "module",
+  "license": "MIT",
+  "exports": { ".": "./tracker.ts" },
+  "scripts": { "build": "node build.mjs" }
+}
