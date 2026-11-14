@@ -4,16 +4,19 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && tsc -p tsconfig.node.json && vite build",
+    "dev": "node scripts/copy-tracker.mjs && vite",
+    "build": "node scripts/copy-tracker.mjs && tsc -b && tsc -p tsconfig.node.json && vite build",
     "preview": "vite preview",
     "brand": "node scripts/brand.mjs",
     "test": "node --test \"packages/**/*.test.ts\" \"services/**/*.test.ts\"",
-    "typecheck": "tsc -b && tsc -p tsconfig.node.json"
+    "typecheck": "tsc -b && tsc -p tsconfig.node.json",
+    "seed": "node --env-file=.env.local scripts/seed.ts"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.1.0",
     "@fontsource-variable/jetbrains-mono": "^5.1.0",
+    "@stellar/stellar-sdk": "^13.1.0",
+    "@vercel/functions": "^1.5.2",
     "gsap": "^3.12.5",
     "lenis": "^1.1.18",
     "pg": "^8.13.1",

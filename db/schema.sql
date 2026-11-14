@@ -101,3 +101,9 @@ create table if not exists audit_log (
   target text not null,
   detail jsonb
 );
+
+-- one random salt per UTC day for visitor hashes; old days are deleted so visits cannot be linked
+create table if not exists salts (
+  day  date primary key,
+  salt bytea not null
+);

@@ -1,7 +1,3 @@
-import type { IncomingMessage, ServerResponse } from 'node:http'
-import { normalizePath } from '../packages/core/normalize.ts'
+import { json, measured } from '../services/api/http.ts'
 
-export default function handler(req: IncomingMessage, res: ServerResponse) {
-  res.setHeader('content-type', 'application/json')
-  res.end(JSON.stringify({ ok: true, node: process.version, sample: normalizePath(req.url ?? '/').route }))
-}
+export default measured((_req, res) => json(res, 200, { ok: true, node: process.version }))

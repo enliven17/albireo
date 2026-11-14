@@ -8,3 +8,4 @@ docs
 !packages/tracker/dist
 tsconfig.tsbuildinfo
 spool
+public/t

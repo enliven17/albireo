@@ -48,20 +48,26 @@ async function upsertDrops(sql: Sql, rows: Extract<Record, { kind: 'drop' }>[]) 
   }
 }
 
+/** writes one batch of spooled records atomically */
+export async function persist(sql: Sql, records: Record[]) {
+  const ev = records.filter((r): r is Extract<Record, { kind: 'event' }> => r.kind === 'event')
+  const dr = records.filter((r): r is Extract<Record, { kind: 'drop' }> => r.kind === 'drop')
+  if (!ev.length && !dr.length) return { events: 0, drops: 0 }
+  await transaction(sql, async (q) => {
+    await insertEvents(q, ev)
+    await upsertDrops(q, dr)
+  })
+  return { events: ev.length, drops: dr.length }
+}
+
 export async function drain(sql: Sql, spool: Spool, now = Date.now()) {
   let files = 0, events = 0, drops = 0
   for (const file of await spool.closed(now)) {
-    const records = await spool.read(file)
-    const ev = records.filter((r): r is Extract<Record, { kind: 'event' }> => r.kind === 'event')
-    const dr = records.filter((r): r is Extract<Record, { kind: 'drop' }> => r.kind === 'drop')
-    await transaction(sql, async (q) => {
-      await insertEvents(q, ev)
-      await upsertDrops(q, dr)
-    })
+    const r = await persist(sql, await spool.read(file))
     await spool.remove(file)
     files++
-    events += ev.length
-    drops += dr.length
+    events += r.events
+    drops += r.drops
   }
   return { files, events, drops }
 }

@@ -13,7 +13,9 @@ import { parseUa } from './ua.ts'
 const MAX_BODY = 8 * 1024
 const TRACKER_DIR = new URL('../../packages/tracker/dist/', import.meta.url)
 
-type Deps = { sites: SiteRegistry; spool: Spool; salt?: DailySalt; limiter?: RateLimiter; now?: () => number }
+type Sink = Pick<Spool, 'push'>
+type Salt = { current(now?: number): Buffer | Promise<Buffer> }
+type Deps = { sites: SiteRegistry; spool: Sink; salt?: Salt; limiter?: RateLimiter; now?: () => number }
 
 type Incoming = {
   site: string
@@ -135,7 +137,7 @@ export function collector({ sites, spool, salt = new DailySalt(), limiter = new 
       data: {
         type: p.type, name: p.name ?? null, path: p.path, referrer,
         utm_source: p.utm?.source ?? null, utm_medium: p.utm?.medium ?? null, utm_campaign: p.utm?.campaign ?? null,
-        country: country(req), ...parseUa(ua), visitor: visitorId(salt.current(t), p.site, ip, ua), props: p.props ?? null,
+        country: country(req), ...parseUa(ua), visitor: visitorId(await salt.current(t), p.site, ip, ua), props: p.props ?? null,
       },
     })
   }
