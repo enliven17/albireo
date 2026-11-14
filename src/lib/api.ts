@@ -11,7 +11,7 @@ export type Stats = {
   web: {
     visitors: Point[]; pageviewSeries: Point[]; total: number; pageviews: number; delta: number | null
     bounce: number | null; session: number; pages: Share[]; referrers: Share[]; countries: Share[]
-    devices: Share[]; browsers: Share[]; events: Share[]
+    devices: Share[]; browsers: Share[]; events: Share[]; heatmap: number[][]
   }
   api: {
     requests: Point[]; latency: Point[]; total: number; errorRate: number | null; p50: number | null; p95: number | null

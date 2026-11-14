@@ -35,6 +35,8 @@ test('stats, seal and proof against real queries', async () => {
   assert.equal(web.bounce, 0.5)
   assert.equal(web.pages[0].label, '/')
   assert.ok(web.session > 0)
+  assert.equal(web.heatmap.length, 7)
+  assert.equal(web.heatmap.flat().reduce((a, b) => a + b, 0), 3)
 
   const api = await apiStats(sql, 'albireo', 7)
   assert.equal(api.total, 10)

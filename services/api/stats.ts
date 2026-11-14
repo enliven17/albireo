@@ -41,7 +41,7 @@ export async function webStats(sql: Sql, sites: string[], days: number) {
   const top = (col: string, extra = '') => sql.query<{ label: string | null; v: number }>(
     `select ${col} as label, count(*)::int v from events where site_id = any($1) and ts >= $2 and ts < $3 and type = 'pageview' ${extra} group by 1 order by 2 desc limit 8`, p)
 
-  const [daily, sessions, prev, pages, refs, countries, devices, browsers, events] = await Promise.all([
+  const [daily, sessions, prev, pages, refs, countries, devices, browsers, events, heat] = await Promise.all([
     sql.query<{ d: Date; v: number; pv: number }>(
       `select date_trunc('day', ts) d, count(distinct visitor)::int v, count(*) filter (where type = 'pageview')::int pv
          from events where site_id = any($1) and ts >= $2 and ts < $3 group by 1`, p),
@@ -60,7 +60,12 @@ export async function webStats(sql: Sql, sites: string[], days: number) {
     sql.query<{ label: string; v: number }>(
       `select name as label, count(*)::int v from events where site_id = any($1) and ts >= $2 and ts < $3 and type = 'event'
          and name not like 'wallet\\_%' and name not like 'tx\\_%' group by 1 order by 2 desc limit 8`, p),
+    sql.query<{ d: number; h: number; v: number }>(
+      `select extract(isodow from ts)::int d, extract(hour from ts)::int h, count(*)::int v
+         from events where site_id = any($1) and ts >= $2 and ts < $3 and type = 'pageview' group by 1, 2`, p),
   ])
+  const heatmap = Array.from({ length: 7 }, () => new Array(24).fill(0) as number[])
+  for (const r of heat.rows) heatmap[r.d - 1][r.h] = r.v
 
   const visitors = fill(daily.rows.map((r) => ({ d: r.d, v: r.v })), days)
   const pageviews = fill(daily.rows.map((r) => ({ d: r.d, v: r.pv })), days)
@@ -80,6 +85,7 @@ export async function webStats(sql: Sql, sites: string[], days: number) {
     devices: shares(devices.rows),
     browsers: shares(browsers.rows),
     events: shares(events.rows),
+    heatmap,
   }
 }
 
