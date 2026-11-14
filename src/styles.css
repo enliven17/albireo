@@ -74,3 +74,7 @@ a, button { -webkit-tap-highlight-color: transparent; }
 @keyframes fadein { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 /* block glyphs need a face whose full block fills the cell, system monospace faces do */
 .ascii-pre { font-family: Consolas, "Cascadia Mono", Menlo, "DejaVu Sans Mono", monospace; line-height: 1; letter-spacing: 0; }
+
+/* display type is set in the same monospace the sky is drawn with */
+h1, h2 { font-family: var(--font-mono); font-weight: 450; letter-spacing: -0.06em !important; }
+h3 { font-family: var(--font-mono); font-weight: 450; letter-spacing: -0.03em !important; }
