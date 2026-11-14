@@ -20,34 +20,37 @@ Albireo is a double star: one point of light to the naked eye, a gold and a blue
 | **Privacy** | No cookies, no IP addresses, no wallet addresses. EU data residency and one click erasure with a signed receipt. |
 
 
-## This repository
+## Live
 
-This first milestone is the product front end: the landing site and an interactive demo of the tenant dashboard, the operator view and a verified public card. Demo pages run on deterministic sample data; the public card computes real SHA-256 Merkle proofs in the browser. The ingestion services (collector, OpenTelemetry pipeline, verifier, anchor) follow in the next milestones.
+Albireo measures itself. The site at [albireo-theta.vercel.app](https://albireo-theta.vercel.app) runs the tracker, its API records its own request metrics, and a daily cron seals every tenant summary on Stellar testnet. The [dashboard](https://albireo-theta.vercel.app/demo), [operator view](https://albireo-theta.vercel.app/operator) and [public card](https://albireo-theta.vercel.app/p/albireo) read only live data. Documentation lives at [/docs](https://albireo-theta.vercel.app/docs).
+
+## Repository
 
 ```
-src/
-  components/   nav, footer, ASCII sky renderer, charts, terminal
-  sections/     landing page sections
-  pages/        landing, tenant demo, operator view, public card
-  lib/          smooth scroll, demo data, Merkle seal, reveal hooks
-brand/          logo, brand kit boards, social card, mark source
-scripts/        brand.mjs regenerates brand/logo from brand/mark.js
+packages/core      normalization, inflation filter, visitor hashing, Merkle seals, histograms
+packages/tracker   1.5 KB cookieless web tracker, immutable versioned builds with SRI
+packages/swk       Stellar Wallets Kit funnel wrapper, never sends an address
+services/collector web ingestion with a durable spool
+services/writer    spool to Postgres
+services/api       stats queries, seals and proofs
+services/verifier  SEP-1, DNS and meta domain verification
+api/               Vercel functions: /e, stats, live, projects, seals, proof, daily seal cron
+db/schema.sql      Postgres schema
+src/               landing, dashboards and docs (Vite, React, GSAP, Lenis)
+brand/             logo, brand kit boards, social card
 ```
 
 ## Run
 
 ```bash
 npm install
-npm run dev       # http://localhost:5173
-npm run build     # type check and production build
-npm run brand     # regenerate logo files
+npm test          # unit and integration tests, Postgres via PGlite
+npm run dev       # http://localhost:5173, reads live data from production
+npm run build
+npm run seed      # enroll and verify the albireo tenant (needs .env.local)
 ```
 
-Stack: Vite, React, TypeScript, Tailwind CSS, GSAP ScrollTrigger and Lenis. Fonts are self hosted through Fontsource.
-
-Routes: `/` landing, `/demo` tenant dashboard, `/operator` operator view, `/p/:slug` public card.
-
-The tracker host `a.albireo.dev` in the snippets is a placeholder until hosting is final.
+Environment variables are listed in the [self hosting docs](https://albireo-theta.vercel.app/docs/self-hosting).
 
 ## License
 

@@ -1,5 +1,5 @@
 export const REPO = 'https://github.com/enliven17/albireo'
-export const SPEC = `${REPO}#readme`
+export const SPEC = '/docs'
 
 export const SECTIONS = [
   { id: 'how', label: 'How it works' },

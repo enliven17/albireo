@@ -77,7 +77,7 @@ export default function Hero() {
           <div className="mt-6 flex flex-wrap gap-3 overflow-hidden">
             <div data-intro className="flex flex-wrap gap-3">
               <Link to="/demo" className="btn btn-solid">Open the live demo <span className="arrow">→</span></Link>
-              <a href={SPEC} target="_blank" rel="noreferrer" className="btn">Read the overview</a>
+              <Link to={SPEC} className="btn">Read the docs</Link>
             </div>
           </div>
         </div>

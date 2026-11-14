@@ -4,6 +4,7 @@ import Landing from './pages/Landing'
 import Dashboard from './pages/Dashboard'
 import Operator from './pages/Operator'
 import PublicCard from './pages/PublicCard'
+import Docs from './pages/Docs'
 import NotFound from './pages/NotFound'
 import CommandPalette from './components/CommandPalette'
 
@@ -17,6 +18,8 @@ export default function App() {
       <Route path="/demo" element={<Dashboard />} />
       <Route path="/operator" element={<Operator />} />
       <Route path="/p/:slug" element={<PublicCard />} />
+        <Route path="/docs" element={<Docs />} />
+        <Route path="/docs/:page" element={<Docs />} />
       <Route path="*" element={<NotFound />} />
       </Routes>
     </>
