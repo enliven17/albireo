@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 import gsap from 'gsap'
-import { Container, Eyebrow } from '../components/Section'
+import { Container } from '../components/Section'
 import { Dim, LogStream, Ok, Terminal } from '../components/Terminal'
 import { reducedMotion } from '../lib/smooth'
 import { TODAY, day } from '../lib/data'
@@ -102,7 +102,7 @@ export default function How() {
       gsap.to(t, {
         x: () => -distance(),
         ease: 'none',
-        scrollTrigger: { trigger: root.current, start: 'top top', end: () => `+=${distance()}`, scrub: 0.7, pin: true, invalidateOnRefresh: true },
+        scrollTrigger: { trigger: root.current, start: 'top top', end: () => `+=${distance()}`, scrub: true, pin: true, anticipatePin: 1, invalidateOnRefresh: true },
       })
     })
     return () => mm.revert()
@@ -113,20 +113,17 @@ export default function How() {
       <Container className="w-full">
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div>
-            <Eyebrow index="01">How it works</Eyebrow>
-            <h2 className="mt-6 max-w-2xl text-[clamp(2.2rem,5vw,4.2rem)] font-medium leading-[1] tracking-[-0.035em]">Four steps from a page view to a proof.</h2>
+            <h2 className="max-w-2xl text-[clamp(2.2rem,5vw,4.2rem)] font-medium leading-[1] tracking-[-0.035em]">Four steps from a page view to a proof.</h2>
           </div>
-          <p className="label hidden lg:block">Keep scrolling →</p>
         </div>
       </Container>
 
       <div ref={track} className="mt-14 flex flex-col gap-6 px-4 sm:px-8 lg:w-max lg:flex-row lg:gap-8">
-        {STEPS.map((s, i) => (
+        {STEPS.map((s) => (
           <article key={s.title} className="hair grid gap-8 border-t pt-6 lg:w-[min(78vw,1080px)] lg:grid-cols-[1fr_1.25fr] lg:border-t-0 lg:pt-0">
             <div className="flex flex-col justify-between gap-6">
               <div>
-                <p className="num text-[clamp(4rem,8vw,7rem)] leading-none text-dim">0{i + 1}</p>
-                <h3 className="mt-4 text-3xl font-medium tracking-tight">{s.title}</h3>
+                <h3 className="text-3xl font-medium tracking-tight">{s.title}</h3>
                 <p className="mt-4 max-w-md text-[15px] leading-relaxed text-mute">{s.body}</p>
               </div>
             </div>

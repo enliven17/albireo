@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { Container, Eyebrow } from '../components/Section'
+import { Container } from '../components/Section'
 import { AreaChart } from '../components/charts'
 import { useCountUp, useReveal } from '../lib/reveal'
 import { PROJECTS, apiStats, webStats } from '../lib/data'
@@ -37,16 +37,14 @@ export default function TwoLights() {
   return (
     <section ref={root} className="py-32">
       <Container>
-        <Eyebrow index="02">Two lights</Eyebrow>
-        <h2 className="mt-6 max-w-3xl text-[clamp(2.2rem,5vw,4.2rem)] font-medium leading-[1] tracking-[-0.035em]" data-reveal>
+        <h2 className="max-w-3xl text-[clamp(2.2rem,5vw,4.2rem)] font-medium leading-[1] tracking-[-0.035em]" data-reveal>
           The whole project in one view. <span className="text-mute">Front door and back end.</span>
         </h2>
 
         <div className="mt-20 grid gap-px bg-[rgb(236_234_228/0.1)] lg:grid-cols-2">
           {SIDES.map((s) => (
             <article key={s.star} className="bg-space p-0 pb-12 lg:p-10 lg:first:pl-0 lg:last:pr-0" data-reveal>
-              <p className={`font-mono text-[11px] tracking-[0.14em] ${s.tone === 'gold' ? 'text-gold' : 'text-blue'}`}>{s.star.toUpperCase()}</p>
-              <h3 className="mt-4 text-3xl font-medium tracking-tight">{s.title}</h3>
+              <h3 className={`text-3xl font-medium tracking-tight ${s.tone === 'gold' ? 'text-gold' : 'text-blue'}`}>{s.title}</h3>
               <p className="mt-4 max-w-md text-[15px] leading-relaxed text-mute">{s.body}</p>
 
               <div className="mt-10 flex items-baseline gap-3">
@@ -56,9 +54,9 @@ export default function TwoLights() {
               <div className="mt-6"><AreaChart data={s.data} tone={s.tone} height={150} /></div>
 
               <ul className="mt-10 grid gap-x-8 sm:grid-cols-2">
-                {s.metrics.map((m, i) => (
-                  <li key={m} className="hair flex items-baseline gap-3 border-t py-3 text-sm">
-                    <span className="num text-[11px] text-dim">{String(i + 1).padStart(2, '0')}</span>{m}
+                {s.metrics.map((m) => (
+                  <li key={m} className="hair border-t py-3 text-sm">
+                    {m}
                   </li>
                 ))}
               </ul>

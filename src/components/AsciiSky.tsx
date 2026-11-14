@@ -37,17 +37,18 @@ export default function AsciiSky({ split, stars = true, className = '', focusY =
     let W = 0, H = 0, cols = 0, rows = 0, cw = 0, ch = 0, font = 11
     let seedA = new Float32Array(0), seedB = new Float32Array(0)
     let raf = 0, last = 0, running = true
+    let colN = new Float32Array(0), rowN = new Float32Array(0)
     const pointer = { x: 0, y: 0, tx: 0, ty: 0 }
     const styles = new Map<number, string>()
 
     const resize = () => {
-      const dpr = Math.min(2, window.devicePixelRatio || 1)
+      const dpr = Math.min(1.5, window.devicePixelRatio || 1)
       W = el.clientWidth
       H = el.clientHeight
       el.width = Math.round(W * dpr)
       el.height = Math.round(H * dpr)
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
-      font = W < 640 ? 9 : 11
+      font = W < 640 ? 9 : W > 1600 ? 13 : 11
       cw = font * 0.62
       ch = font * 1.18
       cols = Math.ceil(W / cw)
@@ -88,21 +89,29 @@ export default function AsciiSky({ split, stars = true, className = '', focusY =
       const pulse = 0.93 + 0.07 * Math.sin(t * 1.4)
 
       ctx.clearRect(0, 0, W, H)
+      // separable nebula: one sine per column and per row instead of per cell
+      if (colN.length !== cols) colN = new Float32Array(cols)
+      if (rowN.length !== rows) rowN = new Float32Array(rows)
+      for (let i = 0; i < cols; i++) colN[i] = Math.sin((i + 0.5) * cw * 0.0042 + t * 0.05)
+      for (let j = 0; j < rows; j++) rowN[j] = Math.sin((j + 0.5) * ch * 0.0061 - t * 0.04)
+      const reach = 0.42 // beyond this distance in both axes a star adds nothing visible
       let lastKey = -1
       for (let j = 0; j < rows; j++) {
         const py = (j + 0.5) * ch
+        const dyA = (py - ay) / s, dyB = (py - by) / s
         for (let i = 0; i < cols; i++) {
           const px = (i + 0.5) * cw
           const k = j * cols + i
           let A = 0, B = 0
           if (stars) {
-            A = light((px - ax) / s, (py - ay) / s, 1) * pulse
-            B = light((px - bx) / s, (py - by) / s, 0.62)
+            const dxA = (px - ax) / s, dxB = (px - bx) / s
+            if (Math.abs(dxA) < reach || Math.abs(dyA) < reach) A = light(dxA, dyA, 1) * pulse
+            if (Math.abs(dxB) < reach || Math.abs(dyB) < reach) B = light(dxB, dyB, 0.62)
           }
           const h = seedA[k], h2 = seedB[k]
           const dust = h < 0.014 ? (0.2 + 0.6 * h2) * (0.55 + 0.45 * Math.sin(t * (1 + 3 * h2) + h2 * 60)) : 0
-          const n = Math.sin(px * 0.0042 + t * 0.05) * Math.sin(py * 0.0061 - t * 0.04 + Math.sin(px * 0.0021))
-          const neb = Math.max(0, n - 0.74) * 0.16
+          const neb = Math.max(0, colN[i] * rowN[j] - 0.74) * 0.16
+          if (A + B + dust + neb < 0.03) continue
 
           const sum = A + B + dust + neb
           let L = 1 - Math.exp(-sum * 1.6)

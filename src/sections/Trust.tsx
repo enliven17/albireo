@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { Container, Eyebrow } from '../components/Section'
+import { Container } from '../components/Section'
 import { useReveal } from '../lib/reveal'
 
 const FEATURES = [
@@ -20,8 +20,7 @@ export default function Trust() {
       <Container>
         <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr]">
           <div className="lg:sticky lg:top-28 lg:self-start">
-            <Eyebrow index="03">Trust layer</Eyebrow>
-            <h2 className="mt-6 text-[clamp(2.2rem,5vw,4.2rem)] font-medium leading-[1] tracking-[-0.035em]" data-reveal>
+            <h2 className="text-[clamp(2.2rem,5vw,4.2rem)] font-medium leading-[1] tracking-[-0.035em]" data-reveal>
               Built for the reviewer who has to believe it.
             </h2>
             <p className="mt-6 max-w-md text-[15px] leading-relaxed text-mute" data-reveal>
@@ -30,12 +29,9 @@ export default function Trust() {
           </div>
 
           <div className="grid gap-px bg-[rgb(236_234_228/0.1)] sm:grid-cols-2">
-            {FEATURES.map((f, i) => (
+            {FEATURES.map((f) => (
               <article key={f.title} className="group relative bg-space p-7 transition-colors duration-500 hover:bg-panel" data-reveal>
-                <div className="flex items-baseline justify-between">
-                  <span className="num text-[11px] text-dim">/{String(i + 1).padStart(2, '0')}</span>
-                  <span className="font-mono text-[11px] text-mute transition-colors group-hover:text-gold">{f.tag}</span>
-                </div>
+                <span className="font-mono text-[11px] text-mute transition-colors group-hover:text-gold">{f.tag}</span>
                 <h3 className="mt-14 text-xl font-medium tracking-tight">{f.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-mute">{f.body}</p>
               </article>

@@ -1,10 +1,10 @@
 import { useLayoutEffect, useRef } from 'react'
 import gsap from 'gsap'
-import { Container, Eyebrow } from '../components/Section'
+import { Container } from '../components/Section'
 import { reducedMotion } from '../lib/smooth'
 import { useCountUp, useReveal } from '../lib/reveal'
 
-const TEXT = 'Today a grant review starts with a screenshot. A number someone typed into a form. Albireo replaces it with a measurement anyone can check, from a domain the project has proven it owns, filtered for bots, and sealed on Stellar.'
+const TEXT = 'Grant reviews still start with a screenshot. Albireo replaces it with a number anyone can check.'
 
 // The statement lights up word by word as it is read.
 export default function Statement() {
@@ -26,8 +26,7 @@ export default function Statement() {
   return (
     <section ref={root} className="py-32 md:py-48">
       <Container>
-        <Eyebrow index="00">The problem</Eyebrow>
-        <p data-statement className="mt-10 max-w-5xl text-[clamp(1.7rem,4.2vw,3.6rem)] font-medium leading-[1.12] tracking-[-0.03em]">
+        <p data-statement className="max-w-4xl text-[clamp(1.7rem,4.2vw,3.6rem)] font-medium leading-[1.12] tracking-[-0.03em]">
           {TEXT.split(' ').map((w, i) => <span key={i} data-word className="inline-block whitespace-pre">{w} </span>)}
         </p>
 

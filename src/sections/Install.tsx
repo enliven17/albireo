@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { Container, Eyebrow } from '../components/Section'
+import { Container } from '../components/Section'
 import { useReveal } from '../lib/reveal'
 
 const SNIPPETS = [
@@ -74,14 +74,13 @@ export default function Install() {
       <Container>
         <div className="grid gap-14 lg:grid-cols-[1fr_1.5fr]">
           <div>
-            <Eyebrow index="06">Install</Eyebrow>
-            <h2 className="mt-6 text-[clamp(2.2rem,5vw,4.2rem)] font-medium leading-[1] tracking-[-0.035em]" data-reveal>
+            <h2 className="text-[clamp(2.2rem,5vw,4.2rem)] font-medium leading-[1] tracking-[-0.035em]" data-reveal>
               Five minutes from sign in to first event.
             </h2>
             <ol className="mt-10" data-reveal>
-              {['Sign in with your Stellar wallet', 'Verify your domain', 'Paste the snippet or add the package', 'Watch the first event arrive live'].map((s, i) => (
-                <li key={s} className="hair flex items-baseline gap-4 border-t py-4 text-[15px]">
-                  <span className="num text-[11px] text-gold">0{i + 1}</span>{s}
+              {['Sign in with your Stellar wallet', 'Verify your domain', 'Paste the snippet or add the package', 'Watch the first event arrive live'].map((s) => (
+                <li key={s} className="hair border-t py-4 text-[15px]">
+                  {s}
                 </li>
               ))}
             </ol>

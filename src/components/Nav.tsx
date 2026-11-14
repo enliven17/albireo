@@ -78,18 +78,17 @@ export default function Nav() {
   return (
     <>
       <a href="#main" className="fixed left-4 top-4 z-[120] -translate-y-24 bg-ink px-4 py-3 font-mono text-xs text-space focus:translate-y-0">Skip to content</a>
-      <header ref={bar} className={`fixed inset-x-0 top-0 z-[100] border-b transition-colors duration-500 ${solid || open ? 'hair bg-space/85 backdrop-blur-md' : 'border-transparent'}`}>
+      <header ref={bar} className={`fixed inset-x-0 top-0 z-[100] border-b transition-colors duration-500 ${solid || open ? 'hair bg-space' : 'border-transparent'}`}>
         <nav aria-label="Main" className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-4 sm:px-8">
           <Link to="/" aria-label="Albireo home" onClick={() => setOpen(false)}>
             <Logo size={18} />
           </Link>
 
           <ul className="hidden items-center gap-7 lg:flex">
-            {SECTIONS.map((s, i) => (
+            {SECTIONS.map((s) => (
               <li key={s.id}>
                 <button type="button" onClick={() => go(s.id)} aria-current={active === s.id ? 'true' : undefined}
                   className={`group flex items-baseline gap-1.5 text-[13px] transition-colors ${active === s.id ? 'text-ink' : 'text-mute hover:text-ink'}`}>
-                  <span className={`font-mono text-[10px] transition-colors ${active === s.id ? 'text-gold' : 'text-dim group-hover:text-mute'}`}>0{i + 1}</span>
                   {s.label}
                 </button>
               </li>
@@ -110,10 +109,10 @@ export default function Nav() {
       {open && (
         <div id="menu-sheet" ref={sheet} className="fixed inset-0 z-[90] flex flex-col justify-between bg-space px-4 pb-8 pt-24 sm:px-8 lg:hidden">
           <ul className="space-y-2">
-            {SECTIONS.map((s, i) => (
+            {SECTIONS.map((s) => (
               <li key={s.id} className="overflow-hidden">
                 <button type="button" data-item onClick={() => go(s.id)} className="flex w-full items-baseline gap-4 py-1 text-left text-[clamp(2rem,9vw,3.5rem)] font-medium tracking-tight text-ink">
-                  <span className="font-mono text-xs text-gold">0{i + 1}</span>{s.label}
+                  {s.label}
                 </button>
               </li>
             ))}

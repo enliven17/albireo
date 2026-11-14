@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { Container, Eyebrow } from '../components/Section'
+import { Container } from '../components/Section'
 import { useReveal } from '../lib/reveal'
 import { PROJECTS, fmt, trustScore } from '../lib/data'
 
@@ -19,8 +19,7 @@ export default function Reviewers() {
       <Container>
         <div className="grid gap-14 lg:grid-cols-[1fr_1.6fr] lg:items-end">
           <div>
-            <Eyebrow index="05">For reviewers</Eyebrow>
-            <h2 className="mt-6 text-[clamp(2.2rem,5vw,4.2rem)] font-medium leading-[1] tracking-[-0.035em]" data-reveal>
+            <h2 className="text-[clamp(2.2rem,5vw,4.2rem)] font-medium leading-[1] tracking-[-0.035em]" data-reveal>
               Compare projects on the same yardstick.
             </h2>
             <p className="mt-6 max-w-md text-[15px] leading-relaxed text-mute" data-reveal>

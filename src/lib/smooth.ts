@@ -18,7 +18,7 @@ export function useSmoothScroll() {
 
   useEffect(() => {
     if (reducedMotion()) return
-    lenis = new Lenis({ lerp: 0.075, wheelMultiplier: 0.9 })
+    lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 1 })
     lenis.on('scroll', ScrollTrigger.update)
     const raf = (t: number) => lenis?.raf(t * 1000)
     gsap.ticker.add(raf)

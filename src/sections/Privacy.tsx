@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { Container, Eyebrow } from '../components/Section'
+import { Container } from '../components/Section'
 import { useReveal } from '../lib/reveal'
 
 const KEPT = [
@@ -26,8 +26,7 @@ export default function Privacy() {
   return (
     <section id="privacy" ref={root} className="py-32">
       <Container>
-        <Eyebrow index="04">Privacy</Eyebrow>
-        <h2 className="mt-6 max-w-4xl text-[clamp(2.2rem,5vw,4.2rem)] font-medium leading-[1] tracking-[-0.035em]" data-reveal>
+        <h2 className="max-w-4xl text-[clamp(2.2rem,5vw,4.2rem)] font-medium leading-[1] tracking-[-0.035em]" data-reveal>
           GDPR friendly without a consent banner, because there is nothing personal to consent to.
         </h2>
 

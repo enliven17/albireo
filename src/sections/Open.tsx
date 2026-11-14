@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import AsciiSky from '../components/AsciiSky'
-import { Container, Eyebrow } from '../components/Section'
+import { Container } from '../components/Section'
 import { useCountUp, useReveal } from '../lib/reveal'
 import { REPO } from '../lib/site'
 
@@ -21,8 +21,7 @@ export default function Open() {
     <>
       <section ref={root} className="py-32">
         <Container>
-          <Eyebrow index="07">Open by design</Eyebrow>
-          <div className="mt-6 grid gap-10 lg:grid-cols-2 lg:items-end">
+          <div className="grid gap-10 lg:grid-cols-2 lg:items-end">
             <h2 className="text-[clamp(2.2rem,5vw,4.2rem)] font-medium leading-[1] tracking-[-0.035em]" data-reveal>
               Built in the open. Handed over by design.
             </h2>
