@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { Container } from '../components/Section'
-import { AreaChart, CountUp } from '../components/viz'
+import { AnimatedNumber } from '../components/dash/core'
+import { DitherArea } from '../components/dash/DitherArea'
 import { useReveal } from '../lib/reveal'
 import { useApi, type Stats } from '../lib/api'
 
@@ -46,10 +47,10 @@ export default function TwoLights() {
               <p className="mt-4 max-w-md text-[15px] leading-relaxed text-mute">{s.body}</p>
 
               <div className="mt-10 flex items-baseline gap-3">
-                <CountUp value={live?.value ?? null} className="text-5xl" />
+                <AnimatedNumber value={live?.value ?? null} className="text-5xl" />
                 <span className="label">{s.figure}</span>
               </div>
-              <div className="mt-6">{live ? <AreaChart data={live.data} tone={s.tone} height={150} /> : <div className="h-[174px]" />}</div>
+              <div className="mt-6">{live ? <DitherArea data={live.data} tone={s.tone} height={150} name={s.tone === 'gold' ? 'visitors' : 'requests'} /> : <div className="h-[174px]" />}</div>
 
               <ul className="mt-10 grid gap-x-8 sm:grid-cols-2">
                 {s.metrics.map((m) => (

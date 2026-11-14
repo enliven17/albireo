@@ -74,7 +74,7 @@ export function DitherHeatmap({ grid, tone = 'gold' }: { grid: number[][]; tone?
   return (
     <div>
       <div className="flex gap-3">
-        <div className="flex shrink-0 flex-col justify-between py-0.5 font-mono text-[10px] text-dim">{DAYS.map((d) => <span key={d}>{d}</span>)}</div>
+        <div className="flex h-[168px] shrink-0 flex-col justify-around font-mono text-[10px] leading-none text-dim">{DAYS.map((d) => <span key={d}>{d}</span>)}</div>
         <div className="relative min-w-0 flex-1">
           <canvas ref={canvasRef} className="block h-[168px] w-full"
             onPointerMove={(e) => {

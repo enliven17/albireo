@@ -118,14 +118,14 @@ export function DitherArea({ data, tone = 'gold', height = 220, unit = '', name 
     ty.set(r.height - r.height * 0.84 * (data[idx].value / max))
   }
 
-  const ticks = [max, max * 0.5, 0]
+  const ticks = max >= 2 ? [max, max * 0.5, 0] : [max, 0]
   const dates = [0, Math.floor(data.length / 2), data.length - 1].map((i) => data[i]?.date).filter(Boolean)
 
   return (
     <div className="flex gap-3">
       <div className="relative w-9 shrink-0" style={{ height }}>
         {ticks.map((v, i) => (
-          <span key={i} className="absolute right-0 -translate-y-1/2 font-mono text-[10px] text-dim" style={{ top: `${16 + i * 42}%` }}>{fmtTick(v)}</span>
+          <span key={i} className="absolute right-0 -translate-y-1/2 font-mono text-[10px] text-dim" style={{ top: `${16 + (i / (ticks.length - 1)) * 84}%` }}>{fmtTick(v)}</span>
         ))}
       </div>
       <div className="min-w-0 flex-1">

@@ -170,13 +170,14 @@ export async function trust(sql: Sql, tenant: string, sites: string[], days: num
     origin: verified.length > 0,
     sealed: sealed.rows[0].n > 0,
   }
-  // the trust formula, versioned: trust-v1
+  // the trust formula, versioned: trust-v2. Filtered traffic is a mild signal: crawlers hitting a
+  // site are not the project's fault, but a site that is mostly filtered deserves a closer look.
   const score = Math.round(Math.max(0, Math.min(100,
-    40 + (checks.sep1 ? 12 : 0) + (checks.dns || checks.meta ? 10 : 0) + (checks.origin ? 15 : 0) + (checks.sealed ? 13 : 0) + 10 - filtered * 100,
+    40 + (checks.sep1 ? 12 : 0) + (checks.dns || checks.meta ? 10 : 0) + (checks.origin ? 15 : 0) + (checks.sealed ? 13 : 0) + 10 - filtered * 30,
   )))
   return {
     score,
-    formula: 'trust-v1',
+    formula: 'trust-v2',
     checks,
     domains: domains.rows.map((d) => ({ domain: d.domain, method: d.method, verified: !!d.verified_at })),
     filtered,

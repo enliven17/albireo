@@ -3,7 +3,9 @@ import { Link, useParams } from 'react-router-dom'
 import Nav from '../components/Nav'
 import DemoTabs from '../components/DemoTabs'
 import AsciiSky from '../components/AsciiSky'
-import { AreaChart, Check, CountUp, Shimmer } from '../components/viz'
+import { Shimmer } from '../components/viz'
+import { AnimatedNumber, Check } from '../components/dash/core'
+import { DitherArea } from '../components/dash/DitherArea'
 import { useApi, type Proof, type Stats } from '../lib/api'
 import { explorerAccount, explorerTx, short } from '../lib/format'
 import { ledgerRoot, sha256, walk } from '../lib/seal'
@@ -68,20 +70,20 @@ export default function PublicCard() {
             </div>
             <div className="text-right">
               <p className="label">Trust</p>
-              <CountUp value={s?.trust.score ?? null} format={(n) => String(Math.round(n))} className="mt-2 block text-5xl text-gold" />
+              <div className="mt-2"><AnimatedNumber value={s?.trust.score ?? null} className="text-5xl text-gold" /></div>
             </div>
           </header>
 
           <div className="grid gap-px bg-[rgb(236_234_228/0.1)] sm:grid-cols-2">
             <div className="bg-space p-6 sm:p-8">
               <p className="label text-gold">Visitors, 30 days</p>
-              <CountUp value={s?.web.total ?? null} className="mt-3 block text-4xl" />
-              <div className="mt-4">{s ? <AreaChart data={s.web.visitors} tone="gold" height={90} empty="No visits yet" /> : <Shimmer rows={2} />}</div>
+              <div className="mt-3"><AnimatedNumber value={s?.web.total ?? null} className="text-4xl" /></div>
+              <div className="mt-4">{s ? <DitherArea data={s.web.visitors} tone="gold" height={110} name="visitors" /> : <Shimmer rows={2} />}</div>
             </div>
             <div className="bg-space p-6 sm:p-8">
               <p className="label text-blue">API requests, 30 days</p>
-              <CountUp value={s?.api.total ?? null} className="mt-3 block text-4xl" />
-              <div className="mt-4">{s ? <AreaChart data={s.api.requests} tone="blue" height={90} empty="No API traffic yet" /> : <Shimmer rows={2} />}</div>
+              <div className="mt-3"><AnimatedNumber value={s?.api.total ?? null} className="text-4xl" /></div>
+              <div className="mt-4">{s ? <DitherArea data={s.api.requests} tone="blue" height={110} name="requests" /> : <Shimmer rows={2} />}</div>
             </div>
           </div>
 

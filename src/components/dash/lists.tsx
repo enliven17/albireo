@@ -89,7 +89,7 @@ export function LiveStream({ tenant }: { tenant: string }) {
               className="hair grid grid-cols-[4.2rem_1fr_auto] gap-3 border-t py-2.5">
               <span className="text-dim">{ago(e.ts)}</span>
               <span className="truncate">{e.type === 'event' ? <span className="text-blue">{e.name}</span> : e.path}</span>
-              <span className="text-mute">{e.country ?? '--'} {e.device.slice(0, 3).toLowerCase()}</span>
+              <span className="text-mute">{e.country ?? '--'} {e.device.toLowerCase()}</span>
             </motion.li>
           ))}
         </AnimatePresence>

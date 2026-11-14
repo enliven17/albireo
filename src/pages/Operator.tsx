@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import Nav from '../components/Nav'
 import DemoTabs from '../components/DemoTabs'
-import { Check, CountUp, Panel, Shimmer, Sparkline } from '../components/viz'
+import { Shimmer, Sparkline } from '../components/viz'
+import { AnimatedNumber, Card, CardHead, Check } from '../components/dash/core'
 import { useApi, type Project } from '../lib/api'
 import { fmt, ms, pct } from '../lib/format'
 import { reducedMotion } from '../lib/smooth'
@@ -68,7 +69,7 @@ export default function Operator() {
   const ready = !!data
   useLayoutEffect(() => {
     if (!body.current || reducedMotion() || !ready) return
-    gsap.fromTo(body.current.querySelectorAll('[data-panel], tbody tr'), { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: 'power3.out', stagger: 0.03 })
+    gsap.fromTo(body.current.querySelectorAll('tbody tr'), { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: 'power3.out', stagger: 0.03 })
   }, [ready])
 
   const toggle = (id: string) => setPicked((cur) => (cur.includes(id) ? cur.filter((s) => s !== id) : cur.length >= 4 ? cur : [...cur, id]))
@@ -89,10 +90,10 @@ export default function Operator() {
             { label: 'API requests', v: totals.requests },
             { label: 'Sealed recently', v: totals.sealed },
           ].map((k) => (
-            <div key={k.label} className="hair border bg-panel p-5" data-panel>
-              <p className="label">{k.label}</p>
-              <CountUp value={data ? k.v : null} className="mt-4 block text-[clamp(1.7rem,2.6vw,2.4rem)] leading-none" />
-            </div>
+            <Card key={k.label} className="p-5">
+              <CardHead title={k.label} />
+              <div className="mt-4"><AnimatedNumber value={data ? k.v : null} className="text-[clamp(1.8rem,2.6vw,2.4rem)] leading-none" /></div>
+            </Card>
           ))}
         </div>
 
@@ -149,13 +150,15 @@ export default function Operator() {
         )}
 
         <div className="mt-10 grid gap-4 lg:grid-cols-[1.6fr_1fr]">
-          <Panel title="Compare visitors per day">
-            {data && picked.length ? <Compare projects={picked.map((id) => data.projects.find((p) => p.id === id)!).filter(Boolean)} /> : <p className="text-sm text-mute">Tick rows above to compare them here.</p>}
-          </Panel>
-          <Panel title="Enroll a project">
-            <p className="text-sm leading-relaxed text-mute">Enrollment is open to Stellar projects. Sign in with a wallet, prove the domain, paste the snippet. The project appears here with its first event.</p>
+          <Card className="p-6">
+            <CardHead title="Compare visitors per day" />
+            <div className="mt-5">{data && picked.length ? <Compare projects={picked.map((id) => data.projects.find((p) => p.id === id)!).filter(Boolean)} /> : <p className="text-sm text-mute">Tick rows above to compare them here.</p>}</div>
+          </Card>
+          <Card className="p-6">
+            <CardHead title="Enroll a project" />
+            <p className="mt-5 text-sm leading-relaxed text-mute">Enrollment is open to Stellar projects. Sign in with a wallet, prove the domain, paste the snippet. The project appears here with its first event.</p>
             <Link to="/docs/quickstart" className="btn mt-6">Read the quickstart <span className="arrow">→</span></Link>
-          </Panel>
+          </Card>
         </div>
       </main>
     </>

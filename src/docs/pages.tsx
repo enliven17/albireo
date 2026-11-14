@@ -168,8 +168,8 @@ export const PAGES: DocPage[] = [
     slug: 'trust-score', group: 'Trust', title: 'Trust score',
     lead: 'One number from verification, filtering and sealing. The formula is public.',
     body: <>
-      <Code file="trust-v1" code={`score = 40\n      + 12  stellar.toml (SEP-1) verified\n      + 10  DNS or meta verified\n      + 15  origin binding active\n      + 13  included in a recent seal\n      + 10  baseline\n      - 100 x filtered share\nclamped to 0..100`} />
-      <P>The formula is versioned. A change ships as a new version and the dashboard shows which version produced a score.</P>
+      <Code file="trust-v2" code={`score = 40\n      + 12  stellar.toml (SEP-1) verified\n      + 10  DNS or meta verified\n      + 15  origin binding active\n      + 13  included in a recent seal\n      + 10  baseline\n      - 30 x filtered share\nclamped to 0..100`} />
+      <P>Filtered traffic weighs lightly on purpose: crawlers hitting a site are not the project&apos;s fault. The formula is versioned. A change ships as a new version and the dashboard shows which version produced a score.</P>
     </>,
   },
   {
