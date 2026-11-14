@@ -88,6 +88,12 @@ function country(req: IncomingMessage) {
 }
 
 async function body(req: IncomingMessage) {
+  // serverless runtimes may have read the stream already and expose it as req.body
+  const pre = (req as IncomingMessage & { body?: unknown }).body
+  if (pre !== undefined && pre !== null) {
+    const text = typeof pre === 'string' ? pre : Buffer.isBuffer(pre) ? pre.toString('utf8') : JSON.stringify(pre)
+    return text.length > MAX_BODY ? null : text
+  }
   const chunks: Buffer[] = []
   let size = 0
   for await (const chunk of req) {
