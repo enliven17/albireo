@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import AppBar from '../components/AppBar'
+import Nav from '../components/Nav'
+import DemoTabs from '../components/DemoTabs'
 import { AreaChart, GlyphBars, Stat } from '../components/charts'
 import { Check } from '../sections/Reviewers'
 import { PROJECTS, TODAY, apiStats, bySlug, day, dur, fmt, pct, trustScore, walletStats, webStats, type Project } from '../lib/data'
@@ -157,7 +158,8 @@ export default function Dashboard() {
 
   return (
     <>
-      <AppBar />
+      <Nav />
+      <DemoTabs note="demo data" />
       <main id="main" className="mx-auto max-w-[1440px] px-4 pb-24 pt-10 sm:px-8">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div>

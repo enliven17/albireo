@@ -53,7 +53,7 @@ export default function Footer() {
     <footer className="hair relative border-t" aria-label="Footer">
       <div className="mx-auto grid max-w-[1440px] gap-12 px-4 pb-10 pt-20 sm:px-8 md:grid-cols-[1.4fr_repeat(3,1fr)]">
         <div className="max-w-xs">
-          <Mark size={28} />
+          <Mark size={32} />
           <p className="mt-5 text-sm leading-relaxed text-mute">
             Trusted, privacy-first web and API analytics for the Stellar ecosystem. Free for every project, run as a shared public good.
           </p>

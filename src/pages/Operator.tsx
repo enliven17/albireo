@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import AppBar from '../components/AppBar'
+import Nav from '../components/Nav'
+import DemoTabs from '../components/DemoTabs'
 import { GlyphBars, Stat } from '../components/charts'
 import { Check } from '../sections/Reviewers'
 import { PROJECTS, daily, fmt, pct, trustScore, walletStats, type Category, type Project } from '../lib/data'
@@ -87,7 +88,8 @@ export default function Operator() {
 
   return (
     <>
-      <AppBar />
+      <Nav />
+      <DemoTabs note="demo data" />
       <main id="main" className="mx-auto max-w-[1440px] px-4 pb-24 pt-10 sm:px-8">
         <p className="label">Operator view</p>
         <h1 className="mt-3 text-[clamp(1.8rem,4vw,2.8rem)] font-medium tracking-tight">Stellar ecosystem, last 30 days</h1>

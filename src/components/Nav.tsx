@@ -81,7 +81,7 @@ export default function Nav() {
       <header ref={bar} className={`fixed inset-x-0 top-0 z-[100] border-b transition-colors duration-500 ${solid || open ? 'hair bg-space' : 'border-transparent'}`}>
         <nav aria-label="Main" className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-4 sm:px-8">
           <Link to="/" aria-label="Albireo home" onClick={() => setOpen(false)}>
-            <Logo size={18} />
+            <Logo />
           </Link>
 
           <ul className="hidden items-center gap-7 lg:flex">

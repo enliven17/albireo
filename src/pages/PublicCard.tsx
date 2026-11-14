@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import AppBar from '../components/AppBar'
+import Nav from '../components/Nav'
+import DemoTabs from '../components/DemoTabs'
 import AsciiSky from '../components/AsciiSky'
 import { AreaChart } from '../components/charts'
 import { Check } from '../sections/Reviewers'
@@ -50,7 +51,8 @@ export default function PublicCard() {
 
   return (
     <>
-      <AppBar />
+      <Nav />
+      <DemoTabs note="demo data" />
       <main id="main" className="relative min-h-[calc(100svh-56px)] overflow-hidden px-4 py-16 sm:px-8">
         <div className="pointer-events-none absolute inset-0 opacity-50"><AsciiSky stars={false} /></div>
         <article className="hair relative mx-auto max-w-3xl border bg-space/90 backdrop-blur-sm">
