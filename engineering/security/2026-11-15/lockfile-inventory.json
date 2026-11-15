@@ -1,0 +1,17 @@
+[
+  {
+    "path": "package-lock.json",
+    "sha256": "bd5cdf31cfc0c75576cbbb6f355b815d1593cd7e7db0304d5dc05fb33bb10552",
+    "packageCount": 304
+  },
+  {
+    "path": "experiments/stack/package-lock.json",
+    "sha256": "e4318ac350a706a49dffcab8c645bfe692412ef8c766159d10fb0ea9b8b1602b",
+    "packageCount": 278
+  },
+  {
+    "path": "experiments/stack/frontend.package-lock.json",
+    "sha256": "60a95132ec076a56ae6640618bf95046d466f422f7e7a2a846005de81b06d7c6",
+    "packageCount": 188
+  }
+]

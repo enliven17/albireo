@@ -1,0 +1,98 @@
+[
+  {
+    "name": "umami",
+    "image": "ghcr.io/umami-software/umami:3.5.0",
+    "localIdentity": "\"sha256:b64f40400d77bcadd39cf5c62a1e368c99524ca442024f96e1133355a19a5dbc\" [\"ghcr.io/umami-software/umami@sha256:b64f40400d77bcadd39cf5c62a1e368c99524ca442024f96e1133355a19a5dbc\"] \"linux\" \"arm64\"",
+    "scannerExit": 0,
+    "scannerError": "",
+    "counts": {
+      "MEDIUM": 6,
+      "LOW": 3,
+      "HIGH": 4
+    },
+    "uniqueAdvisories": 13,
+    "report": "/private/tmp/albireo-service-cve-review/umami.json",
+    "rawSha256": "a817e12ef0ecd391839e9b8ce009bc4215a03660211757652e70a1f863d882ff"
+  },
+  {
+    "name": "collector",
+    "image": "otel/opentelemetry-collector-contrib:0.165.0",
+    "localIdentity": "\"sha256:e40d61f10c9a617cca1ffd1be4d7e2b3a4b0f0001798ff07e58cabe82e618cea\" [\"otel/opentelemetry-collector-contrib@sha256:e40d61f10c9a617cca1ffd1be4d7e2b3a4b0f0001798ff07e58cabe82e618cea\"] \"linux\" \"arm64\"",
+    "scannerExit": 0,
+    "scannerError": "",
+    "counts": {
+      "UNKNOWN": 2
+    },
+    "uniqueAdvisories": 2,
+    "report": "/private/tmp/albireo-service-cve-review/collector.json",
+    "rawSha256": "b361e9754303b926f67677a3dd13abe2f865ea0c68c57562aae2d002fb43aba6"
+  },
+  {
+    "name": "postgres",
+    "image": "postgres:17.12-alpine",
+    "localIdentity": "\"sha256:a77aa70e641402a21411b92b721c58d10f23b50ae5fdd2333efd22d166e1e5f7\" [\"postgres@sha256:a77aa70e641402a21411b92b721c58d10f23b50ae5fdd2333efd22d166e1e5f7\"] \"linux\" \"arm64\"",
+    "scannerExit": 0,
+    "scannerError": "",
+    "counts": {
+      "MEDIUM": 31,
+      "UNKNOWN": 2,
+      "CRITICAL": 1,
+      "HIGH": 25,
+      "LOW": 3
+    },
+    "uniqueAdvisories": 62,
+    "report": "/private/tmp/albireo-service-cve-review/postgres.json",
+    "rawSha256": "ff0d71e6cf2f1f0e011b4808fb64a2ccd4f288fc63ca80d126c501c8273e90f3"
+  },
+  {
+    "name": "elasticmq",
+    "image": "softwaremill/elasticmq-native:1.7.1",
+    "localIdentity": "\"sha256:e4580ab9ad1bd5cd37b4ba04911bc5ccc8cd2d9ab4de56ece65acee71c24e05c\" [\"softwaremill/elasticmq-native@sha256:e4580ab9ad1bd5cd37b4ba04911bc5ccc8cd2d9ab4de56ece65acee71c24e05c\"] \"linux\" \"arm64\"",
+    "scannerExit": 0,
+    "scannerError": "",
+    "counts": {
+      "CRITICAL": 2,
+      "HIGH": 18,
+      "MEDIUM": 22,
+      "LOW": 32
+    },
+    "uniqueAdvisories": 39,
+    "report": "/private/tmp/albireo-service-cve-review/elasticmq.json",
+    "rawSha256": "40e75b712b14a756392a8e91526ab97b7995c2873b203b962f64b1f53f7e3fbd"
+  },
+  {
+    "name": "stack-node26",
+    "image": "albireo-stack-lab:26",
+    "localIdentity": "\"sha256:f540bc2b99773cfe82caf676db6b71bf5c7cce923b71a448239ba0b1dea3d13c\" [\"albireo-stack-lab@sha256:f540bc2b99773cfe82caf676db6b71bf5c7cce923b71a448239ba0b1dea3d13c\"] \"linux\" \"arm64\"",
+    "scannerExit": 0,
+    "scannerError": "",
+    "counts": {
+      "LOW": 1542,
+      "HIGH": 690,
+      "MEDIUM": 2049,
+      "UNKNOWN": 72,
+      "CRITICAL": 20
+    },
+    "uniqueAdvisories": 2656,
+    "report": "/private/tmp/albireo-service-cve-review/stack-node26.json",
+    "rawSha256": "9fbe06ce015112fbc245a805f30a6c7e92716397e637a12b43ff044be8480da5"
+  },
+  {
+    "name": "sink-node24",
+    "image": "albireo-reliability-sink:local",
+    "localIdentity": "\"sha256:e4a8abff28e250aecb20b33967ae00fa5d68fc0f4a902366993358f36732f84b\" [\"albireo-reliability-sink@sha256:e4a8abff28e250aecb20b33967ae00fa5d68fc0f4a902366993358f36732f84b\"] \"linux\" \"arm64\"",
+    "scannerExit": 0,
+    "scannerError": "",
+    "counts": {
+      "HIGH": 1151,
+      "LOW": 2105,
+      "MEDIUM": 3767,
+      "UNKNOWN": 97,
+      "CRITICAL": 49
+    },
+    "uniqueAdvisories": 4494,
+    "rawSha256": "c68484f1bb41509877d6bc2ffff1fdc1dad4b11bfcacee539dff1cbdfbdef191",
+    "retry": "First concurrent scan hit local cache lock; standalone retry completed.",
+    "report": "/private/tmp/albireo-service-cve-review/sink-node24.json"
+  }
+]
