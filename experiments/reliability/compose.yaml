@@ -1,0 +1,74 @@
+services:
+  db:
+    image: postgres:17.12-alpine
+    environment:
+      POSTGRES_DB: umami
+      POSTGRES_USER: lab
+      POSTGRES_PASSWORD: disposable-lab-password
+    ports:
+      - "127.0.0.1:55429:5432"
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U lab -d umami"]
+      interval: 1s
+      timeout: 2s
+      retries: 60
+  umami:
+    image: ghcr.io/umami-software/umami:3.5.0
+    environment:
+      DATABASE_URL: postgresql://lab:disposable-lab-password@db:5432/umami
+      APP_SECRET: disposable-albireo-reliability-lab-secret
+      TWO_FACTOR_ENCRYPTION_KEY: 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
+      DISABLE_TELEMETRY: "1"
+      DISABLE_UPDATES: "1"
+      SALT_ROTATION: daily
+      TZ: UTC
+    ports:
+      - "127.0.0.1:33029:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+  sink:
+    image: albireo-reliability-sink:local
+    build:
+      context: .
+      dockerfile: Dockerfile.sink
+    environment:
+      DATABASE_URL: postgresql://lab:disposable-lab-password@db:5432/umami
+    ports:
+      - "127.0.0.1:43229:4320"
+  persistent:
+    image: albireo-reliability-collector:0.165.0
+    build:
+      context: .
+      dockerfile: Dockerfile.collector
+    user: "0:0"
+    command: ["--config=/lab/persistent.yaml"]
+    volumes:
+      - collector:/var/lib/otelcol/lab
+    ports:
+      - "127.0.0.1:43129:4318"
+      - "127.0.0.1:13129:13133"
+  memory:
+    image: albireo-reliability-collector:0.165.0
+    build:
+      context: .
+      dockerfile: Dockerfile.collector
+    command: ["--config=/lab/memory.yaml"]
+    ports:
+      - "127.0.0.1:43130:4318"
+      - "127.0.0.1:13130:13133"
+  probe:
+    image: albireo-reliability-collector:0.165.0
+    user: "0:0"
+    command: ["--config=/lab/${LAB_CONFIG:-auth.yaml}"]
+    volumes:
+      - probe:/var/lib/otelcol/lab
+    ports:
+      - "127.0.0.1:43131:4318"
+      - "127.0.0.1:13131:13133"
+volumes:
+  postgres:
+  collector:
+  probe:

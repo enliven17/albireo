@@ -1,0 +1,7 @@
+FROM node:26.13.1-bookworm
+WORKDIR /app
+COPY snapshot/package.json snapshot/package-lock.json ./
+RUN npm ci --ignore-scripts --no-audit --no-fund --strict-peer-deps
+COPY snapshot/ ./
+RUN npm run build && ./node_modules/.bin/tsc -p api/tsconfig.json --noEmit
+CMD ["npm", "test"]

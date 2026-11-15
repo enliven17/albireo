@@ -1,0 +1,270 @@
+{
+  "startedAt": "2026-11-15T15:53:44.117Z",
+  "project": "albireo-stack-1794758024113",
+  "checks": [
+    {
+      "name": "strict-typecheck",
+      "expectedExit": 0,
+      "elapsedMs": 1211
+    },
+    {
+      "name": "typed-lint",
+      "expectedExit": 0,
+      "elapsedMs": 1237
+    },
+    {
+      "name": "formatting",
+      "expectedExit": 0,
+      "elapsedMs": 373
+    },
+    {
+      "name": "guardrail-negative-controls",
+      "expectedExit": 0,
+      "elapsedMs": 2430
+    },
+    {
+      "name": "typescript7-typecheck",
+      "expectedExit": 0,
+      "elapsedMs": 188
+    },
+    {
+      "name": "typescript7-peer-rejection",
+      "expectedExit": 1,
+      "elapsedMs": 266
+    },
+    {
+      "name": "build-node24",
+      "expectedExit": 0,
+      "elapsedMs": 255
+    },
+    {
+      "name": "node24-unit-profile",
+      "expectedExit": 0,
+      "elapsedMs": 1384
+    },
+    {
+      "name": "build-app-node26",
+      "expectedExit": 0,
+      "elapsedMs": 335
+    },
+    {
+      "name": "existing-app-tests-node26",
+      "expectedExit": 0,
+      "elapsedMs": 992
+    },
+    {
+      "name": "frontend-browser-smoke",
+      "expectedExit": 0,
+      "elapsedMs": 4332
+    },
+    {
+      "name": "node26-api-identity-sql",
+      "expectedExit": 0,
+      "elapsedMs": 1402
+    },
+    {
+      "name": "synchronous-collector-queue-admission",
+      "status": 200,
+      "persistedTenant": "tenant-a",
+      "collectorLocalQueue": false
+    },
+    {
+      "name": "sanitized-before-independent-queue",
+      "scopeAttributesRemoved": true,
+      "rawUrlRemoved": true,
+      "exemplarsRemoved": true
+    },
+    {
+      "name": "native-auth-and-missing-claim-fail-closed",
+      "missingTenantStatus": 400,
+      "expiredStatus": 401,
+      "wrongAudienceStatus": 401,
+      "forgedTenantCannotSurviveMissingClaim": true
+    },
+    {
+      "name": "database-outage-and-stateless-collector-restart",
+      "databaseOffline": true,
+      "acceptedAndRetained": 1,
+      "localVolumeRequired": false
+    },
+    {
+      "name": "queue-publish-ack-loss",
+      "storedMessages": 2,
+      "logicalPointIdentities": 1,
+      "initialStatus": 503,
+      "retryStatus": 200
+    },
+    {
+      "name": "real-sdk-protobuf-and-gzip",
+      "sdk": "3.0.0",
+      "protobufObservations": 3,
+      "stableHttpBucketBounds": 14,
+      "jsonGzipStatus": 200
+    },
+    {
+      "name": "decompressed-request-limit",
+      "decodedBytes": 5000000,
+      "compressedRequestStatus": 400,
+      "response": {
+        "code": 3,
+        "message": "http: request body too large"
+      }
+    },
+    {
+      "name": "large-request-partial-publish-and-retry",
+      "logicalPoints": 1000,
+      "physicalPoints": 1464,
+      "queueMessages": 4,
+      "maximumMessageBytes": 245483,
+      "firstStatus": 503,
+      "retryStatus": 200
+    },
+    {
+      "name": "bounded-local-admission-burst",
+      "requests": 1000,
+      "concurrency": 8,
+      "delivered": 1000,
+      "elapsedSeconds": 0.45,
+      "requestsPerSecond": 2207.4,
+      "p95Ms": 5.86,
+      "isCloudCapacityProof": false
+    },
+    {
+      "name": "real-broker-outage-propagates",
+      "status": 503,
+      "acknowledgedUnsavedData": false
+    }
+  ],
+  "images": {
+    "albireo-stack-lab:24": "[\"albireo-stack-lab@sha256:2e4f594b62c02e07babc06d89d3329af27430cb7f43fdaeb5c527119ed4392a4\"] sha256:2e4f594b62c02e07babc06d89d3329af27430cb7f43fdaeb5c527119ed4392a4",
+    "albireo-stack-lab:26": "[\"albireo-stack-lab@sha256:f540bc2b99773cfe82caf676db6b71bf5c7cce923b71a448239ba0b1dea3d13c\"] sha256:f540bc2b99773cfe82caf676db6b71bf5c7cce923b71a448239ba0b1dea3d13c",
+    "albireo-app-snapshot:26": "[\"albireo-app-snapshot@sha256:e8f6b141ddfc484d0a0e58b00878764bc035878d8d5e45ab7a4bdc7754b5e25a\"] sha256:e8f6b141ddfc484d0a0e58b00878764bc035878d8d5e45ab7a4bdc7754b5e25a",
+    "node:26.13.1-bookworm": "[\"node@sha256:b7087bc4d973034b30854b378ba107f9fab622b47514cb7e2592e41b8bab8d49\"] sha256:b7087bc4d973034b30854b378ba107f9fab622b47514cb7e2592e41b8bab8d49",
+    "postgres:17.12-alpine": "[\"postgres@sha256:a77aa70e641402a21411b92b721c58d10f23b50ae5fdd2333efd22d166e1e5f7\"] sha256:a77aa70e641402a21411b92b721c58d10f23b50ae5fdd2333efd22d166e1e5f7",
+    "softwaremill/elasticmq-native:1.7.1": "[\"softwaremill/elasticmq-native@sha256:e4580ab9ad1bd5cd37b4ba04911bc5ccc8cd2d9ab4de56ece65acee71c24e05c\"] sha256:e4580ab9ad1bd5cd37b4ba04911bc5ccc8cd2d9ab4de56ece65acee71c24e05c",
+    "otel/opentelemetry-collector-contrib:0.165.0": "[\"otel/opentelemetry-collector-contrib@sha256:e40d61f10c9a617cca1ffd1be4d7e2b3a4b0f0001798ff07e58cabe82e618cea\"] sha256:e40d61f10c9a617cca1ffd1be4d7e2b3a4b0f0001798ff07e58cabe82e618cea"
+  },
+  "limitations": [
+    "Local emulator does not prove AWS SQS persistence, availability, IAM, or regional failover.",
+    "Fixtures are not production integrations; real Umami transactional writer and cloud acceptance work remain."
+  ],
+  "repositoryCommit": "65039247c42f17f140009444db11645804f33c93",
+  "sourceHashes": {
+    "run.mjs": "c23bb8ccf9a096cd19693ee1bcf4cab845c89e84452c9991995ca8136a41db1e",
+    "browser.mjs": "4ecfb142a64e1c8516e7fa3992389b061d2f4f7df21d9a79cdebd5d01fde992f",
+    "guardrails.mjs": "beac09902daec9e2cb4594b8fc598dd02fbb0d413c4ae993951784230c3dfe6d",
+    "prepare-snapshot.mjs": "3b8b041a94ff03e826aff4a781055a9a4a71405139e155f02dd4551a703b2a57",
+    "prepare-upstream.mjs": "2e2f1c1645f2ce3d9bb255fc361ea27a38f16ed40979fa9a872ab25f08ab31b8",
+    "compose.yaml": "41dbc416cebff9c0b2c3220cbb1ee63d3c6f88eb839e272bc20043f1f0e0826b",
+    "synchronous.yaml": "17d290bfd50b712679fc8f219c493f9c582b3a22ea761941c0fcd8632c141558",
+    "Dockerfile": "35ba80e3e6fd88f7264a5e580747e27246f4202bc93893f1bc8cbb554d7108c9",
+    "Dockerfile.collector": "46285fdbd926681266ca2f99a2ae0eef71dc011eb8c3987bd23c04f3d11124b9",
+    "Dockerfile.snapshot": "faecbee6a5ff416b82fd09382db695faf88c8b55ac2035bcbcf4da8f260190ff",
+    "package.json": "37fc7bb2302716bdb68352d595e3de9047531b06c296ac7a5b01e75c59ffb53c",
+    "package-lock.json": "e4318ac350a706a49dffcab8c645bfe692412ef8c766159d10fb0ea9b8b1602b",
+    "frontend.package-lock.json": "60a95132ec076a56ae6640618bf95046d466f422f7e7a2a846005de81b06d7c6",
+    "tsconfig.json": "94e871a4ca342457035711561b134b47c51f8714b14d96a1a1101291d21da914",
+    "eslint.config.mjs": "c92a1a5eb806db6cd65d6dc2108126800ab3d7f272d984293fcbfac0be2d8025",
+    ".prettierrc.json": "ab802c63b54f615c53b292982f49eaa0596b010b3b4f1748dbe4522bb1f4aded",
+    ".dockerignore": "f7a47aa2ab376021d28a8df50915ad410a15ec2e985a35c0096540fb84671895",
+    "upstream/LICENSE": "d59f69c3a56253a150adfc42b41acd49e9024410ad087c58a23d506623258dfe",
+    "upstream/SOURCE.json": "cb0d41b9037233aa2f6d5bf92af9bd703448056fde3c09e20348f3c01714d9c4",
+    "upstream/app-secret.mjs": "b0211fb537932295857ea305bd995861a9d4b8b48ca868f5f77d34840287f607",
+    "upstream/app-secret.ts": "b5b71c117ca0866183d637d4dd7ead8dea05472684d1783405618cfc5a56bb2e",
+    "upstream/collection-session.d.mts": "f9c95054c28fa589a8400d2adcf3e91922162212680ba3a861618bf3500c4af9",
+    "upstream/collection-session.mjs": "66c4afee599717faf3595dcf603cf255523a6ef6e2174ee9703bafce91d389fd",
+    "upstream/collection-session.ts": "31a2e1169e39d73ad473700b959b6b6f4418a1c739f65cacb40514299183be59",
+    "upstream/crypto.mjs": "c0be5276e551b2cd0c906a33b959f54ff831a73dbe9c467ad1834c5d4ca6a835",
+    "upstream/crypto.ts": "d3665333bae09a7f6a0d9b384020c4ff43837f6c65d96f175047b1f62e728f45",
+    "src/api.test.ts": "ba3552ca08a6c1f1f18b4f7c74e6050dd2dfc7dd9eddba46d55d9573453c64c5",
+    "src/app.ts": "0afe90aa51fe53a88995b6bcd5827102063853bb1983e19742f5bd913433c841",
+    "src/contracts.ts": "e4cd508998e424c45f8fb1056e845d8871adf6d0bd97271dc37f0b88b542e46b",
+    "src/database.test.ts": "1c44b3aff9cf3334c22b533eacb5193331632b39ef3f028a40fd1bb24b202268",
+    "src/histogram.ts": "38b5bc23347c53524be7f59845e278b1fc54418c3d936b8f96488d52e0e36b8f",
+    "src/identity.test.ts": "2ebffc7eacbc24e152a6c642b2013e270584ac1d36637a3a40da43baa00d4870",
+    "src/lint-negative.ts": "564e8cf0c1e3d37108e540cd1aacd5eaed4246b9718c004b4bef1200e301db75",
+    "src/practices.ts": "a869d10cd6d8fe0ab588ec1144eb5b02ced05c709b4dd36e1ff5e19a488027f3",
+    "src/relay.ts": "ae783a3449cd825a6e0909f072756e2cef9c6a4aed246a448ecaa362d6b14883",
+    "src/schema-comparison.test.ts": "a75a44be6995d549bf5a05f5197871173f5358770514a360373d94506dc8e77b",
+    "src/umami.test.ts": "77e1818ad0f0e9bfd0b53f9d9647a8d6bfc9009112de76cacb5e6d67d133da0a",
+    "migrations/1730000000000-fixture.sql": "95f5d9cbb7d2a8863a86645d2fc087cba40b36875c10902284e96650ee25252c"
+  },
+  "packages": {
+    "name": "albireo-stack-decision-lab",
+    "private": true,
+    "type": "module",
+    "scripts": {
+      "test": "node --test src/*.test.ts",
+      "check": "tsc --noEmit",
+      "lint": "eslint src/app.ts src/contracts.ts src/practices.ts"
+    },
+    "dependencies": {
+      "@aws-sdk/client-sqs": "3.1169.0",
+      "@fastify/swagger": "9.9.4",
+      "@fastify/type-provider-typebox": "6.3.0",
+      "@fastify/type-provider-zod": "1.0.3",
+      "@opentelemetry/api": "1.10.0",
+      "@opentelemetry/exporter-metrics-otlp-proto": "0.300.0",
+      "@opentelemetry/resources": "3.0.0",
+      "@opentelemetry/sdk-metrics": "3.0.0",
+      "@stellar/stellar-sdk": "17.4.0",
+      "date-fns": "4.4.0",
+      "fastify": "5.12.8",
+      "jose": "6.2.17",
+      "pg": "8.23.1",
+      "typebox": "1.4.7",
+      "uuid": "14.0.2",
+      "zod": "4.6.7"
+    },
+    "devDependencies": {
+      "@apidevtools/swagger-parser": "13.1.0",
+      "@eslint/js": "10.0.1",
+      "@types/node": "24.19.2",
+      "@types/pg": "8.23.1",
+      "eslint": "10.15.0",
+      "node-pg-migrate": "9.0.0",
+      "playwright-core": "1.65.1",
+      "prettier": "3.10.1",
+      "typescript": "6.0.3",
+      "typescript-eslint": "8.72.2"
+    }
+  },
+  "snapshotLockHash": "60a95132ec076a56ae6640618bf95046d466f422f7e7a2a846005de81b06d7c6",
+  "browser": {
+    "browser": "157.0.8103.51",
+    "source": "upgraded isolated snapshot",
+    "mockData": true,
+    "routes": [
+      {
+        "path": "/",
+        "uncaughtErrors": 0,
+        "rendered": true
+      },
+      {
+        "path": "/demo",
+        "uncaughtErrors": 0,
+        "rendered": true
+      },
+      {
+        "path": "/operator",
+        "uncaughtErrors": 0,
+        "rendered": true
+      },
+      {
+        "path": "/p/albireo",
+        "uncaughtErrors": 0,
+        "rendered": true
+      },
+      {
+        "path": "/docs",
+        "uncaughtErrors": 0,
+        "rendered": true
+      }
+    ],
+    "status": "passed"
+  },
+  "status": "passed",
+  "cleanup": "removed only this unique project",
+  "finishedAt": "2026-11-15T15:54:36.769Z",
+  "packageLockHash": "e4318ac350a706a49dffcab8c645bfe692412ef8c766159d10fb0ea9b8b1602b"
+}

@@ -1,0 +1,452 @@
+{
+  "startedAt": "2026-11-15T15:09:32.332Z",
+  "project": "albireo-lab-1794755372332",
+  "outageHoldMs": 15000,
+  "versions": {
+    "albireo-reliability-sink:local": "sha256:e4a8abff28e250aecb20b33967ae00fa5d68fc0f4a902366993358f36732f84b",
+    "albireo-reliability-collector:0.165.0": "sha256:638a3cf06ac74be7c61f3169348fef6af3daf9b224c788ceba8982d215b32b64",
+    "ghcr.io/umami-software/umami:3.5.0": [
+      "ghcr.io/umami-software/umami@sha256:b64f40400d77bcadd39cf5c62a1e368c99524ca442024f96e1133355a19a5dbc"
+    ],
+    "otel/opentelemetry-collector-contrib:0.165.0": [
+      "otel/opentelemetry-collector-contrib@sha256:e40d61f10c9a617cca1ffd1be4d7e2b3a4b0f0001798ff07e58cabe82e618cea"
+    ],
+    "postgres:17.12-alpine": [
+      "postgres@sha256:a77aa70e641402a21411b92b721c58d10f23b50ae5fdd2333efd22d166e1e5f7"
+    ],
+    "node:24.19.0-bookworm": [
+      "node@sha256:4196d66a565c6f195728d9952f161f4adfe2ad753052a08b7ec7f1c5a6bda42b"
+    ],
+    "database": "PostgreSQL 17.12 on aarch64-unknown-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit",
+    "hostNode": "v22.22.3"
+  },
+  "tests": [
+    {
+      "name": "umami_baseline",
+      "httpStatus": 200,
+      "stored": {
+        "count": 1,
+        "ids": 1
+      }
+    },
+    {
+      "name": "umami_identical_request_twice",
+      "requests": 2,
+      "stored": {
+        "count": 2,
+        "ids": 2
+      }
+    },
+    {
+      "name": "umami_committed_but_response_lost",
+      "initialClientResult": {
+        "status": null,
+        "error": "UND_ERR_SOCKET",
+        "elapsedMs": 27
+      },
+      "retryStatus": 200,
+      "storedAfterRetry": {
+        "count": 2,
+        "ids": 2
+      }
+    },
+    {
+      "name": "otel_baseline",
+      "stored": {
+        "raw": {
+          "rows": 1,
+          "observations": 1
+        },
+        "dedup": {
+          "rows": 1,
+          "observations": 1
+        }
+      }
+    },
+    {
+      "name": "database_outage_and_persistent_collector_sigkill",
+      "webResponse": {
+        "status": 500,
+        "body": {
+          "error": {
+            "message": "Server error",
+            "code": "server-error",
+            "status": 500
+          }
+        },
+        "elapsedMs": 20
+      },
+      "webStoredWithoutRetry": {
+        "count": 0,
+        "ids": 0
+      },
+      "acceptedBeforeCrash": [
+        {
+          "status": 200,
+          "elapsedMs": 2
+        },
+        {
+          "status": 200,
+          "elapsedMs": 2
+        },
+        {
+          "status": 200,
+          "elapsedMs": 1
+        },
+        {
+          "status": 200,
+          "elapsedMs": 2
+        },
+        {
+          "status": 200,
+          "elapsedMs": 2
+        },
+        {
+          "status": 200,
+          "elapsedMs": 1
+        },
+        {
+          "status": 200,
+          "elapsedMs": 1
+        },
+        {
+          "status": 200,
+          "elapsedMs": 1
+        },
+        {
+          "status": 200,
+          "elapsedMs": 1
+        },
+        {
+          "status": 200,
+          "elapsedMs": 1
+        }
+      ],
+      "acceptedAfterRestart": [
+        {
+          "status": 200,
+          "elapsedMs": 4
+        },
+        {
+          "status": 200,
+          "elapsedMs": 4
+        },
+        {
+          "status": 200,
+          "elapsedMs": 2
+        },
+        {
+          "status": 200,
+          "elapsedMs": 2
+        },
+        {
+          "status": 200,
+          "elapsedMs": 2
+        }
+      ],
+      "receiverDuringRestart": {
+        "status": null,
+        "error": "ECONNREFUSED",
+        "elapsedMs": 1
+      },
+      "receiverRestartMs": 883,
+      "databaseRestartMs": 265,
+      "drainMs": 765,
+      "outageThroughDrainMs": 17139,
+      "beforeCrashStored": {
+        "raw": {
+          "rows": 10,
+          "observations": 10
+        },
+        "dedup": {
+          "rows": 10,
+          "observations": 10
+        }
+      },
+      "afterRestartStored": {
+        "raw": {
+          "rows": 5,
+          "observations": 5
+        },
+        "dedup": {
+          "rows": 5,
+          "observations": 5
+        }
+      }
+    },
+    {
+      "name": "umami_explicit_retry_after_database_recovery",
+      "httpStatus": 200,
+      "stored": {
+        "count": 1,
+        "ids": 1
+      }
+    },
+    {
+      "name": "memory_only_collector_sigkill",
+      "accepted": [
+        {
+          "status": 200,
+          "elapsedMs": 2
+        },
+        {
+          "status": 200,
+          "elapsedMs": 1
+        },
+        {
+          "status": 200,
+          "elapsedMs": 1
+        },
+        {
+          "status": 200,
+          "elapsedMs": 1
+        },
+        {
+          "status": 200,
+          "elapsedMs": 1
+        },
+        {
+          "status": 200,
+          "elapsedMs": 1
+        },
+        {
+          "status": 200,
+          "elapsedMs": 1
+        },
+        {
+          "status": 200,
+          "elapsedMs": 1
+        },
+        {
+          "status": 200,
+          "elapsedMs": 1
+        },
+        {
+          "status": 200,
+          "elapsedMs": 1
+        }
+      ],
+      "storedAfterRecovery": {
+        "raw": {
+          "rows": 0,
+          "observations": 0
+        },
+        "dedup": {
+          "rows": 0,
+          "observations": 0
+        }
+      },
+      "recoveryMarker": {
+        "raw": {
+          "rows": 1,
+          "observations": 1
+        },
+        "dedup": {
+          "rows": 1,
+          "observations": 1
+        }
+      }
+    },
+    {
+      "name": "otel_commit_then_response_lost",
+      "sentPoints": 1,
+      "stored": {
+        "raw": {
+          "rows": 2,
+          "observations": 2
+        },
+        "dedup": {
+          "rows": 1,
+          "observations": 1
+        }
+      },
+      "sink": {
+        "received": 30,
+        "committed": 19,
+        "failures": 11,
+        "lostResponses": 1,
+        "webLostResponses": 1,
+        "attempts": {
+          "baseline": 1,
+          "persistent_restart": 20,
+          "persistent_after_restart": 5,
+          "memory_restart": 1,
+          "memory_recovery_marker": 1,
+          "export_ack_lost": 2
+        }
+      }
+    },
+    {
+      "name": "authenticated_tenant_binding_survives_replay",
+      "missingStatus": 401,
+      "wrongAudienceStatus": 401,
+      "persisted": [
+        {
+          "tenant": "tenant-a",
+          "observations": 1
+        },
+        {
+          "tenant": "tenant-b",
+          "observations": 1
+        }
+      ],
+      "forgedTenantRows": 0
+    },
+    {
+      "name": "attribute_allowlist_before_persistent_queue",
+      "persistedEnvelopes": 2,
+      "removedResourceEmailAndRawUrl": true
+    },
+    {
+      "name": "real_js_sdk_3_delta_histogram",
+      "sdkMetrics": "3.0.0",
+      "exporter": "0.300.0",
+      "recorded": 3,
+      "storedObservations": 3,
+      "tenant": "tenant-a"
+    },
+    {
+      "name": "metrics_only_receiver",
+      "tracesStatus": 404,
+      "logsStatus": 404
+    },
+    {
+      "name": "canonical_point_identity_and_conflict",
+      "stored": {
+        "raw": {
+          "rows": 2,
+          "observations": 2
+        },
+        "dedup": {
+          "rows": 1,
+          "observations": 1
+        }
+      },
+      "changedContentsStatus": 400
+    },
+    {
+      "name": "current_histogram_overflow_reproduction",
+      "onlyObservationMs": 100000,
+      "currentReportedP95Ms": 19500,
+      "correctInterpretation": "p95 is above 10000ms; final bucket has no finite upper bound",
+      "isKnownApplicationDefect": true
+    },
+    {
+      "name": "queue_batch_sigkill",
+      "acceptedBeforeCrash": 3,
+      "retainedAfterCrash": 3,
+      "deliveredMarkerPoints": 100
+    },
+    {
+      "name": "processor_batch_sigkill",
+      "acceptedBeforeCrash": 3,
+      "retainedAfterCrash": 0,
+      "deliveredMarkerPoints": 100
+    },
+    {
+      "name": "queue_exhaustion_is_visible",
+      "attempted": 12,
+      "accepted": 2,
+      "rejected503": 10,
+      "persisted": 2
+    },
+    {
+      "name": "downstream_permanent_error_drops_accepted_data",
+      "accepted": 1,
+      "downstreamStatus": 400,
+      "stored": 0,
+      "attempts": 1
+    },
+    {
+      "name": "finite_retry_limit_drops_accepted_data",
+      "accepted": 1,
+      "retryLimit": "3s",
+      "stored": 0,
+      "attempts": 2
+    },
+    {
+      "name": "persistent_volume_loss",
+      "accepted": 1,
+      "storedAfterFreshVolume": 0,
+      "recoveryMarker": 1
+    },
+    {
+      "name": "cumulative_processor_baseline_lost_on_restart",
+      "trueCumulativeTotal": 200,
+      "storedAfterKeepPolicyRestart": 350
+    },
+    {
+      "name": "atomic_web_pattern_fixture",
+      "concurrentRetries": 8,
+      "changedPayloadStatus": 409,
+      "effectsPerTenant": [
+        {
+          "tenant": "a",
+          "count": 1
+        },
+        {
+          "tenant": "b",
+          "count": 1
+        }
+      ],
+      "failedTransactionLeftReceiptAndEffects": false
+    },
+    {
+      "name": "durable_counter_checkpoint_fixture",
+      "totals": [
+        {
+          "instance": "one",
+          "epoch": "boot-1",
+          "total": 200
+        },
+        {
+          "instance": "one",
+          "epoch": "boot-2",
+          "total": 10
+        },
+        {
+          "instance": "two",
+          "epoch": "boot-1",
+          "total": 40
+        }
+      ],
+      "writerRestarted": true,
+      "concurrentRetries": 8,
+      "conflictStatus": 409,
+      "outOfOrderAndInvalidResetStatus": 422
+    },
+    {
+      "name": "postgres_rls_and_transaction_context",
+      "aSees": [
+        "a"
+      ],
+      "bSees": [
+        "b"
+      ],
+      "crossTenantWriteSqlState": "42501",
+      "visibleWithoutContextAfterRollback": 0
+    }
+  ],
+  "limitations": [
+    "Disposable local PostgreSQL; no managed database failover or availability-zone loss is simulated.",
+    "OTel sink is test-only OTLP/HTTP JSON ingestion, not a completed Albireo OTLP implementation.",
+    "Local queue-volume removal models lost storage, not a replicated storage or availability-zone failover.",
+    "Atomic web/counter fixtures prove database patterns; they are not an implemented Umami patch or a complete OTLP backend.",
+    "Finite retry/restart experiments do not establish an availability SLO."
+  ],
+  "repositoryCommit": "65039247c42f17f140009444db11645804f33c93",
+  "fixtureHashes": {
+    "run.mjs": "0fc04671607c460e678217143750777ef8f2e0aa01fb22a6ec90b14c05adb31e",
+    "extended.mjs": "94200a0b92ac3f0764a25d60ceaacd2656fb84b1c195f96660c806687a505589",
+    "configs.mjs": "4fe3ef31f36ea33460b545185f2eea0d8372c99d2eae5a1a904d4d668cb49ff9",
+    "sink.mjs": "0ad9b6bcd1fca6591f4e2255e685686bbe1c26b754c70ca4878f78823c728e58",
+    "compose.yaml": "7b27e6d268e27e2b7bc42d681d36c614b7b1289eb2a9c0d9b4e7a02c6b7460ef",
+    "persistent.yaml": "7f24daa88943f648b9e95563c998592d9d707a170eec6f618276670bc243a4e7",
+    "memory.yaml": "06637b916d054fb8c62c6c8097cd0329c86402b8f2abc862d80a3eaff86938d4",
+    "Dockerfile.collector": "81ba0d99f6a064d26439867e84f24b139e94d24e1a72a94747612d5da9ac704e",
+    "Dockerfile.sink": "5673f73e8662c5c4059dbbb66ed5da841c4d4862758258e2d52ca64aa0061288"
+  },
+  "status": "passed",
+  "finishedAt": "2026-11-15T15:10:36.512Z",
+  "cleanup": "removed only this run’s containers, network, and disposable volumes"
+}

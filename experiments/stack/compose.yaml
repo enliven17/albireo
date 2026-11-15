@@ -1,0 +1,48 @@
+services:
+  db:
+    image: postgres:17.12-alpine
+    environment:
+      POSTGRES_USER: stacklab
+      POSTGRES_PASSWORD: disposable-stacklab-password
+      POSTGRES_DB: stacklab
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U stacklab -d stacklab"]
+      interval: 1s
+      retries: 60
+  queue:
+    image: softwaremill/elasticmq-native:1.7.1
+  umami:
+    image: ghcr.io/umami-software/umami:3.5.0
+    environment:
+      DATABASE_URL: postgresql://stacklab:disposable-stacklab-password@db:5432/stacklab
+      APP_SECRET: disposable-upstream-identity-fixture
+      TWO_FACTOR_ENCRYPTION_KEY: 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
+      DISABLE_TELEMETRY: "1"
+      DISABLE_UPDATES: "1"
+      SALT_ROTATION: daily
+      TZ: UTC
+    ports:
+      - "127.0.0.1:33529:3000"
+  lab:
+    image: albireo-stack-lab:26
+    build:
+      context: .
+      args:
+        NODE_VERSION: 26.13.1
+    environment:
+      DATABASE_URL: postgresql://stacklab:disposable-stacklab-password@db:5432/stacklab
+      SQS_ENDPOINT: http://queue:9324
+      UMAMI_URL: http://umami:3000
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:43329:8080"
+    command: ["node", "src/relay.ts"]
+  collector:
+    image: albireo-stack-collector:0.165.0
+    build:
+      context: .
+      dockerfile: Dockerfile.collector
+    ports:
+      - "127.0.0.1:43429:4318"

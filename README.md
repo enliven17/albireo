@@ -52,6 +52,8 @@ npm run seed      # enroll and verify the albireo tenant (needs .env.local)
 
 Environment variables are listed in the [self hosting docs](https://albireo-theta.vercel.app/docs/self-hosting).
 
+Technical investigation, current stack research, the architecture proposal, and the local reliability experiment are indexed in [engineering](engineering/README.md). These documents distinguish the prototype's current behavior from proposed production capabilities.
+
 ## License
 
 MIT

@@ -1,0 +1,9 @@
+{
+  "upstream": "https://github.com/umami-software/umami/tree/v3.5.0",
+  "revision": "d3c62a8",
+  "files": {
+    "collection-session.ts": "38767fc5b070f70c314264113dc2e8fde3769905a6ccc0b205dcdac9541c64e0",
+    "crypto.ts": "3b1ca52644c1988515a0f104e4ce8e4253749e5dfc789627ad47b8b46862cff6",
+    "app-secret.ts": "b5b71c117ca0866183d637d4dd7ead8dea05472684d1783405618cfc5a56bb2e"
+  }
+}

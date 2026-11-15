@@ -1,0 +1,3 @@
+FROM otel/opentelemetry-collector-contrib:0.165.0
+COPY *.yaml /lab/
+COPY generated/*.yaml /lab/

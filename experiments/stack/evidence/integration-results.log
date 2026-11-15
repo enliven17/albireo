@@ -1,0 +1,31 @@
+
+> test
+> node --test src/*.test.ts
+
+✔ schema inference, runtime validation, beacon content type, and response redaction (142.008042ms)
+✔ required signed claims, expiration, tenant binding and forged headers (12.694292ms)
+✔ response waits for durable publisher result; failure is retryable (9.946375ms)
+✔ deadline cancellation reaches a cooperative publisher (12.508708ms)
+{"experiment":"durable_histograms","restartTotal":200,"mergedInstancesAndEpochs":250,"concurrentWriters":8,"initialUnknownCountsOnlyLaterDelta":50,"largeCountRoundTrip":"9007199254740993","outOfOrderRepairedFromImmutablePoints":true}
+✔ versioned SQL migration and durable cumulative histogram vectors (134.572ms)
+✔ unbounded histogram percentiles and incompatible layouts are explicit (0.44025ms)
+{"experiment":"umami_identity","repeatStable":true,"delayedOriginalContextStable":true,"workerIpChangesIdentity":true,"midnightRotates":true,"idleSameHourVisitIdReused":true}
+✔ actual pinned Umami resolver: repeat visits, identity drift, midnight, and delayed replay (1.966291ms)
+✔ Stellar SDK 17.4: SEP-10 and summary transaction sign/verify without a network (18.40125ms)
+{"experiment":"validation_microbenchmark","iterations":100000,"elapsedMs":{"typebox":4.23,"zod":17.68}}
+✔ current TypeBox and Zod boundary behavior plus bounded validation comparison (151.730125ms)
+{"experiment":"actual_umami_adapter","pageviews":1,"visitors":1,"visits":1,"bounces":0,"storedCustomProperties":2,"concurrentRetries":8,"rollbackAtomic":true,"upstreamUiForkRequired":false}
+✔ transactional adapter: real Umami schema, reports, concurrent retries, properties and rollback (340.620791ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 960.862375
+ Container albireo-stack-1794758024113-queue-1 Running 
+ Container albireo-stack-1794758024113-umami-1 Running 
+ Container albireo-stack-1794758024113-db-1 Running 
+ Container albireo-stack-1794758024113-lab-run-2c8732cab43c Creating 
+ Container albireo-stack-1794758024113-lab-run-2c8732cab43c Created 

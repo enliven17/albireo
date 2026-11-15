@@ -1,0 +1,45 @@
+extensions:
+  oidc:
+    providers:
+      - issuer_url: http://lab:8080/issuer
+        audience: ingest
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: 0.0.0.0:4318
+        max_request_body_size: 4194304
+        auth:
+          authenticator: oidc
+processors:
+  transform:
+    error_mode: propagate
+    metric_statements:
+      - context: resource
+        statements:
+          - delete_key(resource.attributes, "tenant.id")
+          - set(resource.attributes["tenant.id"], otelcol.client.auth.attributes["claims.tenant_id"])
+          - keep_keys(resource.attributes, ["tenant.id", "service.name", "service.instance.id"])
+      - context: scope
+        statements:
+          - keep_keys(scope.attributes, [])
+      - context: datapoint
+        statements:
+          - keep_keys(datapoint.attributes, ["http.route", "http.response.status_code", "otel.metric.overflow"])
+exporters:
+  otlp_http:
+    endpoint: http://lab:8080/internal
+    encoding: json
+    compression: none
+    timeout: 1500ms
+    sending_queue:
+      enabled: false
+    retry_on_failure:
+      enabled: false
+service:
+  extensions: [oidc]
+  pipelines:
+    metrics:
+      receivers: [otlp]
+      processors: [transform]
+      exporters: [otlp_http]
