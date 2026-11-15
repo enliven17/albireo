@@ -1,8 +1,8 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
-import '@fontsource-variable/inter'
-import '@fontsource-variable/jetbrains-mono'
+import '@fontsource-variable/inter/index.css'
+import '@fontsource-variable/jetbrains-mono/index.css'
 import './styles.css'
 import App from './App'
 

@@ -8,6 +8,7 @@
     "moduleResolution": "NodeNext",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
     "strict": true,
     "noUnusedLocals": true,
     "skipLibCheck": true,

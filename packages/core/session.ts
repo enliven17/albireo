@@ -6,7 +6,7 @@ import { createHash, randomBytes } from 'node:crypto'
 
 export class DailySalt {
   private day = ''
-  private salt = Buffer.alloc(0)
+  private salt: Buffer = Buffer.alloc(0)
   private source: () => Buffer
   constructor(source: () => Buffer = () => randomBytes(32)) { this.source = source }
   current(now = Date.now()) {

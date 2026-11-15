@@ -31,17 +31,17 @@
 
 ### Task 1: Runtime, compiler and complete checking
 
-**Files:** Modify `package.json`, `package-lock.json`, `tsconfig.node.json`, `packages/core/session.ts`; create `.node-version`, `.npmrc`, `.github/workflows/ci.yml`.
+**Files:** Modify `package.json`, `package-lock.json`, `tsconfig.node.json`, `packages/core/session.ts`, `src/main.tsx`; create `.node-version`, `.npmrc`, `.github/workflows/ci.yml`.
 
 **Interfaces:** Consumes the current 19-test suite and frontend/API tsconfigs. Produces `npm run typecheck` covering all three configurations and a reproducible Node 26/TS 6 installation. No domain API changes.
 
-- [ ] Verify the existing baseline with `npm test` and `npm run build` before dependency changes. Expected: 19 passing tests and successful build.
-- [ ] Pin TypeScript 6.0.3, `@types/node` 24.19.2 and `@types/pg` 8.23.1, matching the compatibility-floor types tested in the lab. Set Node engines `>=24.0.0 <27`, npm package-manager version from the verified Node 26 distribution, `.node-version` to `26.13.1`, and strict engine/peer installation in `.npmrc`.
-- [ ] Add `erasableSyntaxOnly` to Node checking and preserve the explicit `Buffer` annotation needed by the newer Node types. Extend `typecheck` to run frontend, service/package and API configs with `--noEmit` where needed.
-- [ ] Create a temporary API file assigning a string to `number`, run `npm run typecheck`, verify nonzero exit and that file's diagnostic, then remove only the temporary file. This is a disposable canary, not a permanent source-text test.
-- [ ] Add CI using Node 26.13.1, `npm ci`, `npm run typecheck`, `npm test`, and `npm run build`. CI does not run seed scripts or contact the live data proxy.
-- [ ] Run the complete suite/check/build on Node 26; verify the working tree only contains intended dependency/type/config changes. Expected: 19 passing tests, no type/build errors.
-- [ ] Commit: `build: establish Node 26 and TypeScript 6 baseline`.
+- [x] Verify the existing baseline with `npm test` and `npm run build` before dependency changes. Expected: 19 passing tests and successful build.
+- [x] Pin TypeScript 6.0.3, `@types/node` 24.19.2 and `@types/pg` 8.23.1, matching the compatibility-floor types tested in the lab. Set Node engines `^24.0.0 || ^26.0.0` (LTS lines only), npm package-manager version from the verified Node 26 distribution, `.node-version` to `26.13.1`, and strict engine/peer installation in `.npmrc`.
+- [x] Add `erasableSyntaxOnly` to Node checking and preserve the explicit `Buffer` annotation needed by the newer Node types. Extend `typecheck` to run frontend, service/package and API configs with `--noEmit` where needed.
+- [x] Create a temporary API file assigning a string to `number`, run `npm run typecheck`, verify nonzero exit and that file's diagnostic, then remove only the temporary file. This is a disposable canary, not a permanent source-text test.
+- [x] Add CI using Node 26.13.1, `npm ci`, `npm run typecheck`, `npm test`, and `npm run build`. CI does not run seed scripts or contact the live data proxy.
+- [x] Run the complete suite/check/build on Node 26; verify the working tree only contains intended dependency/type/config changes. Expected: 19 passing tests, no type/build errors.
+- [x] Commit: `build: establish Node 26 and TypeScript 6 baseline`.
 
 ### Task 2: Tested frontend package migration
 

@@ -3,13 +3,17 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "engines": {
+    "node": "^24.0.0 || ^26.0.0"
+  },
+  "packageManager": "npm@11.20.0",
   "scripts": {
     "dev": "node scripts/copy-tracker.mjs && vite",
     "build": "node scripts/copy-tracker.mjs && tsc -b && tsc -p tsconfig.node.json && vite build",
     "preview": "vite preview",
     "brand": "node scripts/brand.mjs",
     "test": "node --test \"packages/**/*.test.ts\" \"services/**/*.test.ts\"",
-    "typecheck": "tsc -b && tsc -p tsconfig.node.json",
+    "typecheck": "tsc -b && tsc -p tsconfig.node.json && tsc -p api/tsconfig.json --noEmit",
     "seed": "node --env-file=.env.local scripts/seed.ts"
   },
   "dependencies": {
@@ -28,14 +32,14 @@
   "devDependencies": {
     "@electric-sql/pglite": "^0.2.15",
     "@tailwindcss/vite": "^4.1.11",
-    "@types/node": "^22.10.2",
-    "@types/pg": "^8.11.10",
+    "@types/node": "24.19.2",
+    "@types/pg": "8.23.1",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",
     "sharp": "^0.33.5",
     "tailwindcss": "^4.1.11",
-    "typescript": "^5.7.2",
+    "typescript": "6.0.3",
     "vite": "^5.4.11"
   }
 }
