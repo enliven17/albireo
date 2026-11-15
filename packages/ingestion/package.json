@@ -1,0 +1,5 @@
+{
+  "name": "@albireo/ingestion",
+  "private": true,
+  "type": "module"
+}

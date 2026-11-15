@@ -13,8 +13,11 @@
     "preview": "vite preview",
     "brand": "node scripts/brand.mjs",
     "test": "node --test \"packages/**/*.test.ts\" \"services/**/*.test.ts\"",
-    "typecheck": "tsc -b && tsc -p tsconfig.node.json && tsc -p api/tsconfig.json --noEmit",
-    "seed": "node --env-file=.env.local scripts/seed.ts"
+    "typecheck": "tsc -b && tsc -p tsconfig.node.json && tsc -p api/tsconfig.json --noEmit && tsc -p packages/ingestion/tsconfig.json",
+    "seed": "node --env-file=.env.local scripts/seed.ts",
+    "lint": "eslint packages/ingestion",
+    "format:check": "prettier --check \"packages/ingestion/**/*.{ts,json}\" eslint.config.mjs .prettierrc.json",
+    "check": "npm run typecheck && npm run lint && npm run format:check && npm test && npm run build"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.1.0",
@@ -27,7 +30,8 @@
     "pg": "^8.13.1",
     "react": "19.3.1",
     "react-dom": "19.3.1",
-    "react-router-dom": "7.18.5"
+    "react-router-dom": "7.18.5",
+    "typebox": "1.4.7"
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.2.15",
@@ -40,6 +44,10 @@
     "sharp": "^0.33.5",
     "tailwindcss": "^4.1.11",
     "typescript": "6.0.3",
-    "vite": "8.3.8"
+    "vite": "8.3.8",
+    "eslint": "10.15.0",
+    "@eslint/js": "10.0.1",
+    "typescript-eslint": "8.72.2",
+    "prettier": "3.10.1"
   }
 }
