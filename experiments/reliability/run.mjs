@@ -94,7 +94,7 @@ try {
   await writeFile(`${artifacts}/startup.log`, await compose('up', '-d', 'db', 'umami', 'sink', 'persistent', 'memory'))
   console.log('Fixture images built and local services started.')
   await writeFile(`${artifacts}/sink-package-lock.json`, await compose('exec', '-T', 'sink', 'cat', '/lab/package-lock.json'))
-  for (const serviceImage of ['albireo-reliability-sink:local', 'albireo-reliability-collector:0.165.0']) {
+  for (const serviceImage of ['albireo-reliability-sink:local', 'albireo-reliability-collector:0.165.0-security1']) {
     report.versions[serviceImage] = (await exec('docker', ['image', 'inspect', serviceImage, '--format', '{{.Id}}'])).stdout.trim()
   }
   await dbReady()
@@ -106,7 +106,7 @@ try {
   await until('sink ready', async () => (await request('http://127.0.0.1:43229/health')).status === 200)
   await collectorReady(13129)
   await collectorReady(13130)
-  for (const image of ['ghcr.io/umami-software/umami:3.5.0', 'otel/opentelemetry-collector-contrib:0.165.0', 'postgres:17.12-alpine', 'node:24.19.0-bookworm']) {
+  for (const image of ['albireo-umami:3.5.0-security1', 'albireo-reliability-collector:0.165.0-security1', 'albireo-postgres:17.12-security1', 'albireo-reliability-sink:local']) {
     const { stdout } = await exec('docker', ['image', 'inspect', image, '--format', '{{json .RepoDigests}}'])
     report.versions[image] = JSON.parse(stdout)
   }

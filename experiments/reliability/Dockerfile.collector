@@ -1,3 +1,4 @@
-FROM otel/opentelemetry-collector-contrib:0.165.0
+# Compatibility wrapper; Compose builds the shared patched definition directly.
+FROM albireo-collector:0.165.0-security1
 COPY *.yaml /lab/
 COPY generated/*.yaml /lab/

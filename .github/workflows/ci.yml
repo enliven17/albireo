@@ -13,7 +13,7 @@ jobs:
     timeout-minutes: 10
     strategy:
       matrix:
-        node: ['24.19.0', '26.13.1']
+        node: ['24.22.3', '26.13.1']
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -24,3 +24,8 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run check
+      - if: matrix.node == '26.13.1'
+        run: |
+          npm audit --audit-level=low
+          npm audit --prefix experiments/stack --audit-level=low
+          npm audit --prefix experiments/reliability --audit-level=low

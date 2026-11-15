@@ -42,3 +42,7 @@ File storage uses `fsync: true`, one queue consumer, and unlimited retry elapsed
 "Passed" means the assertions matched the expected behavior, including expected data loss or current application defects. It does not mean every tested configuration is safe to deploy.
 
 Limits: this is not a load test, managed database failover, physical disk-full/corruption test, multi-zone test, complete privacy strategy, or proof of a four-nines SLO. It does not implement production Umami idempotency, full cumulative histogram checkpointing, credential revocation/rotation, or all tenant SDK/OTLP encodings. Those are explicitly listed production acceptance gates in the proposal, rather than inferred from this local experiment.
+
+## Security maintenance
+
+Active fixtures use the shared [maintained service images](../../infra/images/README.md), patched Node 24.22.3 and a frozen sink dependency graph. Earlier result snapshots describe their original artifacts; rerun the experiments after changing images.

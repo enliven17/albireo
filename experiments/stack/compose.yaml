@@ -1,6 +1,10 @@
 services:
   db:
-    image: postgres:17.12-alpine
+    platform: linux/arm64
+    image: albireo-postgres:17.12-security1
+    build:
+      context: ../..
+      dockerfile: infra/images/postgres.Dockerfile
     environment:
       POSTGRES_USER: stacklab
       POSTGRES_PASSWORD: disposable-stacklab-password
@@ -10,9 +14,17 @@ services:
       interval: 1s
       retries: 60
   queue:
-    image: softwaremill/elasticmq-native:1.7.1
+    platform: linux/arm64
+    image: albireo-elasticmq:1.7.1-security1
+    build:
+      context: ../..
+      dockerfile: infra/images/elasticmq.Dockerfile
   umami:
-    image: ghcr.io/umami-software/umami:3.5.0
+    platform: linux/arm64
+    image: albireo-umami:3.5.0-security1
+    build:
+      context: ../..
+      dockerfile: infra/images/umami.Dockerfile
     environment:
       DATABASE_URL: postgresql://stacklab:disposable-stacklab-password@db:5432/stacklab
       APP_SECRET: disposable-upstream-identity-fixture
@@ -24,11 +36,12 @@ services:
     ports:
       - "127.0.0.1:33529:3000"
   lab:
+    platform: linux/arm64
     image: albireo-stack-lab:26
     build:
       context: .
       args:
-        NODE_VERSION: 26.13.1
+        NODE_IMAGE: node:26.13.1-alpine@sha256:6bd9ab43c0ec0190ca7b2d193906cb8b7edf6e7f4afa43ddeccd6452710bffb5
     environment:
       DATABASE_URL: postgresql://stacklab:disposable-stacklab-password@db:5432/stacklab
       SQS_ENDPOINT: http://queue:9324
@@ -40,9 +53,11 @@ services:
       - "127.0.0.1:43329:8080"
     command: ["node", "src/relay.ts"]
   collector:
-    image: albireo-stack-collector:0.165.0
+    platform: linux/arm64
+    image: albireo-stack-collector:0.165.0-security1
     build:
-      context: .
-      dockerfile: Dockerfile.collector
+      context: ../..
+      dockerfile: infra/images/collector.Dockerfile
+      target: stack
     ports:
       - "127.0.0.1:43429:4318"

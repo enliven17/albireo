@@ -1,6 +1,6 @@
 # Stack and architecture decision lab
 
-Disposable compatibility, everyday-practice, and architecture tests for the [selected baseline](../../engineering/2026-11-15-decisions.md). Application source and root dependencies are unchanged.
+Disposable compatibility, everyday-practice, and architecture tests for the [selected baseline](../../engineering/2026-11-15-decisions.md). The initial experiment left application dependencies unchanged. Active fixtures now use the [maintained service images](../../infra/images/README.md) and refreshed locks; the original findings remain historical evidence.
 
 See the [measured findings](FINDINGS.md) for decisions and evidence boundaries.
 

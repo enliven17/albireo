@@ -60,7 +60,7 @@ await mkdir(artifacts, { recursive: true })
 try {
   report.repositoryCommit=(await run('git',['rev-parse','HEAD'])).output.trim()
   report.sourceHashes={}
-  const sourceFiles=['run.mjs','browser.mjs','guardrails.mjs','prepare-snapshot.mjs','prepare-upstream.mjs','compose.yaml','synchronous.yaml','Dockerfile','Dockerfile.collector','Dockerfile.snapshot','package.json','package-lock.json','frontend.package-lock.json','tsconfig.json','eslint.config.mjs','.prettierrc.json','.dockerignore',...(await readdir(`${cwd}upstream`)).map(name=>`upstream/${name}`),...(await readdir(`${cwd}src`)).map(name=>`src/${name}`),...(await readdir(`${cwd}migrations`)).map(name=>`migrations/${name}`)]
+  const sourceFiles=['run.mjs','browser.mjs','guardrails.mjs','prepare-snapshot.mjs','prepare-upstream.mjs','compose.yaml','synchronous.yaml','Dockerfile','Dockerfile.collector','Dockerfile.snapshot','package.json','package-lock.json','frontend.package-lock.json','tsconfig.json','eslint.config.mjs','.prettierrc.json','.dockerignore',...(await readdir(`${cwd}../../infra/images`)).map(name=>`../../infra/images/${name}`),...(await readdir(`${cwd}upstream`)).map(name=>`upstream/${name}`),...(await readdir(`${cwd}src`)).map(name=>`src/${name}`),...(await readdir(`${cwd}migrations`)).map(name=>`migrations/${name}`)]
   for(const file of sourceFiles)report.sourceHashes[file]=createHash('sha256').update(await readFile(`${cwd}${file}`)).digest('hex')
   report.packages=JSON.parse(await readFile(`${cwd}package.json`,'utf8'))
   report.snapshotLockHash=createHash('sha256').update(await readFile(`${cwd}snapshot/package-lock.json`)).digest('hex')
@@ -69,16 +69,18 @@ try {
   await check('formatting', 'npm', ['exec', '--', 'prettier', '--check', 'src'])
   await check('guardrail-negative-controls', process.execPath, ['guardrails.mjs'])
   await check('typescript7-typecheck', process.execPath, ['tooling7/node_modules/typescript/bin/tsc', '--project', 'tsconfig.json', '--noEmit'])
+  await mkdir(`${cwd}tooling7-peer`, { recursive: true })
   const peer = await check('typescript7-peer-rejection', 'npm', ['install', '--prefix', 'tooling7-peer', '--package-lock-only', '--ignore-scripts', '--strict-peer-deps', '--no-audit', '--no-fund', 'typescript@7.0.2', 'typescript-eslint@8.72.2'], 1)
   assert.match(peer, /ERESOLVE/)
   await writeFile(`${artifacts}/build.log`, await compose('build'))
-  await check('build-node24', 'docker', ['build', '-t', 'albireo-stack-lab:24', '--build-arg', 'NODE_VERSION=24.19.0', '.'])
-  await check('node24-unit-profile', 'docker', ['run', '--rm', 'albireo-stack-lab:24', 'npm', 'test'])
-  await check('build-app-node26', 'docker', ['build', '-f', 'Dockerfile.snapshot', '-t', 'albireo-app-snapshot:26', '.'])
-  await check('existing-app-tests-node26', 'docker', ['run', '--rm', 'albireo-app-snapshot:26', 'npm', 'test'])
+  await check('build-node24', 'docker', ['build', '--platform', 'linux/arm64', '-t', 'albireo-stack-lab:24', '--build-arg', 'NODE_IMAGE=node:24.22.3-alpine@sha256:116b800c3754b440ee0aa3ed2f20f5bf3d99a554bfd9adeea09ea8017f6e85f5', '.'])
+  await check('node24-unit-profile', 'docker', ['run', '--rm', 'albireo-stack-lab:24', 'node', '--test', 'src/*.test.ts'])
+  await check('build-app-node26', 'docker', ['build', '--platform', 'linux/arm64', '-f', 'Dockerfile.snapshot', '-t', 'albireo-app-snapshot:26', '.'])
+  await check('existing-app-tests-node26', 'docker', ['run', '--rm', 'albireo-app-snapshot:26', 'node', '--test', 'packages/**/*.test.ts', 'services/**/*.test.ts'])
+  await check('build-browser-assets', 'npm', ['--prefix', 'snapshot', 'run', 'build'])
   await check('frontend-browser-smoke',process.execPath,['browser.mjs'])
   report.browser=JSON.parse(await readFile(`${cwd}results/browser/results.json`,'utf8'))
-  for (const name of ['albireo-stack-lab:24', 'albireo-stack-lab:26', 'albireo-app-snapshot:26', 'node:26.13.1-bookworm', 'postgres:17.12-alpine', 'softwaremill/elasticmq-native:1.7.1', 'otel/opentelemetry-collector-contrib:0.165.0']) {
+  for (const name of ['albireo-stack-lab:24', 'albireo-stack-lab:26', 'albireo-app-snapshot:26', 'albireo-postgres:17.12-security1', 'albireo-elasticmq:1.7.1-security1', 'albireo-umami:3.5.0-security1', 'albireo-stack-collector:0.165.0-security1']) {
     const r = await run('docker', ['image', 'inspect', name, '--format', '{{json .RepoDigests}} {{.Id}}'])
     report.images[name] = r.output.trim()
   }
@@ -86,7 +88,7 @@ try {
   await until('PostgreSQL ready', async () => { await compose('exec', '-T', 'db', 'pg_isready', '-U', 'stacklab', '-d', 'stacklab'); return true })
   await compose('up', '-d', 'umami')
   await until('real Umami migrated and ready', async () => (await request('http://127.0.0.1:33529/api/heartbeat')).status === 200, 90_000)
-  await check('node26-api-identity-sql', 'docker', ['compose', '-p', project, '-f', `${cwd}compose.yaml`, 'run', '--rm', '--no-deps', 'lab', 'npm', 'test'])
+  await check('node26-api-identity-sql', 'docker', ['compose', '-p', project, '-f', `${cwd}compose.yaml`, 'run', '--rm', '--no-deps', 'lab', 'node', '--test', 'src/*.test.ts'])
   await compose('up', '-d', 'lab')
   await until('queue relay', async () => (await request(`${relay}/health`)).status === 200)
   await compose('up', '-d', 'collector')

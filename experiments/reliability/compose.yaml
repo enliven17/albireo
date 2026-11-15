@@ -1,6 +1,10 @@
 services:
   db:
-    image: postgres:17.12-alpine
+    platform: linux/arm64
+    image: albireo-postgres:17.12-security1
+    build:
+      context: ../..
+      dockerfile: infra/images/postgres.Dockerfile
     environment:
       POSTGRES_DB: umami
       POSTGRES_USER: lab
@@ -15,7 +19,11 @@ services:
       timeout: 2s
       retries: 60
   umami:
-    image: ghcr.io/umami-software/umami:3.5.0
+    platform: linux/arm64
+    image: albireo-umami:3.5.0-security1
+    build:
+      context: ../..
+      dockerfile: infra/images/umami.Dockerfile
     environment:
       DATABASE_URL: postgresql://lab:disposable-lab-password@db:5432/umami
       APP_SECRET: disposable-albireo-reliability-lab-secret
@@ -30,6 +38,7 @@ services:
       db:
         condition: service_healthy
   sink:
+    platform: linux/arm64
     image: albireo-reliability-sink:local
     build:
       context: .
@@ -39,10 +48,12 @@ services:
     ports:
       - "127.0.0.1:43229:4320"
   persistent:
-    image: albireo-reliability-collector:0.165.0
+    platform: linux/arm64
+    image: albireo-reliability-collector:0.165.0-security1
     build:
-      context: .
-      dockerfile: Dockerfile.collector
+      context: ../..
+      dockerfile: infra/images/collector.Dockerfile
+      target: reliability
     user: "0:0"
     command: ["--config=/lab/persistent.yaml"]
     volumes:
@@ -51,16 +62,19 @@ services:
       - "127.0.0.1:43129:4318"
       - "127.0.0.1:13129:13133"
   memory:
-    image: albireo-reliability-collector:0.165.0
+    platform: linux/arm64
+    image: albireo-reliability-collector:0.165.0-security1
     build:
-      context: .
-      dockerfile: Dockerfile.collector
+      context: ../..
+      dockerfile: infra/images/collector.Dockerfile
+      target: reliability
     command: ["--config=/lab/memory.yaml"]
     ports:
       - "127.0.0.1:43130:4318"
       - "127.0.0.1:13130:13133"
   probe:
-    image: albireo-reliability-collector:0.165.0
+    platform: linux/arm64
+    image: albireo-reliability-collector:0.165.0-security1
     user: "0:0"
     command: ["--config=/lab/${LAB_CONFIG:-auth.yaml}"]
     volumes:

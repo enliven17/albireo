@@ -3,7 +3,7 @@ import { cp, mkdir, readFile, writeFile } from 'node:fs/promises'
 const root = new URL('../../', import.meta.url)
 const destination = new URL('./snapshot/', import.meta.url)
 await mkdir(destination, { recursive: true })
-for (const path of ['src', 'packages', 'services', 'api', 'db', 'scripts', 'public', 'brand/mark.js', 'brand/mark.d.ts', 'index.html', 'tsconfig.json', 'tsconfig.node.json', 'vite.config.ts']) {
+for (const path of ['src', 'packages', 'services', 'api', 'db', 'scripts', 'public', 'brand/mark.js', 'brand/mark.d.ts', 'index.html', 'tsconfig.json', 'tsconfig.node.json', 'vite.config.ts', 'eslint.config.mjs', '.prettierrc.json']) {
   await cp(new URL(path, root), new URL(path, destination), { recursive: true, filter: (path) => !path.includes('/node_modules/') })
 }
 const manifest = JSON.parse(await readFile(new URL('package.json', root)))

@@ -1,7 +1,9 @@
-FROM node:26.13.1-bookworm
+FROM node:26.13.1-alpine@sha256:6bd9ab43c0ec0190ca7b2d193906cb8b7edf6e7f4afa43ddeccd6452710bffb5
 WORKDIR /app
 COPY snapshot/package.json snapshot/package-lock.json ./
+RUN apk upgrade --no-cache
 RUN npm ci --ignore-scripts --no-audit --no-fund --strict-peer-deps
 COPY snapshot/ ./
 RUN npm run build && ./node_modules/.bin/tsc -p api/tsconfig.json --noEmit
-CMD ["npm", "test"]
+RUN rm -rf /usr/local/lib/node_modules /opt/yarn-* /usr/local/bin/npm /usr/local/bin/npx /usr/local/bin/corepack /usr/local/bin/yarn /usr/local/bin/yarnpkg
+CMD ["node", "--test", "packages/**/*.test.ts", "services/**/*.test.ts"]
