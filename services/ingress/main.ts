@@ -1,6 +1,6 @@
 import { createIngressApps } from './app.ts'
 import type { AppOptions } from './app.ts'
-import { loadConfig, type IngressConfig } from './config.ts'
+import { IngressConfigError, loadConfig, type IngressConfig } from './config.ts'
 
 export type RunningIngress = ReturnType<typeof createIngressApps> & { close(): Promise<void> }
 export async function startIngress(
@@ -49,8 +49,12 @@ if (import.meta.main) {
     process.once('SIGTERM', stop)
     process.once('SIGINT', stop)
     service.publicApp.log.info('Ingress listeners started')
-  } catch {
-    console.error('Ingress startup failed')
+  } catch (error) {
+    console.error(
+      error instanceof IngressConfigError
+        ? `Ingress startup failed: ${error.message}`
+        : 'Ingress startup failed',
+    )
     process.exitCode = 1
   }
 }

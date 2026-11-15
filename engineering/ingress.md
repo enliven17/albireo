@@ -11,7 +11,7 @@ npm ci
 npm run start:ingress
 ```
 
-The CLI validates configuration before opening sockets, starts the private listener and then the public listener, and logs `Ingress listeners started` after both binds succeed. A bind failure closes any opened listener and exits unsuccessfully. Invalid-startup messages are generic; `loadConfig(env)` errors identify invalid keys without echoing supplied values.
+The CLI validates configuration before opening sockets, starts the private listener and then the public listener, and logs `Ingress listeners started` after both binds succeed. A bind failure closes any opened listener and exits unsuccessfully. Configuration failures identify the invalid key without echoing its value. Other startup failures, including bind errors, use a generic message. `loadConfig(env)` exposes the safe `IngressConfigError` type for callers.
 
 No `.env` file is automatically loaded, and no database/broker credentials are required. To use another local public port:
 
@@ -19,7 +19,7 @@ No `.env` file is automatically loaded, and no database/broker credentials are r
 INGRESS_PUBLIC_PORT=8180 npm run start:ingress
 ```
 
-Stop with Ctrl-C or SIGTERM to the Node process. Both listeners close; repeated programmatic `close()` calls share one promise. The CLI gives shutdown up to ten seconds, then exits unsuccessfully on timeout/failure. It does not manage jobs or broker leases at this stage.
+Stop with Ctrl-C or SIGTERM to the Node process. Both listeners close; repeated programmatic `close()` calls share one promise. The CLI gives shutdown up to ten seconds, then exits unsuccessfully on timeout/failure. It does not manage jobs or broker leases at this stage. Repeating the same signal during a drain can force earlier termination; only programmatic `close()` calls are currently idempotent.
 
 ## Two independent listeners
 
@@ -44,7 +44,7 @@ Binding the private listener to `0.0.0.0` or another non-loopback IP requires de
 | `GET /health/live` | 200 `{"status":"ok"}` | 200 `{"status":"ok"}` |
 | `GET /health/ready` | 503 `{"status":"not_ready"}` | 503 `{"status":"not_ready"}` |
 | `POST /v1/events` | Structurally valid JSON → 503 `INGESTION_NOT_CONFIGURED` | 404 |
-| `POST /internal/v1/metrics` | 404 | JSON → 503 `INGESTION_NOT_CONFIGURED` |
+| `POST /internal/v1/metrics` | 404 | 503 `INGESTION_NOT_CONFIGURED`, including bodyless requests |
 
 Liveness proves the process can answer, independently of a database. It does not prove data acceptance or availability targets. Readiness must remain 503 until the later admission path is connected and its readiness criteria are defined. Do not use liveness to route production ingestion traffic into this skeleton.
 
@@ -78,11 +78,11 @@ Trusted programmatic tests pass port zero directly to `startIngress()` for ephem
 
 ## Input limits, errors and logging
 
-- Admission routes accept JSON. `text/plain` is unsupported in this new service; legacy beacon handling is separate.
+- Admission request bodies use JSON. `text/plain` is unsupported in this new service; legacy beacon handling is separate. The private placeholder also returns 503 for a bodyless request; it has no required OTLP body contract yet.
 - Compressed bodies are rejected with 415 before decoding. Only absent/identity content encoding is supported, so accepted raw/decoded bytes share the configured limit. The future public Collector's compressed OTLP handling is separate.
-- Limits count bytes, including multibyte JSON, rather than JavaScript character length. Oversized input gets 413; malformed, prototype-poisoning or schema-invalid JSON gets 400.
+- Limits count bytes, including multibyte JSON, rather than JavaScript character length. Oversized input gets 413; malformed JSON syntax, prototype-poisoning or schema-invalid JSON gets 400. Fastify currently decodes malformed UTF-8 inside JSON strings using replacement characters; those inputs may reach the disabled 503 placeholder.
 - Service-controlled errors expose `{"code":"…"}` with `INVALID_REQUEST`, `PAYLOAD_TOO_LARGE`, `UNSUPPORTED_MEDIA_TYPE`, `NOT_FOUND` or `INTERNAL_ERROR`. They omit submitted values, exception messages and stacks. Low-level HTTP parser/closing responses may use Fastify's standard generic response shape.
-- Service-controlled responses use `Cache-Control: no-store`. Declared response schemas project the permitted DTO fields.
+- Normal routed responses use `Cache-Control: no-store`. Malformed-URL framework errors and low-level HTTP responses may omit that header. Declared response schemas project the permitted DTO fields.
 - Automatic request logging is disabled through Fastify's `LogController`; request IDs are generated locally. Raw request/response/error serializers are suppressed or redacted, including transport errors at trace level. Unexpected application failures log a static code and generated request ID, not headers, bodies, raw URLs, client IPs or exception text. Static startup/process metadata can still be logged.
 - Connection/request timeouts are configured at ten seconds, with five-second keep-alive. These settings are transport controls, not a latency/SLO guarantee.
 
@@ -106,6 +106,16 @@ The focused suite covers configuration, independent route trees, spoofed headers
 | [config tests](../services/ingress/config.test.ts) | Configuration contract |
 | [app tests](../services/ingress/app.test.ts) | Injected HTTP boundary cases |
 | [lifecycle tests](../services/ingress/main.test.ts) | Real sockets and child-process lifecycle |
+
+## Recorded follow-ups
+
+These minor follow-ups were identified in review and remain outside this batch's fix pass:
+
+- Add `no-store` to the malformed-URL framework error path.
+- Keep repeated same-signal shutdown within the graceful drain guard.
+- Decide/enforce strict UTF-8 byte validation before admission is activated.
+- Require the private metrics body when its real contract is implemented.
+- Extend encoded-private-path coverage from injection to the real-socket test; current TCP checks cover the literal path.
 
 ## Stop boundary
 

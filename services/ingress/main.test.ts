@@ -137,7 +137,7 @@ function child(env: NodeJS.ProcessEnv) {
 }
 
 await test(
-  'CLI invalid configuration fails with a generic message',
+  'CLI invalid configuration names the key without reflecting its value',
   { timeout: 10000 },
   async (t) => {
     const app = child({ INGRESS_PUBLIC_PORT: 'synthetic-config-secret' })
@@ -146,6 +146,7 @@ await test(
     })
     assert.equal(await app.exited, 1)
     assert.match(app.output(), /Ingress startup failed/)
+    assert.match(app.output(), /INGRESS_PUBLIC_PORT/)
     assert.doesNotMatch(app.output(), /synthetic-config-secret/)
   },
 )
@@ -176,3 +177,22 @@ await test(
     await assert.rejects(fetch(`http://127.0.0.1:${privatePort}/health/live`))
   },
 )
+
+await test('CLI bind failures remain generic', { timeout: 10000 }, async (t) => {
+  const occupied = createServer()
+  const publicPort = await listen(occupied)
+  t.after(() => close(occupied))
+  const reservation = createServer()
+  const privatePort = await listen(reservation)
+  await close(reservation)
+  const app = child({
+    INGRESS_PUBLIC_PORT: String(publicPort),
+    INGRESS_PRIVATE_PORT: String(privatePort),
+  })
+  t.after(() => {
+    app.process.kill('SIGKILL')
+  })
+  assert.equal(await app.exited, 1)
+  assert.match(app.output(), /Ingress startup failed/)
+  assert.doesNotMatch(app.output(), /EADDRINUSE|Error:|node:internal/)
+})

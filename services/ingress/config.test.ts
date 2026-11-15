@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { loadConfig } from './config.ts'
+import { IngressConfigError, loadConfig } from './config.ts'
 
 await test('configuration defaults are bounded and bind both listeners to loopback', () => {
   assert.deepEqual(loadConfig({}), {
@@ -97,7 +97,7 @@ await test('configuration errors identify keys without exposing invalid values',
   assert.throws(
     () => loadConfig({ INGRESS_PUBLIC_PORT: 'synthetic-secret-value' }),
     (error: unknown) => {
-      assert.ok(error instanceof Error)
+      assert.ok(error instanceof IngressConfigError)
       assert.match(error.message, /INGRESS_PUBLIC_PORT/)
       assert.doesNotMatch(error.message, /synthetic-secret-value/)
       return true
