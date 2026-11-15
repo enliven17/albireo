@@ -52,7 +52,7 @@
 - [x] Upgrade React/DOM to 19.3.1, Router to 7.18.5, Vite to 8.3.8, React plugin to 6.3.0, Tailwind Vite plugin to 4.3.5, and React/DOM types to 19.3.0, retaining other application dependencies unless required for compatibility.
 - [x] Run type checking before fixing React ref signatures; confirm the expected nullable-ref errors. Update only the two `RefObject<HTMLElement | null>` signatures already proven in the experiment.
 - [x] Run `npm run typecheck && npm test && npm run build`. Expected: complete checking, 19 passing tests and a successful build.
-- [x] Run the browser smoke harness against **this worktree's built assets**, not the experiment snapshot: `/`, `/demo`, `/operator`, `/p/albireo`, `/docs`. Expected: each renders, no uncaught errors, synthetic API fixtures only, all external requests blocked. Parameterize the existing harness's static root if needed; preserve its default snapshot behavior.
+- [x] Run the browser smoke harness against **this worktree's built assets**, not the experiment snapshot: `/`, `/demo`, `/operator`, `/p/albireo`, `/docs`. Expected: each renders, no uncaught errors, synthetic API fixtures only, all external requests blocked. Also run a normal-motion landing-page check observing a hidden reveal, intermediate count and completed effects. Parameterize the existing harness's static root if needed; preserve its default snapshot behavior.
 - [x] Verify generated assets are not staged and current tracker build files have not changed unexpectedly. Commit: `build: migrate the tested frontend package set`.
 
 ### Task 3: Strict first production web contract
@@ -77,3 +77,7 @@
 - Review the whole foundation branch against this plan/spec with a fresh reviewer; fix material findings with regression tests, then rerun the full checks.
 - Keep the worktree and branch for the next roadmap step; do not merge/push/deploy without the user's instruction.
 - This batch does not implement the production queue, authorization registry, Umami worker, OTLP ledger, or SLO claim. Their dependencies and acceptance tests are in the roadmap, not silently represented as delivered.
+
+## Verified execution
+
+Completed 2026-11-15 on `codex/implementation-foundation`. See [execution results and review dispositions](2026-11-15-foundation-results.md). The next batch starts at roadmap step 4.

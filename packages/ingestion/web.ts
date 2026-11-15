@@ -22,7 +22,7 @@ const common = {
   path: Type.String({
     minLength: 1,
     maxLength: 256,
-    pattern: '^/(?!/)[^?#\\s\\x00-\\x1f\\x7f]*(?![\\s\\S])',
+    pattern: '^/(?!/)[^?#\\s\\x00-\\x1f\\x7f-\\x9f]*(?![\\s\\S])',
   }),
 }
 

@@ -58,6 +58,13 @@ await test('rejects unsafe or oversized raw paths', () => {
   }
 })
 
+await test('rejects C1 Unicode control characters throughout raw paths', () => {
+  for (const control of ['\u0080', '\u0085', '\u009f']) {
+    assert.equal(parseWebEvent({ ...page, path: `/a${control}b` }), null)
+    assert.equal(parseWebEvent({ ...page, path: `/a${control}` }), null)
+  }
+})
+
 await test('requires a bounded event name and forbids names on pageviews', () => {
   assert.equal(parseWebEvent({ ...page, name: 'click' }), null)
   for (const name of [undefined, '', 'a'.repeat(65), 'has space', '1click', 'a\n', '<script>']) {

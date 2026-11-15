@@ -56,6 +56,27 @@ try {
     report.routes.push({ path, uncaughtErrors: errors.length, rendered: true })
     await page.close()
   }
+  // Exercise the hooks' normal-motion branches as well as the reduced-motion routes.
+  const motion = await context.newPage()
+  await motion.emulateMedia({ reducedMotion: 'no-preference' })
+  const motionErrors = []
+  motion.on('pageerror', (error) => motionErrors.push(error.message))
+  await motion.goto(base, { waitUntil: 'networkidle' })
+  const counter = motion.locator('[data-count="99.99"]')
+  const reveal = counter.locator('xpath=ancestor::*[@data-reveal][1]')
+  assert.equal(await reveal.evaluate((el) => getComputedStyle(el).opacity), '0', 'normal-motion reveal must start hidden')
+  await counter.evaluate((el) => el.scrollIntoView({ block: 'center', behavior: 'instant' }))
+  await motion.waitForFunction(() => {
+    const value = Number(document.querySelector('[data-count="99.99"]').textContent)
+    return value > 0 && value < 99.99
+  }, null, { timeout: 5000 })
+  await motion.waitForFunction(() => {
+    const el = document.querySelector('[data-count="99.99"]')
+    return el.textContent === '99.99' && getComputedStyle(el.closest('[data-reveal]')).opacity === '1'
+  }, null, { timeout: 5000 })
+  assert.deepEqual(motionErrors, [])
+  report.motion = { path: '/', revealCompleted: true, intermediateCountObserved: true, countCompleted: true, uncaughtErrors: motionErrors.length }
+  await motion.close()
   report.status = 'passed'
 } catch (error) { report.status = 'failed'; report.error = error.message; throw error }
 finally {
