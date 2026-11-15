@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { reducedMotion } from './smooth'
 
 // Children marked data-reveal rise in as they enter, in reading order.
-export function useReveal(root: RefObject<HTMLElement>) {
+export function useReveal(root: RefObject<HTMLElement | null>) {
   useLayoutEffect(() => {
     if (!root.current || reducedMotion()) return
     const ctx = gsap.context(() => {
@@ -21,7 +21,7 @@ export function useReveal(root: RefObject<HTMLElement>) {
 }
 
 /** counts a number up the first time it scrolls into view */
-export function useCountUp(root: RefObject<HTMLElement>) {
+export function useCountUp(root: RefObject<HTMLElement | null>) {
   useLayoutEffect(() => {
     if (!root.current || reducedMotion()) return
     const ctx = gsap.context(() => {

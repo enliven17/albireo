@@ -4,7 +4,7 @@ import { readFile, mkdir, writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import { resolve, extname } from 'node:path'
 import assert from 'node:assert/strict'
-const root = resolve(fileURLToPath(new URL('./snapshot/dist/', import.meta.url)))
+const root = resolve(process.env.ALBIREO_BROWSER_ROOT ?? fileURLToPath(new URL('./snapshot/dist/', import.meta.url)))
 const results = new URL('./results/browser/', import.meta.url)
 await mkdir(results, { recursive: true })
 const server = createServer(async (req, res) => {
@@ -30,7 +30,7 @@ const stats = {
 }
 const projects = [{ id: 'albireo', name: 'Albireo Lab', category: 'Analytics', scf_round: null, visitors: 30, pageviews: 30, visitorSeries: points, requests: 30, p95: 100, errorRate: 0, trust: 90, checks, filtered: 0 }]
 const browser = await chromium.launch({ executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true })
-const report = { browser: browser.version(), source: 'upgraded isolated snapshot', mockData: true, routes: [] }
+const report = { browser: browser.version(), source: root, mockData: true, routes: [] }
 try {
   const context = await browser.newContext({ reducedMotion: 'reduce', viewport: { width: 1280, height: 900 } })
   await context.route('**/*', async (route) => {
