@@ -3,7 +3,7 @@ import { defineConfig } from 'eslint/config'
 import tseslint from 'typescript-eslint'
 
 export default defineConfig({
-  files: ['packages/ingestion/**/*.ts'],
+  files: ['packages/ingestion/**/*.ts', 'services/ingress/**/*.ts'],
   extends: [js.configs.recommended, tseslint.configs.recommendedTypeChecked],
   languageOptions: {
     parserOptions: { projectService: true, tsconfigRootDir: import.meta.dirname },

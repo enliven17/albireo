@@ -13,10 +13,10 @@
     "preview": "vite preview",
     "brand": "node scripts/brand.mjs",
     "test": "node --test \"packages/**/*.test.ts\" \"services/**/*.test.ts\"",
-    "typecheck": "tsc -b && tsc -p tsconfig.node.json && tsc -p api/tsconfig.json --noEmit && tsc -p packages/ingestion/tsconfig.json",
+    "typecheck": "tsc -b && tsc -p tsconfig.node.json && tsc -p api/tsconfig.json --noEmit && tsc -p packages/ingestion/tsconfig.json && tsc -p services/ingress/tsconfig.json",
     "seed": "node --env-file=.env.local scripts/seed.ts",
-    "lint": "eslint packages/ingestion",
-    "format:check": "prettier --check \"packages/ingestion/**/*.{ts,json}\" eslint.config.mjs .prettierrc.json",
+    "lint": "eslint packages/ingestion services/ingress",
+    "format:check": "prettier --check \"packages/ingestion/**/*.{ts,json}\" \"services/ingress/**/*.{ts,json}\" eslint.config.mjs .prettierrc.json",
     "check": "npm run typecheck && npm run lint && npm run format:check && npm test && npm run build"
   },
   "dependencies": {
