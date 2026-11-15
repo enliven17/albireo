@@ -1,58 +1,80 @@
 <p align="center"><img src="brand/logo/lockup-color.png" alt="Albireo" width="360"></p>
 
-<p align="center">Trusted, privacy-first web and API analytics for the Stellar ecosystem.</p>
+<p align="center">Web and API analytics for the Stellar ecosystem.</p>
 
-<p align="center"><img src="brand/social/og.png" alt="Every number, verified." width="720"></p>
+Albireo targets the Stellar Community Fund RFP **Web and API Analytics for Stellar Ecosystem Projects**. The intended service combines internal Umami web analytics, OpenTelemetry-derived API metrics, verified project enrollment and verifiable daily summaries.
 
-Albireo is our response to the Stellar Community Fund RFP **Web and API Analytics for Stellar Ecosystem Projects**. SCF reviewers rely on self reported usage today. Albireo gives every Stellar project free, cookieless web and API analytics, collected only from domains the project has proven it owns, filtered for bots, and sealed on Stellar once a day so anyone can check a number was never edited.
+## Implementation status
 
-Albireo is a double star: one point of light to the naked eye, a gold and a blue star through a telescope. One platform, two layers. Gold is web, blue is API.
+This repository contains a working legacy prototype, a tested build/dependency baseline, and the first production-service foundations. The complete production architecture is still being implemented.
 
-## What it does
-
-| | |
+| Area | Current state |
 |---|---|
-| **Web analytics** | Page views, unique visitors, referrers, session duration, bounce rate, country, device and browser. Custom events and an automatic Stellar Wallets Kit funnel. Umami core. |
-| **API analytics** | Projects dual export OpenTelemetry. Albireo keeps counters and histograms only: volume per normalized route, status codes, p50 and p95, for 24 months. |
-| **Stellar native enrollment** | Wallet sign in through SEP-10, domain proof through SEP-1 `stellar.toml`, DNS or a meta tag. Events from unverified origins are refused. |
-| **Daily onchain seal** | Each project summary becomes a SHA-256 leaf, one Merkle root per day is written with `manage_data`, inclusion proofs are public. |
-| **Inflation resistance** | Origin binding, bot lists, datacenter networks, headless signals, rate limits and anomaly detection, rolled into an open trust score. |
-| **Privacy** | No cookies, no IP addresses, no wallet addresses. EU data residency and one click erasure with a signed receipt. |
+| Legacy web prototype | Tracker, filtering, custom PostgreSQL reports, dashboards and operator/public-card UI are present. Legacy 202 responses do not prove durable acceptance. |
+| Seals and proofs | Merkle summaries, inclusion proofs and Stellar anchoring code are present. Local tests verify signing with controlled Horizon responses. |
+| New event contract | Strict versioned web payload validation and tenant/site-scoped receipt identities are implemented. |
+| New ingress skeleton | Separate public/private Fastify listeners, configuration validation, health, body limits, generic errors and shutdown are implemented. Readiness remains 503; ingestion placeholders accept no data. |
+| Production integrations | Managed queues, transactional Umami workers, tenant authorization/enrollment, OTLP persistence/rollups, retention/erasure and cloud operations remain roadmap work. |
 
+The current legacy application uses its own collection/reporting SQL. The Umami and Collector experiments verify integration assumptions; they are separate from production application code. Availability targets and end-to-end privacy/tenant guarantees require the later implementation and operational gates.
 
-## Live
+Start with the [engineering guide](engineering/README.md), [ingress operations](engineering/ingress.md), [selected architecture](engineering/2026-11-15-decisions.md) and [implementation roadmap](engineering/plans/2026-11-15-rollout.md).
 
-Albireo measures itself. The site at [albireo-theta.vercel.app](https://albireo-theta.vercel.app) runs the tracker, its API records its own request metrics, and a daily cron seals every tenant summary on Stellar testnet. The [dashboard](https://albireo-theta.vercel.app/demo), [operator view](https://albireo-theta.vercel.app/operator) and [public card](https://albireo-theta.vercel.app/p/albireo) read only live data. Documentation lives at [/docs](https://albireo-theta.vercel.app/docs).
+## Local development
 
-## Repository
+Use Node **26.13.1** from [.node-version](.node-version), or the tested compatibility floor **24.22.3**. Lockfiles, engine requirements and strict peer checks are enforced.
 
-```
-packages/core      normalization, inflation filter, visitor hashing, Merkle seals, histograms
-packages/tracker   1.5 KB cookieless web tracker, immutable versioned builds with SRI
-packages/swk       Stellar Wallets Kit funnel wrapper, never sends an address
-services/collector web ingestion with a durable spool
-services/writer    spool to Postgres
-services/api       stats queries, seals and proofs
-services/verifier  SEP-1, DNS and meta domain verification
-api/               Vercel functions: /e, stats, live, projects, seals, proof, daily seal cron
-db/schema.sql      Postgres schema
-src/               landing, dashboards and docs (Vite, React, GSAP, Lenis)
-brand/             logo, brand kit boards, social card
+```sh
+npm ci
+npm run check          # types, lint, formatting, local tests and build
+npm run dev            # Vite frontend on localhost:5173
 ```
 
-## Run
+Both frontend development and preview proxy `/api` requests to the remote prototype configured in [vite.config.ts](vite.config.ts). They are not fully local backend environments. The automated tests use controlled fixtures/local servers; they do not need a live database, Docker or Stellar submission credentials.
 
-```bash
-npm install
-npm test          # unit and integration tests, Postgres via PGlite
-npm run dev       # http://localhost:5173, reads live data from production
-npm run build
-npm run seed      # enroll and verify the albireo tenant (needs .env.local)
+Run the new, independent service in another terminal:
+
+```sh
+npm run start:ingress
+curl -i http://127.0.0.1:8080/health/live     # 200
+curl -i http://127.0.0.1:8080/health/ready    # 503: admission is not implemented
 ```
 
-Environment variables are listed in the [self hosting docs](https://albireo-theta.vercel.app/docs/self-hosting).
+No database or broker credentials are required. See the [configuration and route tables](engineering/ingress.md) before changing bindings or sending test payloads. The existing standalone collector also defaults to port 8080; use separate ports when running both.
 
-Technical investigation, current stack research, the architecture proposal, and the local reliability experiment are indexed in [engineering](engineering/README.md). These documents distinguish the prototype's current behavior from proposed production capabilities.
+## Repository map
+
+```text
+packages/ingestion  new strict web contract and receipt identity
+services/ingress   new Fastify skeleton; no data acceptance yet
+packages/core      legacy normalization, filtering, hashes, seals and histograms
+packages/tracker   versioned browser tracker
+packages/swk       Stellar Wallets Kit funnel wrapper
+services/collector legacy web collector and local spool
+services/writer    legacy spool-to-PostgreSQL writer
+services/api       prototype reports, seals and proofs
+services/verifier  prototype SEP-1, DNS and meta verification helpers
+api/               legacy Vercel function entry points
+src/               landing, dashboards and rendered prototype documentation
+infra/images       maintained service/test-image definitions
+experiments/       disposable compatibility and failure experiments
+engineering/       architecture, plans, status and developer guides
+db/schema.sql      legacy database schema; production migrations are a later step
+```
+
+The local spool is a prototype buffer, not a highly available durable queue. It can lose buffered work on restart, and the legacy writer's commit/delete boundary can duplicate effects. The planned managed queues and transactional receipt workers address those separate boundaries.
+
+## Verification and operator commands
+
+`npm run check` is the main developer gate. [Contribution conventions](CONTRIBUTING.md) define branch/commit names. The [service-image guide](infra/images/README.md) and [experiments](engineering/README.md#experiments-and-historical-evidence) describe Docker-based checks and their limits. Security scans are dated observations; repeat advisory/image checks when artifacts change.
+
+`npm run seed` is a legacy operator command: it reads `.env.local`, writes the configured database, and performs domain verification. It requires `DATABASE_URL` and `VERIFY_TOKEN`; it is not part of the local quickstart. Anchoring additionally requires operator-managed Stellar credentials and network configuration.
+
+## Prototype links
+
+[Dashboard](https://albireo-theta.vercel.app/demo) · [Operator view](https://albireo-theta.vercel.app/operator) · [Public card](https://albireo-theta.vercel.app/p/albireo) · [Rendered prototype docs](https://albireo-theta.vercel.app/docs)
+
+These are prototype deployment links. Local verification does not establish their deployed revision or current availability.
 
 ## License
 

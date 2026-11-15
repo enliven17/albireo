@@ -1,6 +1,6 @@
 # Selected technical baseline — 15 November 2026
 
-This resolves the choices left open in the earlier architecture and stack research, at the user's request. Decisions below guide implementation. The foundation and security-maintenance batches have migrated the build/dependency baseline; production ingestion and cloud deployment remain future work. This document supersedes conflicting recommendations in the earlier proposal.
+This resolves the choices left open in the earlier architecture and stack research, at the user's request. Decisions below guide implementation. The foundation/security-maintenance batches migrated the build/dependency baseline; roadmap step 4 adds a separate [Fastify skeleton](ingress.md). Production admission, persistence and cloud deployment remain future work. This document supersedes conflicting recommendations in the earlier proposal.
 
 ## Selected stack
 
@@ -8,7 +8,7 @@ This resolves the choices left open in the earlier architecture and stack resear
 |---|---|---|
 | Runtime | Node **26.13.1 LTS** for deployment; Node **24.22.3** is the tested compatibility floor | Both run the focused tests; the upgraded application builds and its existing tests pass on 26. No reason to introduce another runtime. |
 | Compiler | TypeScript **6.0.3** | TS 7.0.2 type-checks the fixture, but strict installation with current typed linting fails. Select the supported package combination rather than bypass peer checks or maintain two compilers. |
-| HTTP | Fastify **5.12.8** | Runtime validation, typed status/response contracts, serialization, and beacon parsing exercised. Keep one modular application with distinct process roles. |
+| HTTP | Fastify **5.12.8** | Runtime validation, typed status/response contracts, serialization, and beacon parsing exercised. Keep one modular application with distinct process roles. The implemented skeleton uses separate public/private instances and retains 503 readiness/admission until the later integrations. |
 | Schemas | TypeBox **1.4.7**, `@fastify/type-provider-typebox` **6.3.0** | Both TypeBox and Zod passed the comparison. TypeBox fits the selected JSON Schema path directly. Do not ship both. Microbenchmark timings are secondary to integration simplicity. |
 | HTTP documentation | `@fastify/swagger` **9.9.4**, OpenAPI **3.0.3** initially | Generated contracts validate with Swagger Parser 13.1.0. No required feature needs 3.2; expanding the specification dialect adds no demonstrated benefit now. |
 | SQL | PostgreSQL **17**, maintained minor; `pg` **8.23.1** | Tested against 17.12, including transactions, histogram vectors, large integers, and real Umami tables. Use the current supported patch available on the managed provider. |
