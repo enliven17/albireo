@@ -1,4 +1,4 @@
-<a href="https://stellarcope.xyz"><img src="docs/readme/banner.png" alt="Stellarcope: every number, verified. Trusted, privacy-first web and API analytics for Stellar." width="100%"></a>
+<a href="https://stellarcope.xyz"><img src=".github/assets/banner.png" alt="Stellarcope: every number, verified. Trusted, privacy-first web and API analytics for Stellar." width="100%"></a>
 
 <p align="center">Web and API analytics for the Stellar ecosystem.</p>
 
@@ -23,8 +23,8 @@
 
 <table>
   <tr>
-    <td width="50%" valign="top"><img src="docs/readme/dashboard.webp" alt="Tenant dashboard with visitors, page views, bounce rate and average visit"><p align="center"><sub><b>Tenant dashboard</b> · web, API, wallet funnel and trust tabs</sub></p></td>
-    <td width="50%" valign="top"><img src="docs/readme/public-card.webp" alt="Public card with trust score, 30 day visitors and API requests, verification checks and onchain proof"><p align="center"><sub><b>Public card</b> · verification checks and the onchain proof</sub></p></td>
+    <td width="50%" valign="top"><img src=".github/assets/dashboard.webp" alt="Tenant dashboard with visitors, page views, bounce rate and average visit"><p align="center"><sub><b>Tenant dashboard</b> · web, API, wallet funnel and trust tabs</sub></p></td>
+    <td width="50%" valign="top"><img src=".github/assets/public-card.webp" alt="Public card with trust score, 30 day visitors and API requests, verification checks and onchain proof"><p align="center"><sub><b>Public card</b> · verification checks and the onchain proof</sub></p></td>
   </tr>
 </table>
 
@@ -144,7 +144,7 @@ The local spool is a prototype buffer, not a highly available durable queue. It 
 
 ## Prototype links
 
-<a href="https://stellarcope.xyz"><img src="docs/readme/landing.webp" alt="Stellarcope landing page" width="100%"></a>
+<a href="https://stellarcope.xyz"><img src=".github/assets/landing.webp" alt="Stellarcope landing page" width="100%"></a>
 
 [Dashboard](https://stellarcope.xyz/demo) · [Operator view](https://stellarcope.xyz/operator) · [Public card](https://stellarcope.xyz/p/stellarcope) · [Rendered prototype docs](https://stellarcope.xyz/docs)
 
