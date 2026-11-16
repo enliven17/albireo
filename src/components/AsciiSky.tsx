@@ -117,7 +117,7 @@ export default function AsciiSky({ split, stars = true, className = '', focusY =
           let L = 1 - Math.exp(-sum * 1.6)
           L = Math.pow(Math.min(1, Math.max(0, (L - 0.035) * 1.2)), 0.72)
           let idx = Math.min(RAMP.length - 1, (L * (RAMP.length - 1)) | 0)
-          if (!still && idx > 1 && h2 > 0.9 && Math.sin(t * 9 + h * 40) > 0.6) idx += h > 0.5 ? 1 : -1
+          if (!still && idx > 1 && idx < RAMP.length - 1 && h2 > 0.9 && Math.sin(t * 9 + h * 40) > 0.6) idx += h > 0.5 ? 1 : -1
           if (idx < 1) continue
 
           // colour: weighted mix of the sources, merged stars burn white at the core
