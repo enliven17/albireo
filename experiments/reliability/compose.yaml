@@ -1,7 +1,7 @@
 services:
   db:
     platform: linux/arm64
-    image: albireo-postgres:17.12-security1
+    image: stellarcope-postgres:17.12-security1
     build:
       context: ../..
       dockerfile: infra/images/postgres.Dockerfile
@@ -20,13 +20,13 @@ services:
       retries: 60
   umami:
     platform: linux/arm64
-    image: albireo-umami:3.5.0-security1
+    image: stellarcope-umami:3.5.0-security1
     build:
       context: ../..
       dockerfile: infra/images/umami.Dockerfile
     environment:
       DATABASE_URL: postgresql://lab:disposable-lab-password@db:5432/umami
-      APP_SECRET: disposable-albireo-reliability-lab-secret
+      APP_SECRET: disposable-stellarcope-reliability-lab-secret
       TWO_FACTOR_ENCRYPTION_KEY: 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
       DISABLE_TELEMETRY: "1"
       DISABLE_UPDATES: "1"
@@ -39,7 +39,7 @@ services:
         condition: service_healthy
   sink:
     platform: linux/arm64
-    image: albireo-reliability-sink:local
+    image: stellarcope-reliability-sink:local
     build:
       context: .
       dockerfile: Dockerfile.sink
@@ -49,7 +49,7 @@ services:
       - "127.0.0.1:43229:4320"
   persistent:
     platform: linux/arm64
-    image: albireo-reliability-collector:0.165.0-security1
+    image: stellarcope-reliability-collector:0.165.0-security1
     build:
       context: ../..
       dockerfile: infra/images/collector.Dockerfile
@@ -63,7 +63,7 @@ services:
       - "127.0.0.1:13129:13133"
   memory:
     platform: linux/arm64
-    image: albireo-reliability-collector:0.165.0-security1
+    image: stellarcope-reliability-collector:0.165.0-security1
     build:
       context: ../..
       dockerfile: infra/images/collector.Dockerfile
@@ -74,7 +74,7 @@ services:
       - "127.0.0.1:13130:13133"
   probe:
     platform: linux/arm64
-    image: albireo-reliability-collector:0.165.0-security1
+    image: stellarcope-reliability-collector:0.165.0-security1
     user: "0:0"
     command: ["--config=/lab/${LAB_CONFIG:-auth.yaml}"]
     volumes:

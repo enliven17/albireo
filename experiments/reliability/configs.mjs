@@ -21,7 +21,7 @@ export async function configs(directory) {
   })
   const variants = {}
   const auth = variants.auth = base()
-  auth.extensions.oidc = { providers: [{ issuer_url: 'http://sink:4320/issuer', audience: 'albireo-lab' }] }
+  auth.extensions.oidc = { providers: [{ issuer_url: 'http://sink:4320/issuer', audience: 'stellarcope-lab' }] }
   auth.service.extensions.push('oidc')
   auth.receivers.otlp.protocols.http.auth = { authenticator: 'oidc' }
   // Overwrite caller-provided attribution BEFORE persistence. Do not copy tokens.

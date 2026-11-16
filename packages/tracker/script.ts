@@ -7,5 +7,5 @@ const site = el?.dataset.site
 if (el && site) {
   const endpoint = el.dataset.endpoint ?? new URL('/e', el.src).href
   init({ site, endpoint, respectDnt: el.dataset.dnt === 'true' })
-  ;(window as unknown as { albireo: { track: typeof track } }).albireo = { track }
+  ;(window as unknown as { stellarcope: { track: typeof track } }).stellarcope = { track }
 }

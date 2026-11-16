@@ -1,4 +1,4 @@
-// Albireo web tracker. Cookieless: nothing is written to the device, no identifiers are
+// Stellarcope web tracker. Cookieless: nothing is written to the device, no identifiers are
 // created here. The collector derives a daily visitor hash server side.
 
 export type Props = Record<string, string | number | boolean>

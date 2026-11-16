@@ -9,10 +9,10 @@ const SRI = 'sha384-Bojht8aEcX48AVJBF54vUubF9KBOHvNBMC5Cph1gi8AEJMJbc0xFa16aS/xZ
 export const PAGES: DocPage[] = [
   {
     slug: 'overview', group: 'Getting started', title: 'Overview',
-    lead: 'Albireo gives every Stellar project trusted web and API analytics. Free, cookieless, and sealed on Stellar every day.',
+    lead: 'Stellarcope gives every Stellar project trusted web and API analytics. Free, cookieless, and sealed on Stellar every day.',
     body: <>
-      <H2>Why Albireo exists</H2>
-      <P>Stellar Community Fund reviewers rely on self reported usage. A screenshot of a dashboard proves very little. Albireo is a shared analytics service run for the ecosystem, so every project is measured the same way and every number can be checked.</P>
+      <H2>Why Stellarcope exists</H2>
+      <P>Stellar Community Fund reviewers rely on self reported usage. A screenshot of a dashboard proves very little. Stellarcope is a shared analytics service run for the ecosystem, so every project is measured the same way and every number can be checked.</P>
       <H2>Two layers, one platform</H2>
       <List items={[
         <><b className="text-gold">Web analytics</b>: page views, visitors, referrers, countries, devices, custom events and a Stellar Wallets Kit funnel, from a 1.5 KB script.</>,
@@ -26,7 +26,7 @@ export const PAGES: DocPage[] = [
         'Anyone can recompute a proof in the browser and compare it with the ledger.',
       ]} />
       <H2>Try it now</H2>
-      <P>This site measures itself with Albireo. Open the <A to="/demo">tenant dashboard</A> to see its live traffic, or the <A to="/p/albireo">public card</A> to verify yesterday&apos;s seal against Stellar testnet.</P>
+      <P>This site measures itself with Stellarcope. Open the <A to="/demo">tenant dashboard</A> to see its live traffic, or the <A to="/p/albireo">public card</A> to verify yesterday&apos;s seal against Stellar testnet.</P>
     </>,
   },
   {
@@ -38,7 +38,7 @@ export const PAGES: DocPage[] = [
       <P>Each enrolled project gets a tenant id and one or more site ids. The site id is public and goes into the script tag.</P>
       <H2>2. Verify your domain</H2>
       <P>Add the meta tag you receive to the head of your site, or one of the other methods in <A to="/docs/domain-verification">domain verification</A>. Events from unverified origins are refused.</P>
-      <Code file="index.html" code={'<meta name="albireo-verify" content="YOUR_TOKEN" />'} />
+      <Code file="index.html" code={'<meta name="stellarcope-verify" content="YOUR_TOKEN" />'} />
       <H2>3. Add the script</H2>
       <Code file="index.html" code={`<script defer\n  src="${HOST}/t/1.0.0/a.js"\n  integrity="${SRI}"\n  crossorigin="anonymous"\n  data-site="YOUR_SITE_ID"></script>`} />
       <H2>4. Watch it arrive</H2>
@@ -60,7 +60,7 @@ export const PAGES: DocPage[] = [
         ['data-dnt', 'Optional. "true" honours Do Not Track and Global Privacy Control.'],
       ]} />
       <H2>First party proxy</H2>
-      <P>Content blockers may drop third party analytics. Proxying through your own domain keeps the data and costs nothing in privacy, because Albireo stores nothing personal.</P>
+      <P>Content blockers may drop third party analytics. Proxying through your own domain keeps the data and costs nothing in privacy, because Stellarcope stores nothing personal.</P>
       <Code file="next.config.js" code={`module.exports = {\n  async rewrites() {\n    return [\n      { source: '/a/t/:path*', destination: '${HOST}/t/:path*' },\n      { source: '/a/e', destination: '${HOST}/e' },\n    ]\n  },\n}`} />
     </>,
   },
@@ -71,7 +71,7 @@ export const PAGES: DocPage[] = [
       <H2>Automatic route changes</H2>
       <P>The tracker wraps <C>history.pushState</C>, <C>replaceState</C> and listens to <C>popstate</C>, so client side navigations in React, Vue, Svelte or Next count as page views without extra code. A page view is sent once per path change.</P>
       <H2>npm package</H2>
-      <Code file="src/main.ts" code={`import { init, track } from '@albireo/tracker'\n\ninit({ site: 'YOUR_SITE_ID', endpoint: '${HOST}/e' })`} />
+      <Code file="src/main.ts" code={`import { init, track } from '@stellarcope/tracker'\n\ninit({ site: 'YOUR_SITE_ID', endpoint: '${HOST}/e' })`} />
       <Note>The package source lives in <C>packages/tracker</C>. Publishing to npm is part of the next milestone; until then import it from the repository.</Note>
     </>,
   },
@@ -79,7 +79,7 @@ export const PAGES: DocPage[] = [
     slug: 'custom-events', group: 'Web analytics', title: 'Custom events',
     lead: 'Name what matters and attach a few flat properties.',
     body: <>
-      <Code file="anywhere.js" code={`window.albireo.track('quote_requested', { pair: 'XLM/USDC', amount_band: '100-1000' })`} />
+      <Code file="anywhere.js" code={`window.stellarcope.track('quote_requested', { pair: 'XLM/USDC', amount_band: '100-1000' })`} />
       <H2>Rules</H2>
       <List items={[
         'Event names up to 64 characters.',
@@ -92,7 +92,7 @@ export const PAGES: DocPage[] = [
     slug: 'wallets-kit', group: 'Web analytics', title: 'Stellar Wallets Kit',
     lead: 'The signing funnel for every wallet, without a single address.',
     body: <>
-      <Code file="src/wallet.ts" code={`import { withAlbireo } from '@albireo/swk'\nimport { track } from '@albireo/tracker'\n\nconst kit = withAlbireo(new StellarWalletsKit(config), track)`} />
+      <Code file="src/wallet.ts" code={`import { withStellarcope } from '@stellarcope/swk'\nimport { track } from '@stellarcope/tracker'\n\nconst kit = withStellarcope(new StellarWalletsKit(config), track)`} />
       <H2>Events</H2>
       <Table head={['Event', 'Properties']} rows={[
         ['wallet_modal_open', 'none'],
@@ -107,11 +107,11 @@ export const PAGES: DocPage[] = [
   },
   {
     slug: 'opentelemetry', group: 'API analytics', title: 'OpenTelemetry',
-    lead: 'Keep your APM. Send a second copy of your metrics to Albireo.',
+    lead: 'Keep your APM. Send a second copy of your metrics to Stellarcope.',
     body: <>
-      <Note kind="status">The public OTLP endpoint is in progress. The storage model, histogram math and route normalization it will use are live today and already measure Albireo&apos;s own API.</Note>
+      <Note kind="status">The public OTLP endpoint is in progress. The storage model, histogram math and route normalization it will use are live today and already measure Stellarcope&apos;s own API.</Note>
       <H2>Dual export</H2>
-      <Code file="otel-collector.yaml" code={`exporters:\n  otlphttp/apm:\n    endpoint: https://otlp.your-apm.example\n  otlphttp/albireo:\n    endpoint: ${HOST}/otlp\n    headers: { authorization: "Bearer \${ALBIREO_KEY}" }\n\nservice:\n  pipelines:\n    metrics:\n      exporters: [otlphttp/apm, otlphttp/albireo]`} />
+      <Code file="otel-collector.yaml" code={`exporters:\n  otlphttp/apm:\n    endpoint: https://otlp.your-apm.example\n  otlphttp/stellarcope:\n    endpoint: ${HOST}/otlp\n    headers: { authorization: "Bearer \${STELLARCOPE_KEY}" }\n\nservice:\n  pipelines:\n    metrics:\n      exporters: [otlphttp/apm, otlphttp/stellarcope]`} />
       <H2>What is kept</H2>
       <P>Only counters and histograms, per minute: tenant, service, normalized route, status class, count, sum and explicit bucket counts. Traces, spans and logs are dropped at the door.</P>
     </>,
@@ -140,8 +140,8 @@ export const PAGES: DocPage[] = [
     lead: 'Prove the domain before a single event is accepted.',
     body: <>
       <Table head={['Method', 'How']} rows={[
-        ['meta', <>A <C>&lt;meta name="albireo-verify" content="TOKEN"&gt;</C> tag on the home page.</>],
-        ['dns', <>A TXT record <C>_albireo.example.com</C> with <C>albireo-verify=TOKEN</C>.</>],
+        ['meta', <>A <C>&lt;meta name="stellarcope-verify" content="TOKEN"&gt;</C> tag on the home page.</>],
+        ['dns', <>A TXT record <C>_stellarcope.example.com</C> with <C>stellarcope-verify=TOKEN</C>.</>],
         ['sep1', <>Your signing account listed under <C>ACCOUNTS</C> in <C>/.well-known/stellar.toml</C>.</>],
       ]} />
       <H2>Origin binding</H2>

@@ -12,7 +12,7 @@ const keys = await generateKeyPair('RS256')
 const sign = (claims: Record<string, unknown> = { tenant_id: 'tenant-a' }, expires = '10m') =>
   new SignJWT(claims)
     .setProtectedHeader({ alg: 'RS256' })
-    .setIssuer('albireo-lab')
+    .setIssuer('stellarcope-lab')
     .setAudience('ingest')
     .setIssuedAt()
     .setExpirationTime(expires)

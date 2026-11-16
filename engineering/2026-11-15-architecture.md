@@ -1,4 +1,4 @@
-# Albireo architecture proposal — 15 November 2026
+# Stellarcope architecture proposal — 15 November 2026
 
 Status: **historical proposal**, superseded where choices differ by the [selected technical baseline](2026-11-15-decisions.md). In particular, the selected deployment uses stateless Collector admission into a managed metric queue and a narrow transactional Umami schema adapter. The earlier proposal and experiments remain evidence of how those decisions evolved; the running application has not been migrated.
 
@@ -41,16 +41,16 @@ For planning, the proposed first production release is **B**, supporting stable 
 
 ```mermaid
 flowchart TD
-  Browser[Browser: pinned tracker] --> Web[Albireo web admission]
+  Browser[Browser: pinned tracker] --> Web[Stellarcope web admission]
   Web --> WQ[Managed regional web queue]
-  WQ --> Worker[Web writer: Albireo job role]
+  WQ --> Worker[Web writer: Stellarcope job role]
   Worker --> U[Internal Umami ingestion extension]
   U --> UDB[(Umami PostgreSQL database)]
   Tenant[Tenant application: metrics export] --> O[Standard OTel Collector]
   O --> OQ[Exporter persistent queue on retained volume]
   OQ --> M[Internal metrics adapter]
-  M --> ADB[(Albireo PostgreSQL database)]
-  UI[React dashboard] --> API[Albireo application API]
+  M --> ADB[(Stellarcope PostgreSQL database)]
+  UI[React dashboard] --> API[Stellarcope application API]
   API --> U
   API --> ADB
   Jobs[Jobs: rollups, erasure, seals] --> ADB
@@ -62,9 +62,9 @@ The two databases can initially share one managed PostgreSQL cluster with separa
 
 ## Ownership and trust boundaries
 
-**Umami owns web events and web metric definitions.** Albireo owns tenant enrollment, memberships, verified domains, API credentials, abuse rules, privacy policy, API aggregates, collection-health reporting, and seals. Albireo maps tenant/site IDs to Umami website IDs on the server. Read web reports through a restricted adapter; never let a browser choose arbitrary Umami website IDs under an operator credential. Avoid storing a second raw web dataset in Albireo.
+**Umami owns web events and web metric definitions.** Stellarcope owns tenant enrollment, memberships, verified domains, API credentials, abuse rules, privacy policy, API aggregates, collection-health reporting, and seals. Stellarcope maps tenant/site IDs to Umami website IDs on the server. Read web reports through a restricted adapter; never let a browser choose arbitrary Umami website IDs under an operator credential. Avoid storing a second raw web dataset in Stellarcope.
 
-**Albireo's application is modular, not a new collection of microservices.** Recommended modules are enrollment/access, web admission, Umami integration, API metrics, reporting, and jobs. A small schema-driven HTTP framework such as Fastify is reasonable to reduce manual parsing/validation/auth plumbing. Keep SQL and existing core logic where they remain correct. Separate modules by responsibility; split deployment only for scaling, storage, or credential needs.
+**Stellarcope's application is modular, not a new collection of microservices.** Recommended modules are enrollment/access, web admission, Umami integration, API metrics, reporting, and jobs. A small schema-driven HTTP framework such as Fastify is reasonable to reduce manual parsing/validation/auth plumbing. Keep SQL and existing core logic where they remain correct. Separate modules by responsibility; split deployment only for scaling, storage, or credential needs.
 
 **Standard Collector owns public OTLP handling.** Support metrics-only tenant export to our endpoint. The lab rejects `/v1/traces` and `/v1/logs` with 404; it does not silently accept or store them. Publish this endpoint contract and tenant export examples. If broader dual-export clients require successful discard responses, add bounded discard-only receivers as an explicit compatibility change, with no persistence and its own abuse limits.
 
@@ -112,7 +112,7 @@ Keep compatible histogram vectors; never add arbitrary bucket arrays positionall
 
 Sanitize **before every durable store**, including queues, disk buffers, quarantine, and logs. Allowlist event properties and metric dimensions; strip URL queries/fragments unless individually approved, wallet/account identifiers, exemplars, raw addresses, and unrestricted user-provided text. Values inside allowed labels also need validation: an allowlist of field names alone is not a privacy strategy. The lab verifies a narrow attribute-removal example, not GDPR compliance.
 
-Keep raw/replay data for the shortest operational window; retain API aggregates for 24 months. Initially use indexed PostgreSQL tables and scheduled rollup/retention jobs; add time partitions when measured size, pruning, or deletion behavior justifies them. Umami keeps its own migration ownership. Albireo needs versioned migrations and one migration runner rather than assuming `CREATE TABLE IF NOT EXISTS` upgrades schemas.
+Keep raw/replay data for the shortest operational window; retain API aggregates for 24 months. Initially use indexed PostgreSQL tables and scheduled rollup/retention jobs; add time partitions when measured size, pruning, or deletion behavior justifies them. Umami keeps its own migration ownership. Stellarcope needs versioned migrations and one migration runner rather than assuming `CREATE TABLE IF NOT EXISTS` upgrades schemas.
 
 Proposed API retention/reporting contract: minute aggregates for 30 days, hourly aggregates for 24 months, both retaining tenant, service, normalized route, status class, compatible histogram version/bounds, count and sum. The dashboard can derive volume, status/error share, and estimated p50/p95 at those resolutions. SDK instances are retained for conversion/checkpoint identity, then removed from reporting dimensions. Keep accepted source points for seven days, point receipts for eight, and cumulative checkpoints for 30 days after the last point; expired checkpoints establish a visibly incomplete new baseline. Default reports do not promise individual-request queries or minute precision across the full two years. These retention periods need privacy/operator approval before deployment.
 

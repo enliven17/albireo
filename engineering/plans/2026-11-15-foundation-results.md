@@ -31,7 +31,7 @@ Reproduce with the selected runtime on PATH:
 npm ci
 npm run check
 npm ci --prefix experiments/stack --ignore-scripts
-ALBIREO_BROWSER_ROOT="$PWD/dist" node experiments/stack/browser.mjs
+STELLARCOPE_BROWSER_ROOT="$PWD/dist" node experiments/stack/browser.mjs
 ```
 
 The isolated browser tool expects local Google Chrome at its documented macOS path. Browser output/screenshots are ignored local artifacts under `experiments/stack/results/browser/`. CI is configured; no remote GitHub run was triggered. Historical lab hashes describe the original experimental fixtures/harness, not this modified browser script.

@@ -34,13 +34,13 @@ async function store(pool: pg.Pool, event: Prepared, fail = false) {
   try {
     await client.query('begin')
     const receipt = await client.query(
-      'insert into albireo_lab_receipts values ($1,$2,$3) on conflict do nothing returning event_key',
+      'insert into stellarcope_lab_receipts values ($1,$2,$3) on conflict do nothing returning event_key',
       [event.website, event.eventKey, fingerprint],
     )
     if (!receipt.rowCount) {
       const prior = (
         await client.query(
-          'select fingerprint from albireo_lab_receipts where website_id=$1 and event_key=$2',
+          'select fingerprint from stellarcope_lab_receipts where website_id=$1 and event_key=$2',
           [event.website, event.eventKey],
         )
       ).rows[0]
@@ -94,7 +94,7 @@ test(
     const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL, max: 6 })
     try {
       await pool.query(
-        'create table albireo_lab_receipts (website_id uuid, event_key uuid, fingerprint text, primary key(website_id,event_key))',
+        'create table stellarcope_lab_receipts (website_id uuid, event_key uuid, fingerprint text, primary key(website_id,event_key))',
       )
       const website = randomUUID()
       const user = (await pool.query('select user_id from "user" where username=$1', ['admin'])).rows[0]
@@ -192,7 +192,7 @@ test(
         0,
       )
       assert.equal(
-        (await pool.query('select * from albireo_lab_receipts where event_key=$1', [rollback.eventKey]))
+        (await pool.query('select * from stellarcope_lab_receipts where event_key=$1', [rollback.eventKey]))
           .rowCount,
         0,
       )

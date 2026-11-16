@@ -3,7 +3,7 @@ import { connect, type Sql } from '../shared/db.ts'
 import { normalizePath } from '../../packages/core/normalize.ts'
 import { BOUNDS_MS } from '../../packages/core/histogram.ts'
 
-// Shared plumbing for the serverless API. Albireo measures its own API with its own API
+// Shared plumbing for the serverless API. Stellarcope measures its own API with its own API
 // analytics: every handler wrapped in `measured` writes one histogram sample per request.
 
 let pool: Promise<Sql> | null = null
@@ -37,7 +37,7 @@ async function record(route: string, status: number, ms: number) {
   const minute = new Date(Math.floor(Date.now() / 60_000) * 60_000)
   await sql.query(
     `insert into api_minute (tenant_id, service, route, status_class, minute, count, sum_ms, buckets)
-     values ($1, 'albireo-api', $2, $3, $4, 1, $5, $6)
+     values ($1, 'stellarcope-api', $2, $3, $4, 1, $5, $6)
      on conflict (tenant_id, service, route, status_class, minute) do update set
        count = api_minute.count + 1,
        sum_ms = api_minute.sum_ms + excluded.sum_ms,

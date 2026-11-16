@@ -143,7 +143,7 @@ export async function extended(ctx) {
     await compose('kill', '-s', 'SIGKILL', 'probe')
     await compose('rm', '-f', 'probe')
     // Only the dedicated volume belonging to THIS disposable project is removed.
-    assert.match(project, /^albireo-lab-\d+$/)
+    assert.match(project, /^stellarcope-lab-\d+$/)
     await exec('docker', ['volume', 'rm', `${project}_probe`])
     await compose('up', '-d', 'probe')
     await collectorReady(13131)

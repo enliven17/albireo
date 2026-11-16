@@ -4,7 +4,7 @@ import { Container } from '../components/Section'
 import { reducedMotion } from '../lib/smooth'
 import { useCountUp, useReveal } from '../lib/reveal'
 
-const TEXT = 'Grant reviews still start with a screenshot. Albireo replaces it with a number anyone can check.'
+const TEXT = 'Grant reviews still start with a screenshot. Stellarcope replaces it with a number anyone can check.'
 
 // The statement lights up word by word as it is read.
 export default function Statement() {

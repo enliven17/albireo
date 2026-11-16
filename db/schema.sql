@@ -1,4 +1,4 @@
--- Albireo schema. Idempotent: safe to run on every deploy.
+-- Stellarcope schema. Idempotent: safe to run on every deploy.
 
 create table if not exists tenants (
   id          text primary key,

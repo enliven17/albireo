@@ -6,7 +6,7 @@ import { resolveTxt } from 'node:dns/promises'
 const TIMEOUT = 5000
 
 async function fetchText(url: string) {
-  const res = await fetch(url, { redirect: 'follow', signal: AbortSignal.timeout(TIMEOUT), headers: { 'user-agent': 'AlbireoVerifier/1.0' } })
+  const res = await fetch(url, { redirect: 'follow', signal: AbortSignal.timeout(TIMEOUT), headers: { 'user-agent': 'StellarcopeVerifier/1.0' } })
   if (!res.ok) return null
   const text = await res.text()
   return text.slice(0, 200_000)
@@ -25,15 +25,15 @@ export async function checkSep1(domain: string, account: string) {
 
 export async function checkDns(domain: string, token: string) {
   try {
-    const records = await resolveTxt(`_albireo.${domain}`)
-    return records.some((chunks) => chunks.join('') === `albireo-verify=${token}`)
+    const records = await resolveTxt(`_stellarcope.${domain}`)
+    return records.some((chunks) => chunks.join('') === `stellarcope-verify=${token}`)
   } catch {
     return false
   }
 }
 
 export function metaToken(html: string) {
-  const tag = html.match(/<meta[^>]+name=["']albireo-verify["'][^>]*>/i)?.[0]
+  const tag = html.match(/<meta[^>]+name=["']stellarcope-verify["'][^>]*>/i)?.[0]
   return tag?.match(/content=["']([^"']+)["']/i)?.[1] ?? null
 }
 

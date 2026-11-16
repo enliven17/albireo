@@ -51,7 +51,7 @@ The experiment deliberately separates three kinds of evidence:
 
 - **Upstream behavior:** actual Umami writes, native Collector persistence/batching/retry/auth/conversion, an actual JS SDK export, and actual PostgreSQL RLS.
 - **Pattern prototypes:** fixture-only atomic web receipts and integer counter checkpoints. These show a solution shape, not completed application integrations.
-- **Code defect reproduction:** the real Albireo histogram helper is imported directly. The assertion records its existing wrong result so the defect is visible.
+- **Code defect reproduction:** the real Stellarcope histogram helper is imported directly. The assertion records its existing wrong result so the defect is visible.
 
 Database outages include a 15-second hold; this is a bounded functional test at tiny volume. Observed milliseconds are not latency benchmarks, monthly availability, or cloud recovery guarantees. Disk-volume removal is a storage-loss model, not physical corruption/failover. The fixture doesn't exercise multi-zone recovery, sustained load, disk-full errors, every credential edge, every OTLP encoding, or cumulative histogram-vector conversion.
 

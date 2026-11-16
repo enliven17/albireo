@@ -30,7 +30,7 @@ test('event props are flattened and personal values masked', () => {
 })
 
 test('collector to spool to postgres, with filtering counted', async () => {
-  const dir = await mkdtemp(join(tmpdir(), 'albireo-spool-'))
+  const dir = await mkdtemp(join(tmpdir(), 'stellarcope-spool-'))
   const spool = new Spool(dir)
   const t0 = Date.UTC(2026, 10, 14, 12, 0, 5)
   const { handle, stats } = collector({ sites: staticSites({ hx_7f3a: { tenantId: 'halcyon', domains: ['halcyon.exchange'] } }), spool, now: () => t0 })

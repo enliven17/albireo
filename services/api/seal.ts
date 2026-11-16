@@ -70,7 +70,7 @@ export async function anchor(sql: Sql, day: string, secret = process.env.ANCHOR_
   const passphrase = HORIZON.includes('testnet') ? sdk.Networks.TESTNET : sdk.Networks.PUBLIC
   const tx = new sdk.TransactionBuilder(account, { fee: '1000', networkPassphrase: passphrase })
     .addOperation(sdk.Operation.manageData({ name: `albireo:${day}`, value: Buffer.from(rows[0].root, 'hex') }))
-    .addMemo(sdk.Memo.text(`albireo seal ${day}`))
+    .addMemo(sdk.Memo.text(`stellarcope seal ${day}`))
     .setTimeout(120)
     .build()
   tx.sign(kp)

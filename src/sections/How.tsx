@@ -24,7 +24,7 @@ function SealTerminal() {
   const last = data?.seals[0]
   return (
     <Terminal title="anchor / latest seal, live">
-      <Dim>$ albireo seal --date {last?.day ?? 'yesterday'}</Dim>{'\n'}
+      <Dim>$ stellarcope seal --date {last?.day ?? 'yesterday'}</Dim>{'\n'}
       leaves    {last ? `${last.leaves} project${last.leaves === 1 ? '' : 's'}, sha256` : 'loading'}{'\n'}
       root      <span className="text-blue">{last ? short(last.root, 10) : '...'}</span>{'\n'}
       op        manage_data albireo:{last?.day ?? ''}{'\n'}
@@ -42,8 +42,8 @@ const STEPS: { title: string; body: string; panel: ReactNode }[] = [
     body: 'Sign in with your Stellar wallet through SEP-10. Prove the domain with stellar.toml, a DNS record or a meta tag. Only verified origins can send data.',
     panel: (
       <Terminal title="verifier / albireo-theta.vercel.app">
-        <Dim>$ albireo verify albireo-theta.vercel.app</Dim>{'\n'}
-        {'<meta name="albireo-verify" content="51a6...ecc8">'}{'\n'}
+        <Dim>$ stellarcope verify albireo-theta.vercel.app</Dim>{'\n'}
+        {'<meta name="stellarcope-verify" content="51a6...ecc8">'}{'\n'}
         {'\n'}
         meta token matches enrollment           <Ok />{'\n'}
         origin bound to albireo-theta.vercel.app <Ok />{'\n'}
@@ -58,7 +58,7 @@ const STEPS: { title: string; body: string; panel: ReactNode }[] = [
     panel: (
       <Terminal title="collector / ingest path">
         <span className="text-gold">{'<script defer'}</span>{'\n'}
-        {'  src="https://a.albireo.dev/t/1.4.2/a.js"'}{'\n'}
+        {'  src="https://a.stellarcope.dev/t/1.4.2/a.js"'}{'\n'}
         {'  integrity="sha384-Qm9yZ...2kL"'}{'\n'}
         {'  data-site="hx_7f3a"'}<span className="text-gold">{'></script>'}</span>{'\n'}
         {'\n'}

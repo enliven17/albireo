@@ -24,11 +24,11 @@ const markSvg = (v, pad = 0) => {
 const lockupSvg = (v) => {
   const unit = 2
   const x0 = MARK.size + 4
-  const w = x0 + (7 * 6 - 1) * unit
+  const w = x0 + (11 * 6 - 1) * unit
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${MARK.size}" shape-rendering="crispEdges">
   <path fill="${v.a}" d="${cellsToPath(MARK.a)}"/>
   <path fill="${v.b}" d="${cellsToPath(MARK.b)}"/>
-  <path fill="${v.text}" d="${wordPath('albireo', x0, 1, unit)}"/>
+  <path fill="${v.text}" d="${wordPath('stellarcope', x0, 1, unit)}"/>
 </svg>
 `
 }

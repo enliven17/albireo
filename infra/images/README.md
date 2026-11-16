@@ -29,7 +29,7 @@ The original Collector wrapper Dockerfiles require a base built with:
 ```sh
 docker build --platform linux/arm64 --target base \
   -f infra/images/collector.Dockerfile \
-  -t albireo-collector:0.165.0-security1 .
+  -t stellarcope-collector:0.165.0-security1 .
 ```
 
 Run the complete stack and reliability experiments as documented in their

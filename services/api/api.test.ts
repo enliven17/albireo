@@ -10,9 +10,9 @@ test('stats, seal and proof against real queries', async () => {
   const pg = new PGlite()
   const sql = pg as unknown as Sql
   await migrate(sql)
-  await sql.query(`insert into tenants (id, name, public_card) values ('albireo', 'Albireo', true), ('other', 'Other', true)`)
+  await sql.query(`insert into tenants (id, name, public_card) values ('albireo', 'Stellarcope', true), ('other', 'Other', true)`)
   await sql.query(`insert into sites values ('s1', 'albireo'), ('s2', 'other')`)
-  await sql.query(`insert into domains (tenant_id, domain, method, token, verified_at) values ('albireo', 'albireo.test', 'meta', 't', now())`)
+  await sql.query(`insert into domains (tenant_id, domain, method, token, verified_at) values ('albireo', 'stellarcope.test', 'meta', 't', now())`)
 
   const today = new Date().toISOString().slice(0, 10)
   const ev = (site: string, visitor: string, path: string, offsetSec: number, type = 'pageview', name: string | null = null, props: unknown = null) =>

@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { withAlbireo } from './index.ts'
+import { withStellarcope } from './index.ts'
 
 const PUBLIC = 'Public Global Stellar Network ; September 2015'
 
@@ -19,7 +19,7 @@ class FakeKit {
 
 test('reports the funnel with wallet id and network only', async () => {
   const events: [string, Record<string, string>?][] = []
-  const kit = withAlbireo(new FakeKit(), (n, p) => events.push([n, p]))
+  const kit = withStellarcope(new FakeKit(), (n, p) => events.push([n, p]))
 
   kit.openModal({ onWalletSelected: () => {} })
   const addr = await kit.getAddress()
@@ -39,7 +39,7 @@ test('reports the funnel with wallet id and network only', async () => {
 
 test('setWallet updates the reported wallet id', async () => {
   const events: [string, Record<string, string>?][] = []
-  const kit = withAlbireo(new FakeKit(), (n, p) => events.push([n, p]))
+  const kit = withStellarcope(new FakeKit(), (n, p) => events.push([n, p]))
   kit.setWallet('freighter')
   await kit.getAddress()
   assert.equal(kit.selected, 'freighter')

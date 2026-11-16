@@ -1,4 +1,4 @@
-// Throwaway HTTP boundary fixture. Not the Albireo application.
+// Throwaway HTTP boundary fixture. Not the Stellarcope application.
 import Fastify from 'fastify'
 import swagger from '@fastify/swagger'
 import type { TypeBoxTypeProvider } from '@fastify/type-provider-typebox'
@@ -19,7 +19,7 @@ export async function makeApp(
   await app.register(swagger, {
     openapi: {
       openapi: '3.0.3',
-      info: { title: 'Albireo decision fixture', version: '1' },
+      info: { title: 'Stellarcope decision fixture', version: '1' },
       components: { securitySchemes: { bearer: { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' } } },
     },
   })
@@ -36,7 +36,7 @@ export async function makeApp(
       const bearer = request.headers.authorization
       if (!bearer?.startsWith('Bearer ')) return await reply.code(401).send({ error: 'unauthorized' })
       const { payload } = await jwtVerify(bearer.slice(7), publicKey, {
-        issuer: 'albireo-lab',
+        issuer: 'stellarcope-lab',
         audience: 'ingest',
         algorithms: ['RS256'],
         requiredClaims: ['exp', 'iat', 'tenant_id'],

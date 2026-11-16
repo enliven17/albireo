@@ -80,7 +80,7 @@ export default function Nav() {
       <a href="#main" className="fixed left-4 top-4 z-[120] -translate-y-24 bg-ink px-4 py-3 font-mono text-xs text-space focus:translate-y-0">Skip to content</a>
       <header ref={bar} className={`fixed inset-x-0 top-0 z-[100] border-b transition-colors duration-500 ${solid || open ? 'hair bg-space' : 'border-transparent'}`}>
         <nav aria-label="Main" className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-4 sm:px-8">
-          <Link to="/" aria-label="Albireo home" onClick={() => setOpen(false)}>
+          <Link to="/" aria-label="Stellarcope home" onClick={() => setOpen(false)}>
             <Logo />
           </Link>
 

@@ -37,8 +37,8 @@ flowchart TD
   WebQ --> WebWorker[Transactional Umami adapter]
   WebWorker --> UmamiDB[(Umami database)]
   MetricQ --> MetricWorker[Metric point writer]
-  MetricWorker --> Points[(Albireo source points and rollups)]
-  UI[React UI] --> API[Albireo access and reporting API]
+  MetricWorker --> Points[(Stellarcope source points and rollups)]
+  UI[React UI] --> API[Stellarcope access and reporting API]
   API --> Umami[Internal Umami reports]
   Umami --> UmamiDB
   API --> Points
@@ -83,7 +83,7 @@ For ingestion, choose scoped signed credentials usable in ordinary OTLP headers;
 
 Sanitize before queues, database, quarantine, and logs. Resource/scope/data-point allowlists and exemplar removal are exercised. Allowed values also need bounds and semantic rules; a field-name allowlist alone is insufficient. Disable raw request/access-body logging; redact credentials and cookies. Preserve only country-level geographic metadata. Authentication cookies for the dashboard are separate from cookieless visitor tracking.
 
-Keep non-owner RLS for Albireo tenant tables, use one checked-out client per transaction, and use transaction-scoped tenant context. The earlier real-PostgreSQL isolation experiment applies. The Umami adapter has a restricted private database role for its required tables; do not grant ordinary dashboard callers direct database access.
+Keep non-owner RLS for Stellarcope tenant tables, use one checked-out client per transaction, and use transaction-scoped tenant context. The earlier real-PostgreSQL isolation experiment applies. The Umami adapter has a restricted private database role for its required tables; do not grant ordinary dashboard callers direct database access.
 
 Use PostgreSQL for low-volume scheduled jobs and durable domain-job state, with unique job keys, leases, and idempotent actions. No third job-broker technology. Queue retention is seven days; DLQs retain up to 14 days for investigation, but records older than the seven-day replay horizon cannot be replayed into totals. Erasure/suspension tombstones take precedence over replay and are reapplied before reopening a restored database. Never reuse a deleted tenant ID.
 

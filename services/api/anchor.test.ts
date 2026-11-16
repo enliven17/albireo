@@ -24,7 +24,7 @@ await test('anchor preserves the signed Stellar root and retries failed submissi
     assert.equal(tx.memo.type, 'text')
     const memo = tx.memo.value
     assert.ok(memo instanceof Uint8Array)
-    assert.equal(Buffer.from(memo).toString('utf8'), `albireo seal ${day}`)
+    assert.equal(Buffer.from(memo).toString('utf8'), `stellarcope seal ${day}`)
     assert.equal(tx.operations.length, 1)
     const operation = tx.operations[0]!
     assert.equal(operation.type, 'manageData')

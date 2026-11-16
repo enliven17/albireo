@@ -1,4 +1,4 @@
-// Enrolls Albireo as its own first tenant and verifies its domain for real.
+// Enrolls Stellarcope as its own first tenant and verifies its domain for real.
 // Usage: npm run seed   (needs DATABASE_URL and VERIFY_TOKEN in .env.local)
 import { connect, migrate } from '../services/shared/db.ts'
 import { checkMeta } from '../services/verifier/verify.ts'
@@ -9,7 +9,7 @@ if (!token) throw new Error('VERIFY_TOKEN is not set')
 
 const sql = await connect()
 await migrate(sql)
-await sql.query(`insert into tenants (id, name, category, public_card) values ('albireo', 'Albireo', 'Infra', true) on conflict (id) do nothing`)
+await sql.query(`insert into tenants (id, name, category, public_card) values ('albireo', 'Stellarcope', 'Infra', true) on conflict (id) do update set name = excluded.name`)
 await sql.query(`insert into sites (id, tenant_id) values ('alb_main', 'albireo') on conflict (id) do nothing`)
 await sql.query(`insert into domains (tenant_id, domain, method, token) values ('albireo', $1, 'meta', $2)
                  on conflict (tenant_id, domain) do update set token = excluded.token`, [DOMAIN, token])

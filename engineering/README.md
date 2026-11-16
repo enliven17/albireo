@@ -2,7 +2,7 @@
 
 ## Current implementation
 
-The selected direction is **Umami internally behind Albireo**, a stateless Collector admission path, managed web/metric queues and PostgreSQL-backed idempotent effects/rollups. The [technical baseline](2026-11-15-decisions.md) records the decisions and tradeoffs. The [roadmap](plans/2026-11-15-rollout.md) separates delivered steps from future integrations.
+The selected direction is **Umami internally behind Stellarcope**, a stateless Collector admission path, managed web/metric queues and PostgreSQL-backed idempotent effects/rollups. The [technical baseline](2026-11-15-decisions.md) records the decisions and tradeoffs. The [roadmap](plans/2026-11-15-rollout.md) separates delivered steps from future integrations.
 
 | Component | Status | Entry point |
 |---|---|---|

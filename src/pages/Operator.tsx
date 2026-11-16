@@ -50,7 +50,7 @@ export default function Operator() {
   const [filter, setFilter] = useState('')
   const body = useRef<HTMLElement>(null)
 
-  useEffect(() => { document.title = 'Operator view on Albireo' }, [])
+  useEffect(() => { document.title = 'Operator view on Stellarcope' }, [])
   useEffect(() => { if (data && !picked.length) setPicked(data.projects.slice(0, 3).map((p) => p.id)) }, [data, picked.length])
 
   const rows = useMemo(() => {

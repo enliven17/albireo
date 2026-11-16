@@ -40,7 +40,7 @@ createServer(async (req, res) => {
     if (req.url === '/issuer/keys') return json(res, 200, { keys: [jwk] })
     if (req.url === '/token') {
       // Test issuer only: no real identities or production credentials.
-      const { tenant, audience = 'albireo-lab' } = JSON.parse(await read(req))
+      const { tenant, audience = 'stellarcope-lab' } = JSON.parse(await read(req))
       const enc = (v) => Buffer.from(JSON.stringify(v)).toString('base64url')
       const input = `${enc({ alg: 'RS256', kid: 'lab', typ: 'JWT' })}.${enc({ iss: issuer, aud: audience, sub: tenant, tenant_id: tenant, exp: Math.floor(Date.now() / 1000) + 3600 })}`
       return json(res, 200, { token: `${input}.${sign('RSA-SHA256', Buffer.from(input), privateKey).toString('base64url')}` })

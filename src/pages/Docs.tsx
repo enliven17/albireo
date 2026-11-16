@@ -51,7 +51,7 @@ export default function Docs() {
   const [active, setActive] = useState('')
   const article = useRef<HTMLElement>(null)
 
-  useEffect(() => { document.title = `${doc.title}, Albireo docs` }, [doc])
+  useEffect(() => { document.title = `${doc.title}, Stellarcope docs` }, [doc])
 
   // table of contents from the rendered h2s, with a scroll spy
   useLayoutEffect(() => {

@@ -21,7 +21,7 @@ export default function PublicCard() {
   const s = stats.data
   const p = proof.data
 
-  useEffect(() => { document.title = `${s?.tenant.name ?? slug}, verified on Albireo` }, [s, slug])
+  useEffect(() => { document.title = `${s?.tenant.name ?? slug}, verified on Stellarcope` }, [s, slug])
 
   // the same checks a reviewer would run by hand, all in the browser against public data
   const run = async () => {

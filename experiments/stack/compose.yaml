@@ -1,7 +1,7 @@
 services:
   db:
     platform: linux/arm64
-    image: albireo-postgres:17.12-security1
+    image: stellarcope-postgres:17.12-security1
     build:
       context: ../..
       dockerfile: infra/images/postgres.Dockerfile
@@ -15,13 +15,13 @@ services:
       retries: 60
   queue:
     platform: linux/arm64
-    image: albireo-elasticmq:1.7.1-security1
+    image: stellarcope-elasticmq:1.7.1-security1
     build:
       context: ../..
       dockerfile: infra/images/elasticmq.Dockerfile
   umami:
     platform: linux/arm64
-    image: albireo-umami:3.5.0-security1
+    image: stellarcope-umami:3.5.0-security1
     build:
       context: ../..
       dockerfile: infra/images/umami.Dockerfile
@@ -37,7 +37,7 @@ services:
       - "127.0.0.1:33529:3000"
   lab:
     platform: linux/arm64
-    image: albireo-stack-lab:26
+    image: stellarcope-stack-lab:26
     build:
       context: .
       args:
@@ -54,7 +54,7 @@ services:
     command: ["node", "src/relay.ts"]
   collector:
     platform: linux/arm64
-    image: albireo-stack-collector:0.165.0-security1
+    image: stellarcope-stack-collector:0.165.0-security1
     build:
       context: ../..
       dockerfile: infra/images/collector.Dockerfile

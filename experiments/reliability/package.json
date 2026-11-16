@@ -1,5 +1,5 @@
 {
-  "name": "albireo-reliability-sink",
+  "name": "stellarcope-reliability-sink",
   "private": true,
   "type": "module",
   "dependencies": {

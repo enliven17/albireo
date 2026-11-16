@@ -7,7 +7,7 @@ import { REPO } from '../lib/site'
 type Command = { id: string; label: string; hint: string; run: () => void }
 
 /** page level commands are announced with this event, e.g. switching a dashboard tab */
-export const emit = (action: string, value?: string) => window.dispatchEvent(new CustomEvent('albireo:cmd', { detail: { action, value } }))
+export const emit = (action: string, value?: string) => window.dispatchEvent(new CustomEvent('stellarcope:cmd', { detail: { action, value } }))
 
 const SNIPPET = '<script defer src="https://albireo-theta.vercel.app/t/1.0.0/a.js" data-site="YOUR_SITE_ID"></script>'
 
@@ -46,8 +46,8 @@ export default function CommandPalette() {
     }
     const onOpen = () => setOpen(true)
     window.addEventListener('keydown', onKey)
-    window.addEventListener('albireo:palette', onOpen)
-    return () => { window.removeEventListener('keydown', onKey); window.removeEventListener('albireo:palette', onOpen) }
+    window.addEventListener('stellarcope:palette', onOpen)
+    return () => { window.removeEventListener('keydown', onKey); window.removeEventListener('stellarcope:palette', onOpen) }
   }, [])
 
   useEffect(() => {

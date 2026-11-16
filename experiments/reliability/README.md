@@ -1,6 +1,6 @@
 # Local reliability experiment
 
-Runs real Umami 3.5.0, OTel Collector Contrib 0.165.0, PostgreSQL 17.12, and a real OpenTelemetry JS SDK 3.0 histogram exporter. It does not modify Albireo's application or connect to production. See [findings](FINDINGS.md) and the [architecture proposal](../../engineering/2026-11-15-architecture.md).
+Runs real Umami 3.5.0, OTel Collector Contrib 0.165.0, PostgreSQL 17.12, and a real OpenTelemetry JS SDK 3.0 histogram exporter. It does not modify Stellarcope's application or connect to production. See [findings](FINDINGS.md) and the [architecture proposal](../../engineering/2026-11-15-architecture.md).
 
 Run from the repository root after installing its existing dependencies:
 
@@ -27,7 +27,7 @@ Scenarios:
 - Attribute allowlisting before persistence, and metrics-only endpoint behavior.
 - Real OTel JavaScript SDK 3.0 exporting three delta histogram observations through the authenticated Collector.
 - Attribute ordering independent metric deduplication and changed-content rejection.
-- Actual Albireo histogram overflow defect reproduction (a negative control, not a fix).
+- Actual Stellarcope histogram overflow defect reproduction (a negative control, not a fix).
 - Exporter queue batching versus an in-memory batch processor across SIGKILL.
 - Tiny queue exhaustion and visible 503 responses, downstream permanent errors, retry expiration, and queue-volume loss.
 - Actual cumulative-to-delta processor losing its baseline on restart.

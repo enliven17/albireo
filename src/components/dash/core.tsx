@@ -2,7 +2,7 @@ import { useEffect, useId, useRef, useState, type ReactNode, type RefObject, typ
 import { LayoutGroup, motion, useMotionTemplate, useMotionValue, useReducedMotion, useSpring, useTransform } from 'motion/react'
 
 // Ported from the cankatui registry: the canvas performance hook, spring numbers,
-// layout animated tabs and the spotlight card, restyled for Albireo (square, gold and blue).
+// layout animated tabs and the spotlight card, restyled for Stellarcope (square, gold and blue).
 
 export const GOLD = '#FFA630'
 export const BLUE = '#6E9BFF'

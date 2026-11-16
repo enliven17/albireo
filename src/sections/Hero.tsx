@@ -8,7 +8,7 @@ import { SPEC } from '../lib/site'
 const SPREAD = 0.2
 
 // Pinned opening: the pair reads as one white star, scrolling pulls it apart into
-// Albireo A (gold, web) and Albireo B (blue, API).
+// the gold star (web) and the blue star (API).
 export default function Hero() {
   const root = useRef<HTMLElement>(null)
   const split = useRef(0)
@@ -72,7 +72,7 @@ export default function Hero() {
         </div>
         <div className="max-w-md md:pb-3">
           <p className="overflow-hidden text-[15px] leading-relaxed text-mute">
-            <span data-intro className="block">Albireo gives every Stellar project trusted web and API analytics. Free, cookieless, and sealed on Stellar every day, so reviewers can check what they read.</span>
+            <span data-intro className="block">Stellarcope gives every Stellar project trusted web and API analytics. Free, cookieless, and sealed on Stellar every day, so reviewers can check what they read.</span>
           </p>
           <div className="mt-6 flex flex-wrap gap-3 overflow-hidden">
             <div data-intro className="flex flex-wrap gap-3">

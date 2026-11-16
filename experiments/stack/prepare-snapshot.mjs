@@ -7,7 +7,7 @@ for (const path of ['src', 'packages', 'services', 'api', 'db', 'scripts', 'publ
   await cp(new URL(path, root), new URL(path, destination), { recursive: true, filter: (path) => !path.includes('/node_modules/') })
 }
 const manifest = JSON.parse(await readFile(new URL('package.json', root)))
-manifest.name = 'albireo-compatibility-snapshot'
+manifest.name = 'stellarcope-compatibility-snapshot'
 Object.assign(manifest.dependencies, { pg: '8.23.1', '@stellar/stellar-sdk': '17.4.0', react: '19.3.1', 'react-dom': '19.3.1', 'react-router-dom': '7.18.5' })
 Object.assign(manifest.devDependencies, {
   typescript: '6.0.3', vite: '8.3.8', '@vitejs/plugin-react': '6.3.0', '@tailwindcss/vite': '4.3.5',

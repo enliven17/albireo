@@ -1,8 +1,8 @@
-<p align="center"><img src="brand/logo/lockup-color.png" alt="Albireo" width="360"></p>
+<p align="center"><img src="brand/logo/lockup-color.png" alt="Stellarcope" width="360"></p>
 
 <p align="center">Web and API analytics for the Stellar ecosystem.</p>
 
-Albireo targets the Stellar Community Fund RFP **Web and API Analytics for Stellar Ecosystem Projects**. The intended service combines internal Umami web analytics, OpenTelemetry-derived API metrics, verified project enrollment and verifiable daily summaries.
+Stellarcope targets the Stellar Community Fund RFP **Web and API Analytics for Stellar Ecosystem Projects**. The intended service combines internal Umami web analytics, OpenTelemetry-derived API metrics, verified project enrollment and verifiable daily summaries.
 
 ## Implementation status
 

@@ -10,9 +10,9 @@ test('reads ACCOUNTS from stellar.toml, single and multi line', () => {
   assert.deepEqual(tomlAccounts('NETWORK_PASSPHRASE="x"'), [])
 })
 
-test('reads the albireo meta tag in either attribute order', () => {
-  assert.equal(metaToken('<head><meta name="albireo-verify" content="abc123"></head>'), 'abc123')
-  assert.equal(metaToken("<meta content='xyz' name='albireo-verify' />"), 'xyz')
+test('reads the stellarcope meta tag in either attribute order', () => {
+  assert.equal(metaToken('<head><meta name="stellarcope-verify" content="abc123"></head>'), 'abc123')
+  assert.equal(metaToken("<meta content='xyz' name='stellarcope-verify' />"), 'xyz')
   assert.equal(metaToken('<meta name="description" content="x">'), null)
 })
 

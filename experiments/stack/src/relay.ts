@@ -26,7 +26,7 @@ const sqs = new SQSClient({
   maxAttempts: 1,
 })
 const queueUrl = (
-  await sqs.send(new CreateQueueCommand({ QueueName: 'albireo-lab', Attributes: { VisibilityTimeout: '1' } }))
+  await sqs.send(new CreateQueueCommand({ QueueName: 'stellarcope-lab', Attributes: { VisibilityTimeout: '1' } }))
 ).QueueUrl
 if (!queueUrl) throw new Error('No test queue URL')
 // ElasticMQ returns localhost by default: use its actual Docker network endpoint.

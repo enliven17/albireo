@@ -23,7 +23,7 @@ export default function Landing() {
     return () => clearTimeout(id)
   }, [hash])
 
-  useEffect(() => { document.title = 'Albireo: trusted analytics for Stellar' }, [])
+  useEffect(() => { document.title = 'Stellarcope: trusted analytics for Stellar' }, [])
 
   return (
     <>

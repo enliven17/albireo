@@ -6,7 +6,7 @@ import { getLenis, reducedMotion } from '../lib/smooth'
 import { REPO } from '../lib/site'
 import { Mark } from './Mark'
 
-const WORD = figlet('ALBIREO')
+const WORD = figlet('STELLARCOPE')
 
 const COLUMNS = [
   { title: 'Product', links: [
@@ -76,13 +76,13 @@ export default function Footer() {
 
       <div className="mx-auto max-w-[1440px] overflow-hidden px-4 sm:px-8">
         <div ref={wrap} onPointerMove={move} aria-hidden className="ascii-word relative mx-auto w-fit select-none">
-          <pre className="ascii-pre text-[min(2.9vw,34px)] text-dim">{text}</pre>
-          <pre className="ascii-word-color ascii-pre pointer-events-none absolute inset-0 text-[min(2.9vw,34px)]">{text}</pre>
+          <pre className="ascii-pre text-[min(1.7vw,20px)] text-dim">{text}</pre>
+          <pre className="ascii-word-color ascii-pre pointer-events-none absolute inset-0 text-[min(1.7vw,20px)]">{text}</pre>
         </div>
       </div>
 
       <div className="mx-auto flex max-w-[1440px] flex-col items-start justify-between gap-4 px-4 py-8 font-mono text-[11px] text-dim sm:flex-row sm:items-center sm:px-8">
-        <span>© {new Date().getFullYear()} Albireo contributors. MIT licensed.</span>
+        <span>© {new Date().getFullYear()} Stellarcope contributors. MIT licensed.</span>
         <span>No cookies. No personal data. Built for the Stellar Community Fund.</span>
         <button type="button" onClick={top} className="text-mute transition-colors hover:text-ink">Back to top ↑</button>
       </div>

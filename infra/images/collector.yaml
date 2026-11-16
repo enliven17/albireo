@@ -1,9 +1,9 @@
 # Official components used by the selected pipeline and its failure experiments.
 # https://opentelemetry.io/docs/collector/extend/ocb/
 dist:
-  module: albireo.local/collector
+  module: stellarcope.local/collector
   name: otelcol-contrib
-  description: Albireo upstream Collector components
+  description: Stellarcope upstream Collector components
   version: 0.165.0
   output_path: /build/collector
   build_tags: grpcnotrace

@@ -8,7 +8,7 @@ const SNIPPETS = [
     label: 'HTML',
     file: 'index.html',
     code: `<script defer
-  src="https://a.albireo.dev/t/1.4.2/a.js"
+  src="https://a.stellarcope.dev/t/1.4.2/a.js"
   integrity="sha384-Qm9yZXN0aW5nIGlzIG5vdCBhIHJlYWwgaGFzaA"
   crossorigin="anonymous"
   data-site="hx_7f3a"></script>`,
@@ -17,8 +17,8 @@ const SNIPPETS = [
     id: 'npm',
     label: 'npm',
     file: 'src/main.ts',
-    code: `// npm i @albireo/tracker
-import { init, track } from '@albireo/tracker'
+    code: `// npm i @stellarcope/tracker
+import { init, track } from '@stellarcope/tracker'
 
 init({ site: 'hx_7f3a' })        // page views, SPA routes included
 track('quote_requested', { pair: 'XLM/USDC' })`,
@@ -27,10 +27,10 @@ track('quote_requested', { pair: 'XLM/USDC' })`,
     id: 'swk',
     label: 'Wallets Kit',
     file: 'src/wallet.ts',
-    code: `// npm i @albireo/swk
-import { withAlbireo } from '@albireo/swk'
+    code: `// npm i @stellarcope/swk
+import { withStellarcope } from '@stellarcope/swk'
 
-const kit = withAlbireo(new StellarWalletsKit(config))
+const kit = withStellarcope(new StellarWalletsKit(config))
 // emits wallet_connected, tx_signed and friends
 // with the wallet id and network, never the address`,
   },
@@ -41,14 +41,14 @@ const kit = withAlbireo(new StellarWalletsKit(config))
     code: `exporters:
   otlphttp/apm:        # your own APM, unchanged
     endpoint: https://otlp.your-apm.example
-  otlphttp/albireo:    # the second copy for SCF
-    endpoint: https://otel.albireo.dev
-    headers: { authorization: "Bearer \${ALBIREO_KEY}" }
+  otlphttp/stellarcope:    # the second copy for SCF
+    endpoint: https://otel.stellarcope.dev
+    headers: { authorization: "Bearer \${STELLARCOPE_KEY}" }
 
 service:
   pipelines:
     traces:
-      exporters: [otlphttp/apm, otlphttp/albireo]`,
+      exporters: [otlphttp/apm, otlphttp/stellarcope]`,
   },
 ]
 

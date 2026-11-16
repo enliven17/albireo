@@ -1,5 +1,5 @@
-// Albireo mark: two pixel stars on a 16 unit grid. The large one is Albireo A (gold, web),
-// the small one Albireo B (blue, API). Shared by the site and the brand kit generator.
+// Stellarcope mark: two pixel stars on a 16 unit grid. The large one is gold (web),
+// the small one blue (API). Shared by the site and the brand kit generator.
 const star = (cx, cy, core, arm, diag) => {
   const cells = []
   for (let y = -core; y <= core; y++) for (let x = -core; x <= core; x++) cells.push([cx + x, cy + y])
@@ -34,6 +34,10 @@ export const GLYPHS = {
   r: ['.....', '.....', '#.##.', '##..#', '#....', '#....', '#....'],
   e: ['.....', '.....', '.###.', '#...#', '#####', '#....', '.###.'],
   o: ['.....', '.....', '.###.', '#...#', '#...#', '#...#', '.###.'],
+  s: ['.....', '.....', '.####', '#....', '.###.', '....#', '####.'],
+  t: ['.#...', '.#...', '####.', '.#...', '.#...', '.#..#', '..##.'],
+  c: ['.....', '.....', '.###.', '#....', '#....', '#...#', '.###.'],
+  p: ['.....', '.....', '####.', '#...#', '####.', '#....', '#....'],
 }
 
 /** wordmark path, letters on a 6 cell advance, each cell `unit` wide, origin at x0 y0 */

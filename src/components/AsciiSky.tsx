@@ -2,7 +2,7 @@ import { useEffect, useRef, type MutableRefObject } from 'react'
 import { reducedMotion } from '../lib/smooth'
 
 // Procedural ASCII sky, after the Eye of Creation renderer: every cell is a glyph whose ink
-// coverage matches the light that lands on it. Two stars (Albireo A gold, Albireo B blue)
+// coverage matches the light that lands on it. Two stars (gold for web, blue for API)
 // start merged into one white point and drift apart as `split` goes from 0 to 1.
 const RAMP = " .'`^\",:;Il!i><~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"
 const GOLD = [1.0, 0.65, 0.19]

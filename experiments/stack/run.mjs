@@ -7,7 +7,7 @@ import { gzipSync } from 'node:zlib'
 import assert from 'node:assert/strict'
 const exec = promisify(execFile)
 const cwd = fileURLToPath(new URL('./', import.meta.url))
-const project = `albireo-stack-${Date.now()}`
+const project = `stellarcope-stack-${Date.now()}`
 const artifacts = `${cwd}results/${new Date().toISOString().replace(/[:.]/g, '-')}`
 const report = { startedAt: new Date().toISOString(), project, checks: [], images: {}, limitations: ['Local emulator does not prove AWS SQS persistence, availability, IAM, or regional failover.', 'Fixtures are not production integrations; real Umami transactional writer and cloud acceptance work remain.'] }
 const run = async (command, args) => {
@@ -73,14 +73,14 @@ try {
   const peer = await check('typescript7-peer-rejection', 'npm', ['install', '--prefix', 'tooling7-peer', '--package-lock-only', '--ignore-scripts', '--strict-peer-deps', '--no-audit', '--no-fund', 'typescript@7.0.2', 'typescript-eslint@8.72.2'], 1)
   assert.match(peer, /ERESOLVE/)
   await writeFile(`${artifacts}/build.log`, await compose('build'))
-  await check('build-node24', 'docker', ['build', '--platform', 'linux/arm64', '-t', 'albireo-stack-lab:24', '--build-arg', 'NODE_IMAGE=node:24.22.3-alpine@sha256:116b800c3754b440ee0aa3ed2f20f5bf3d99a554bfd9adeea09ea8017f6e85f5', '.'])
-  await check('node24-unit-profile', 'docker', ['run', '--rm', 'albireo-stack-lab:24', 'node', '--test', 'src/*.test.ts'])
-  await check('build-app-node26', 'docker', ['build', '--platform', 'linux/arm64', '-f', 'Dockerfile.snapshot', '-t', 'albireo-app-snapshot:26', '.'])
-  await check('existing-app-tests-node26', 'docker', ['run', '--rm', 'albireo-app-snapshot:26', 'node', '--test', 'packages/**/*.test.ts', 'services/**/*.test.ts'])
+  await check('build-node24', 'docker', ['build', '--platform', 'linux/arm64', '-t', 'stellarcope-stack-lab:24', '--build-arg', 'NODE_IMAGE=node:24.22.3-alpine@sha256:116b800c3754b440ee0aa3ed2f20f5bf3d99a554bfd9adeea09ea8017f6e85f5', '.'])
+  await check('node24-unit-profile', 'docker', ['run', '--rm', 'stellarcope-stack-lab:24', 'node', '--test', 'src/*.test.ts'])
+  await check('build-app-node26', 'docker', ['build', '--platform', 'linux/arm64', '-f', 'Dockerfile.snapshot', '-t', 'stellarcope-app-snapshot:26', '.'])
+  await check('existing-app-tests-node26', 'docker', ['run', '--rm', 'stellarcope-app-snapshot:26', 'node', '--test', 'packages/**/*.test.ts', 'services/**/*.test.ts'])
   await check('build-browser-assets', 'npm', ['--prefix', 'snapshot', 'run', 'build'])
   await check('frontend-browser-smoke',process.execPath,['browser.mjs'])
   report.browser=JSON.parse(await readFile(`${cwd}results/browser/results.json`,'utf8'))
-  for (const name of ['albireo-stack-lab:24', 'albireo-stack-lab:26', 'albireo-app-snapshot:26', 'albireo-postgres:17.12-security1', 'albireo-elasticmq:1.7.1-security1', 'albireo-umami:3.5.0-security1', 'albireo-stack-collector:0.165.0-security1']) {
+  for (const name of ['stellarcope-stack-lab:24', 'stellarcope-stack-lab:26', 'stellarcope-app-snapshot:26', 'stellarcope-postgres:17.12-security1', 'stellarcope-elasticmq:1.7.1-security1', 'stellarcope-umami:3.5.0-security1', 'stellarcope-stack-collector:0.165.0-security1']) {
     const r = await run('docker', ['image', 'inspect', name, '--format', '{{json .RepoDigests}} {{.Id}}'])
     report.images[name] = r.output.trim()
   }

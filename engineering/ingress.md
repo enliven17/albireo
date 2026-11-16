@@ -55,7 +55,7 @@ For example, this valid payload still receives 503:
 ```sh
 curl -i http://127.0.0.1:8080/v1/events \
   -H 'Content-Type: application/json' \
-  --data '{"version":1,"siteId":"albireo","eventId":"9d94ec7c-b593-4632-9880-19d87b7a2875","type":"pageview","path":"/swap"}'
+  --data '{"version":1,"siteId":"stellarcope","eventId":"9d94ec7c-b593-4632-9880-19d87b7a2875","type":"pageview","path":"/swap"}'
 ```
 
 Legacy `/e`, tracker URLs, dashboards and existing API functions are not mounted here. Their behavior remains in their original entry points. Experimental `/token`, `/consume` and failure-control routes are absent.

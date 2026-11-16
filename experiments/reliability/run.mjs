@@ -11,13 +11,13 @@ import { configs } from './configs.mjs'
 const exec = promisify(execFile)
 const directory = fileURLToPath(new URL('./', import.meta.url))
 const stamp = new Date().toISOString().replace(/[:.]/g, '-')
-const project = `albireo-lab-${Date.now()}`
+const project = `stellarcope-lab-${Date.now()}`
 const artifacts = `${directory}results/${stamp}`
 const outageHoldMs = Number(process.env.OUTAGE_HOLD_MS ?? 15_000)
 assert.ok(Number.isFinite(outageHoldMs) && outageHoldMs >= 0 && outageHoldMs <= 60_000)
 const report = { startedAt: new Date().toISOString(), project, outageHoldMs, versions: {}, tests: [], limitations: [
   'Disposable local PostgreSQL; no managed database failover or availability-zone loss is simulated.',
-  'OTel sink is test-only OTLP/HTTP JSON ingestion, not a completed Albireo OTLP implementation.',
+  'OTel sink is test-only OTLP/HTTP JSON ingestion, not a completed Stellarcope OTLP implementation.',
   'Local queue-volume removal models lost storage, not a replicated storage or availability-zone failover.',
   'Atomic web/counter fixtures prove database patterns; they are not an implemented Umami patch or a complete OTLP backend.',
   'Finite retry/restart experiments do not establish an availability SLO.',
@@ -67,7 +67,7 @@ let pointSequence = 0
 function metricBody(scenario) {
   const start = BigInt(Date.now()) * 1_000_000n + BigInt(++pointSequence) * 1000n
   return { resourceMetrics: [{ resource: { attributes: [{ key: 'service.name', value: { stringValue: 'local-lab' } }, { key: 'service.instance.id', value: { stringValue: 'fixture-1' } }] },
-    scopeMetrics: [{ scope: { name: 'albireo-reliability-lab' }, metrics: [{ name: 'http.server.request.duration', unit: 's', histogram: { aggregationTemporality: 1, dataPoints: [{
+    scopeMetrics: [{ scope: { name: 'stellarcope-reliability-lab' }, metrics: [{ name: 'http.server.request.duration', unit: 's', histogram: { aggregationTemporality: 1, dataPoints: [{
       attributes: [{ key: 'http.route', value: { stringValue: '/test' } }, { key: 'http.response.status_code', value: { intValue: '200' } }, { key: 'lab.case', value: { stringValue: scenario } }],
       startTimeUnixNano: String(start), timeUnixNano: String(start + 50_000_000n), count: '1', sum: 0.05, explicitBounds: [0.1, 1], bucketCounts: ['1', '0', '0'],
     }] } }] }] }] }
@@ -94,7 +94,7 @@ try {
   await writeFile(`${artifacts}/startup.log`, await compose('up', '-d', 'db', 'umami', 'sink', 'persistent', 'memory'))
   console.log('Fixture images built and local services started.')
   await writeFile(`${artifacts}/sink-package-lock.json`, await compose('exec', '-T', 'sink', 'cat', '/lab/package-lock.json'))
-  for (const serviceImage of ['albireo-reliability-sink:local', 'albireo-reliability-collector:0.165.0-security1']) {
+  for (const serviceImage of ['stellarcope-reliability-sink:local', 'stellarcope-reliability-collector:0.165.0-security1']) {
     report.versions[serviceImage] = (await exec('docker', ['image', 'inspect', serviceImage, '--format', '{{.Id}}'])).stdout.trim()
   }
   await dbReady()
@@ -106,7 +106,7 @@ try {
   await until('sink ready', async () => (await request('http://127.0.0.1:43229/health')).status === 200)
   await collectorReady(13129)
   await collectorReady(13130)
-  for (const image of ['albireo-umami:3.5.0-security1', 'albireo-reliability-collector:0.165.0-security1', 'albireo-postgres:17.12-security1', 'albireo-reliability-sink:local']) {
+  for (const image of ['stellarcope-umami:3.5.0-security1', 'stellarcope-reliability-collector:0.165.0-security1', 'stellarcope-postgres:17.12-security1', 'stellarcope-reliability-sink:local']) {
     const { stdout } = await exec('docker', ['image', 'inspect', image, '--format', '{{json .RepoDigests}}'])
     report.versions[image] = JSON.parse(stdout)
   }

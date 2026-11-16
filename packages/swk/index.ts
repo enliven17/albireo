@@ -1,4 +1,4 @@
-// Stellar Wallets Kit funnel for Albireo. Wraps a kit instance and reports the four steps
+// Stellar Wallets Kit funnel for Stellarcope. Wraps a kit instance and reports the four steps
 // of the signing funnel. Only the wallet id and the network are sent, never an address,
 // a transaction or an amount.
 
@@ -23,7 +23,7 @@ const failure = (err: unknown) => {
   return 'error'
 }
 
-export function withAlbireo<K extends object>(kit: K, track: Track): K {
+export function withStellarcope<K extends object>(kit: K, track: Track): K {
   let walletId = 'unknown'
   const k = kit as unknown as AnyKit
   const call = (name: string, args: unknown[]) => (k[name] as (...a: unknown[]) => unknown).apply(kit, args)

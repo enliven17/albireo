@@ -80,7 +80,7 @@ function WebView({ s, tenant }: { s: Stats; tenant: string }) {
         <div className="mt-6"><RankList rows={w.referrers} tone="ink" limit={8} /></div>
       </Card>
       <Card className="p-6 lg:col-span-12">
-        <CardHead title="Custom events" meta={<span className="font-mono text-[11px] text-dim">window.albireo.track(name, props)</span>} />
+        <CardHead title="Custom events" meta={<span className="font-mono text-[11px] text-dim">window.stellarcope.track(name, props)</span>} />
         <div className="mt-6"><RankList rows={w.events} tone="blue" empty="No custom events tracked yet" /></div>
       </Card>
     </div>
@@ -127,7 +127,7 @@ function ApiView({ s }: { s: Stats }) {
           </div>
         ) : <p className="mt-6 font-mono text-[12px] text-dim">No API traffic in this range yet</p>}
       </Card>
-      <p className="font-mono text-[11px] text-dim lg:col-span-12">Albireo measures its own API with its own API analytics. Every request to /api is one histogram sample on this page.</p>
+      <p className="font-mono text-[11px] text-dim lg:col-span-12">Stellarcope measures its own API with its own API analytics. Every request to /api is one histogram sample on this page.</p>
     </div>
   )
 }
@@ -137,7 +137,7 @@ function WalletsView({ s }: { s: Stats }) {
   return (
     <div className="grid gap-4 lg:grid-cols-12">
       <Card className="p-6 lg:col-span-7" glow="rgba(110,155,255,0.09)">
-        <CardHead title="Signing funnel" meta={<span className="font-mono text-[11px] text-dim">@albireo/swk</span>} />
+        <CardHead title="Signing funnel" meta={<span className="font-mono text-[11px] text-dim">@stellarcope/swk</span>} />
         <div className="mt-6"><Funnel steps={s.wallets.funnel} /></div>
         {empty && <p className="mt-6 text-[13px] leading-relaxed text-mute">This project does not ask visitors to connect a wallet, so the funnel stays empty. Projects that wrap Stellar Wallets Kit see every step here.</p>}
       </Card>
@@ -207,15 +207,15 @@ export default function Dashboard() {
   const days = Number(range.replace('d', ''))
   const { data, error, loading } = useApi<Stats>(`/api/stats?tenant=${tenant}&days=${days}`, 30_000)
 
-  useEffect(() => { document.title = `${data?.tenant.name ?? 'Dashboard'} on Albireo` }, [data])
+  useEffect(() => { document.title = `${data?.tenant.name ?? 'Dashboard'} on Stellarcope` }, [data])
   useEffect(() => {
     const on = (e: Event) => {
       const { action, value } = (e as CustomEvent<{ action: string; value: string }>).detail
       if (action === 'tab' && VIEWS.includes(value as View)) setView(value as View)
       if (action === 'range' && RANGES.includes(`${value}d` as (typeof RANGES)[number])) setRange(`${value}d` as (typeof RANGES)[number])
     }
-    window.addEventListener('albireo:cmd', on)
-    return () => window.removeEventListener('albireo:cmd', on)
+    window.addEventListener('stellarcope:cmd', on)
+    return () => window.removeEventListener('stellarcope:cmd', on)
   }, [])
 
   const domain = data?.trust.domains.find((d) => d.verified)?.domain
@@ -237,7 +237,7 @@ export default function Dashboard() {
           </div>
           <div className="flex flex-wrap items-center gap-3">
             <AnimatedTabs tabs={RANGES} value={range} onChange={setRange} label="Range" size="sm" />
-            <button type="button" onClick={() => window.dispatchEvent(new Event('albireo:palette'))} className="hair border px-3 py-[7px] font-mono text-[11px] text-mute transition-colors hover:text-ink">Ctrl K</button>
+            <button type="button" onClick={() => window.dispatchEvent(new Event('stellarcope:palette'))} className="hair border px-3 py-[7px] font-mono text-[11px] text-mute transition-colors hover:text-ink">Ctrl K</button>
           </div>
         </motion.div>
 

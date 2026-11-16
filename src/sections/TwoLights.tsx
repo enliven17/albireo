@@ -8,7 +8,7 @@ import { useApi, type Stats } from '../lib/api'
 const SIDES = [
   {
     tone: 'gold' as const,
-    star: 'Albireo A',
+    star: 'Gold star',
     title: 'Web analytics',
     body: 'Cookieless page analytics on an Umami core. Works with static HTML, single page apps and server rendered frameworks.',
     metrics: ['Page views and unique visitors', 'Referrers and campaigns', 'Session duration and bounce rate', 'Country, device and browser', 'Custom events', 'Stellar Wallets Kit funnel'],
@@ -17,9 +17,9 @@ const SIDES = [
   },
   {
     tone: 'blue' as const,
-    star: 'Albireo B',
+    star: 'Blue star',
     title: 'API analytics',
-    body: 'Projects dual export OpenTelemetry: one stream to their own APM, one to Albireo. Traces and logs are dropped at the door, only counters and histograms are kept.',
+    body: 'Projects dual export OpenTelemetry: one stream to their own APM, one to Stellarcope. Traces and logs are dropped at the door, only counters and histograms are kept.',
     metrics: ['Request volume per route', 'Status code distribution', 'Latency p50 and p95', 'Stellar aware route names', 'Secret key redaction', '24 months of rollups'],
     figure: 'requests, 30 days',
     pick: (x: Stats) => ({ value: x.api.total, data: x.api.requests }),
@@ -63,7 +63,7 @@ export default function TwoLights() {
             )
           })}
         </div>
-        <p className="label mt-6 text-dim">Live: Albireo measuring its own site and API</p>
+        <p className="label mt-6 text-dim">Live: Stellarcope measuring its own site and API</p>
       </Container>
     </section>
   )

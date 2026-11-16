@@ -38,7 +38,7 @@ Pinned Umami helpers are retained under `upstream/` with their MIT license and o
 
 Each run saves logs, selected package versions, image identities, fixture hashes, dependency-lock hashes and results under ignored `results/<timestamp>/`. The [retained evidence snapshot](evidence/2026-11-15.json) records the final decision run. Browser screenshots/results remain in ignored `results/browser/`.
 
-Each integration run uses a unique `albireo-stack-<timestamp>` Compose project, removes only that project's resources, and uses disposable credentials/data. It does not contact the production site or create AWS resources. The runtime advisory query is separately retained under `results/dependency-audit.json`.
+Each integration run uses a unique `stellarcope-stack-<timestamp>` Compose project, removes only that project's resources, and uses disposable credentials/data. It does not contact the production site or create AWS resources. The runtime advisory query is separately retained under `results/dependency-audit.json`.
 
 The HTTP relay is deliberately a loopback-exposed **test fixture**, with control/token/consume routes and synthetic identity provisioning. Production must enforce its private trust boundary, credential registry, complete schema normalization, and worker acknowledgement after database commit. `/consume` deletes emulator messages to inspect transport behavior; it is not the production database worker.
 

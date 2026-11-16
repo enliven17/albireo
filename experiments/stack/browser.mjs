@@ -4,7 +4,7 @@ import { readFile, mkdir, writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import { resolve, extname } from 'node:path'
 import assert from 'node:assert/strict'
-const root = resolve(process.env.ALBIREO_BROWSER_ROOT ?? fileURLToPath(new URL('./snapshot/dist/', import.meta.url)))
+const root = resolve(process.env.STELLARCOPE_BROWSER_ROOT ?? fileURLToPath(new URL('./snapshot/dist/', import.meta.url)))
 const results = new URL('./results/browser/', import.meta.url)
 await mkdir(results, { recursive: true })
 const server = createServer(async (req, res) => {
@@ -22,13 +22,13 @@ const base = `http://127.0.0.1:${server.address().port}`
 const points = Array.from({ length: 30 }, (_, i) => ({ date: `2026-10-${String(i+1).padStart(2,'0')}`, value: 1 }))
 const checks = { sep1: true, dns: true, meta: false, origin: true, sealed: false }
 const stats = {
-  tenant: { id: 'albireo', name: 'Albireo Lab', category: 'Analytics', scf_round: null }, days: 30,
+  tenant: { id: 'albireo', name: 'Stellarcope Lab', category: 'Analytics', scf_round: null }, days: 30,
   web: { visitors: points, pageviewSeries: points, total: 30, pageviews: 30, delta: null, bounce: 0.2, session: 42, pages: [], referrers: [], countries: [], devices: [], browsers: [], events: [], heatmap: Array.from({ length: 7 }, () => Array(24).fill(0)) },
   api: { requests: points, latency: points, total: 30, errorRate: 0, p50: 50, p95: 100, status: [], routes: [] },
   wallets: { funnel: ['wallet_modal_open','wallet_connected','tx_sign_requested','tx_signed'].map(label=>({label,value:0})), share: [] },
   trust: { score: 90, formula: 'lab', checks, domains: [{ domain: 'lab.invalid', method: 'dns', verified: true }], filtered: 0, drops: [] },
 }
-const projects = [{ id: 'albireo', name: 'Albireo Lab', category: 'Analytics', scf_round: null, visitors: 30, pageviews: 30, visitorSeries: points, requests: 30, p95: 100, errorRate: 0, trust: 90, checks, filtered: 0 }]
+const projects = [{ id: 'albireo', name: 'Stellarcope Lab', category: 'Analytics', scf_round: null, visitors: 30, pageviews: 30, visitorSeries: points, requests: 30, p95: 100, errorRate: 0, trust: 90, checks, filtered: 0 }]
 const browser = await chromium.launch({ executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true })
 const report = { browser: browser.version(), source: root, mockData: true, routes: [] }
 try {
@@ -49,7 +49,7 @@ try {
     page.on('pageerror', (error) => errors.push(error.message))
     await page.goto(`${base}${path}`, { waitUntil: 'networkidle' })
     await page.locator('main').first().waitFor()
-    if (['/demo','/operator','/p/albireo'].includes(path)) await page.getByText('Albireo Lab', { exact: true }).first().waitFor()
+    if (['/demo','/operator','/p/albireo'].includes(path)) await page.getByText('Stellarcope Lab', { exact: true }).first().waitFor()
     assert.ok((await page.locator('body').innerText()).length > 100)
     assert.deepEqual(errors, [], `${path}: ${errors.join('; ')}`)
     await page.screenshot({ path: fileURLToPath(new URL(`${path.replaceAll('/','_') || 'landing'}.png`, results)) })

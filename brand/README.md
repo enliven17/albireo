@@ -1,4 +1,4 @@
-# Albireo brand kit
+# Stellarcope brand kit
 
 <img src="kit/01-logo.png" width="720" alt="Logo board">
 
@@ -16,7 +16,7 @@ Regenerate the logo files with `npm run brand`. Boards are captured from `kit/ki
 
 ## Idea
 
-Albireo (Beta Cygni) looks like one star to the eye and splits into a gold and a blue star through a telescope. The product is one platform with two layers. **Gold is web, blue is API**, everywhere, always.
+Stellarcope is a telescope pointed at Stellar. What looks like one star to the eye splits into a gold and a blue star through the scope. The product is one platform with two layers. **Gold is web, blue is API**, everywhere, always.
 
 The visual language comes from the Eye of Creation renderer: imagery drawn as coloured ASCII glyphs on deep space, each glyph picked by how much light lands on its cell, with a slow shimmer. The mark and the wordmark sit on the same pixel grid.
 
@@ -29,8 +29,8 @@ The visual language comes from the Eye of Creation renderer: imagery drawn as co
 | Ink | `#ECEAE4` | Text |
 | Mute | `#8B90A0` | Secondary text |
 | Dim | `#565B69` | Tertiary text |
-| Gold, Albireo A | `#FFA630` | Web, primary action hover |
-| Blue, Albireo B | `#6E9BFF` | API |
+| Gold, large star | `#FFA630` | Web, primary action hover |
+| Blue, small star | `#6E9BFF` | API |
 | Signal | `#FF6B5E` | Errors only |
 
 Hairlines are ink at 10% opacity.

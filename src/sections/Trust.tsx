@@ -24,7 +24,7 @@ export default function Trust() {
               Built for the reviewer who has to believe it.
             </h2>
             <p className="mt-6 max-w-md text-[15px] leading-relaxed text-mute" data-reveal>
-              Analytics tools count. Albireo also proves where the count came from, what was thrown away and that nobody touched it later.
+              Analytics tools count. Stellarcope also proves where the count came from, what was thrown away and that nobody touched it later.
             </p>
           </div>
 
