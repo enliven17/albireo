@@ -19,6 +19,13 @@ html, body { background: var(--color-space); color: var(--color-ink); }
 body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
 ::selection { background: var(--color-gold); color: var(--color-space); }
 
+/* thin, quiet scrollbar: dim thumb, no track, brightens on hover */
+* { scrollbar-width: thin; scrollbar-color: var(--color-dim) transparent; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track, ::-webkit-scrollbar-corner { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-dim); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-mute); }
+
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 .lenis.lenis-stopped { overflow: hidden; }
