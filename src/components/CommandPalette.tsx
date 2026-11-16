@@ -24,7 +24,7 @@ export default function CommandPalette() {
     return [
       { id: 'tenant', label: 'Open tenant dashboard', hint: 'view', run: go('/demo') },
       { id: 'operator', label: 'Open operator view', hint: 'view', run: go('/operator') },
-      { id: 'card', label: 'Open public card', hint: 'view', run: go('/p/albireo') },
+      { id: 'card', label: 'Open public card', hint: 'view', run: go('/p/stellarcope') },
       { id: 'docs', label: 'Read the docs', hint: 'docs', run: go('/docs') },
       { id: 'home', label: 'Back to the landing page', hint: 'site', run: go('/') },
       { id: 'web', label: 'Show web analytics', hint: 'tab', run: () => { navigate('/demo'); setTimeout(() => emit('tab', 'Web'), 50) } },

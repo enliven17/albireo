@@ -3,7 +3,7 @@ import { db, days, json, measured, query } from '../services/api/http.ts'
 
 export default measured(async (req, res) => {
   const q = query(req)
-  const tenant = q.get('tenant') ?? 'albireo'
+  const tenant = q.get('tenant') ?? 'stellarcope'
   const sql = await db()
   const { rows } = await sql.query<{ id: string; name: string; category: string | null; scf_round: number | null }>(
     `select id, name, category, scf_round from tenants where id = $1 and status = 'active' and public_card`, [tenant])

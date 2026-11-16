@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 const LINKS = [
   { to: '/demo', label: 'Tenant' },
   { to: '/operator', label: 'Operator' },
-  { to: '/p/albireo', label: 'Public card' },
+  { to: '/p/stellarcope', label: 'Public card' },
 ]
 
 /** switches between the three product views; sits under the site navbar */

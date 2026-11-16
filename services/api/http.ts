@@ -9,7 +9,7 @@ import { BOUNDS_MS } from '../../packages/core/histogram.ts'
 let pool: Promise<Sql> | null = null
 export const db = () => (pool ??= connect())
 
-export const SELF_TENANT = 'albireo'
+export const SELF_TENANT = 'stellarcope'
 
 export function json(res: ServerResponse, status: number, body: unknown, cache = 'no-store') {
   res.statusCode = status

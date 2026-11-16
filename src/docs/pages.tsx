@@ -26,7 +26,7 @@ export const PAGES: DocPage[] = [
         'Anyone can recompute a proof in the browser and compare it with the ledger.',
       ]} />
       <H2>Try it now</H2>
-      <P>This site measures itself with Stellarcope. Open the <A to="/demo">tenant dashboard</A> to see its live traffic, or the <A to="/p/albireo">public card</A> to verify yesterday&apos;s seal against Stellar testnet.</P>
+      <P>This site measures itself with Stellarcope. Open the <A to="/demo">tenant dashboard</A> to see its live traffic, or the <A to="/p/stellarcope">public card</A> to verify yesterday&apos;s seal against Stellar testnet.</P>
     </>,
   },
   {
@@ -183,8 +183,8 @@ export const PAGES: DocPage[] = [
         <>The root is written to Stellar with <C>manage_data</C> under the key <C>albireo:YYYY-MM-DD</C> from the anchor account.</>,
       ]} />
       <H2>Verify a proof</H2>
-      <Code file="terminal" code={`curl ${HOST}/api/proof?tenant=albireo\n# then: sha256(summary) == leaf, walk path to root,\n# and compare with the ledger entry:\ncurl https://horizon-testnet.stellar.org/accounts/GDHDZ57XLMH3JGZJETKLT3JDMBEPU2HYB3YH7FRLJGXREZVVV4TEBKIS/data/albireo:2026-11-13`} />
-      <P>The <A to="/p/albireo">public card</A> runs exactly these steps in your browser.</P>
+      <Code file="terminal" code={`curl ${HOST}/api/proof?tenant=stellarcope\n# then: sha256(summary) == leaf, walk path to root,\n# and compare with the ledger entry:\ncurl https://horizon-testnet.stellar.org/accounts/GDHDZ57XLMH3JGZJETKLT3JDMBEPU2HYB3YH7FRLJGXREZVVV4TEBKIS/data/albireo:2026-11-13`} />
+      <P>The <A to="/p/stellarcope">public card</A> runs exactly these steps in your browser.</P>
       <Note kind="status">Seals are written to Stellar testnet during the build phase and move to mainnet at launch.</Note>
     </>,
   },
@@ -225,7 +225,7 @@ export const PAGES: DocPage[] = [
         ['GET /api/proof?tenant=&day=', 'Summary, leaf, Merkle path, root and the ledger key for one day.'],
         ['POST /e', 'Web ingestion. Always answers 202.'],
       ]} />
-      <Code file="terminal" code={`curl "${HOST}/api/stats?tenant=albireo&days=7"`} />
+      <Code file="terminal" code={`curl "${HOST}/api/stats?tenant=stellarcope&days=7"`} />
     </>,
   },
   {

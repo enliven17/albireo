@@ -21,7 +21,7 @@ Implements all three tasks in the [foundation plan](2026-11-15-foundation.md), s
 | API check negative control | Temporary bad API assignment rejected by root `typecheck`. |
 | Compiler negative controls | Independent unchecked array, explicit undefined optional and enum cases rejected: TS2322, TS2375, TS1294. |
 | Promise lint negative controls | Both unhandled and `void`-discarded promises rejected by `no-floating-promises`; temporary files removed. |
-| Browser — Chrome 157.0.8103.51 | `/`, `/demo`, `/operator`, `/p/albireo`, `/docs` rendered with zero uncaught errors. Worktree `dist`, synthetic APIs, external requests blocked. |
+| Browser — Chrome 157.0.8103.51 | `/`, `/demo`, `/operator`, `/p/stellarcope`, `/docs` rendered with zero uncaught errors. Worktree `dist`, synthetic APIs, external requests blocked. |
 | Normal-motion browser | Initially hidden reveal; scrolling produced an intermediate count then completed reveal/count, zero uncaught errors. Forced reduced-motion negative control failed as required. |
 | Unicode regression | C1 controls U+0080/U+0085/U+009F in middle/end of paths accepted before fix and rejected afterward; suite rose to 32 tests. |
 

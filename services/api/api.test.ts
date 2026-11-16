@@ -10,9 +10,9 @@ test('stats, seal and proof against real queries', async () => {
   const pg = new PGlite()
   const sql = pg as unknown as Sql
   await migrate(sql)
-  await sql.query(`insert into tenants (id, name, public_card) values ('albireo', 'Stellarcope', true), ('other', 'Other', true)`)
-  await sql.query(`insert into sites values ('s1', 'albireo'), ('s2', 'other')`)
-  await sql.query(`insert into domains (tenant_id, domain, method, token, verified_at) values ('albireo', 'stellarcope.test', 'meta', 't', now())`)
+  await sql.query(`insert into tenants (id, name, public_card) values ('stellarcope', 'Stellarcope', true), ('other', 'Other', true)`)
+  await sql.query(`insert into sites values ('s1', 'stellarcope'), ('s2', 'other')`)
+  await sql.query(`insert into domains (tenant_id, domain, method, token, verified_at) values ('stellarcope', 'stellarcope.test', 'meta', 't', now())`)
 
   const today = new Date().toISOString().slice(0, 10)
   const ev = (site: string, visitor: string, path: string, offsetSec: number, type = 'pageview', name: string | null = null, props: unknown = null) =>
@@ -25,8 +25,8 @@ test('stats, seal and proof against real queries', async () => {
   await ev('s2', 'v9', '/', 10)
   await sql.query(`insert into drops values ('s1', current_date, 'bot', 2)`)
   const buckets = (i: number, n: number) => { const b = new Array(15).fill(0); b[i] = n; return b }
-  await sql.query(`insert into api_minute values ('albireo', 'api', 'GET /stats', '2xx', date_trunc('minute', now()) - interval '2 minutes', 8, 400, $1)`, [buckets(3, 8)])
-  await sql.query(`insert into api_minute values ('albireo', 'api', 'GET /stats', '5xx', date_trunc('minute', now()) - interval '2 minutes', 2, 1500, $1)`, [buckets(8, 2)])
+  await sql.query(`insert into api_minute values ('stellarcope', 'api', 'GET /stats', '2xx', date_trunc('minute', now()) - interval '2 minutes', 8, 400, $1)`, [buckets(3, 8)])
+  await sql.query(`insert into api_minute values ('stellarcope', 'api', 'GET /stats', '5xx', date_trunc('minute', now()) - interval '2 minutes', 2, 1500, $1)`, [buckets(8, 2)])
 
   const web = await webStats(sql, ['s1'], 7)
   assert.equal(web.total, 2)
@@ -38,7 +38,7 @@ test('stats, seal and proof against real queries', async () => {
   assert.equal(web.heatmap.length, 7)
   assert.equal(web.heatmap.flat().reduce((a, b) => a + b, 0), 3)
 
-  const api = await apiStats(sql, 'albireo', 7)
+  const api = await apiStats(sql, 'stellarcope', 7)
   assert.equal(api.total, 10)
   assert.equal(api.errorRate, 0.2)
   assert.ok(api.p50! > 25 && api.p50! <= 50)
@@ -49,7 +49,7 @@ test('stats, seal and proof against real queries', async () => {
   assert.equal(w.funnel[1].value, 1)
   assert.equal(w.share[0].label, 'freighter')
 
-  const t = await trust(sql, 'albireo', ['s1'], 7)
+  const t = await trust(sql, 'stellarcope', ['s1'], 7)
   assert.equal(t.checks.meta, true)
   assert.equal(t.checks.sealed, false)
   assert.ok(t.filtered > 0.3 && t.filtered < 0.35)
@@ -62,10 +62,10 @@ test('stats, seal and proof against real queries', async () => {
   const s = await seal(sql, today)
   assert.equal(s.leaves, 2)
   assert.equal((await seal(sql, today)).created, false, 'idempotent')
-  const p = (await proof(sql, 'albireo', today))!
+  const p = (await proof(sql, 'stellarcope', today))!
   assert.equal(sha256(p.summary), p.leaf)
   assert.equal(rootFromProof(p.leaf, p.path), p.stored_root)
   assert.deepEqual(JSON.parse(p.summary).visitors, 2)
-  assert.ok((await trust(sql, 'albireo', ['s1'], 7)).checks.sealed)
+  assert.ok((await trust(sql, 'stellarcope', ['s1'], 7)).checks.sealed)
   await pg.close()
 })

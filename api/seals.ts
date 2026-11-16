@@ -1,7 +1,7 @@
 import { db, json, measured, query } from '../services/api/http.ts'
 
 export default measured(async (req, res) => {
-  const tenant = query(req).get('tenant') ?? 'albireo'
+  const tenant = query(req).get('tenant') ?? 'stellarcope'
   const sql = await db()
   const { rows } = await sql.query(
     `select to_char(s.day, 'YYYY-MM-DD') as day, s.root, s.tx_hash, s.leaves, l.leaf

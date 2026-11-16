@@ -20,7 +20,7 @@ const LOG = [
 ]
 
 function SealTerminal() {
-  const { data } = useApi<{ seals: Seal[]; account: string | null }>('/api/seals?tenant=albireo')
+  const { data } = useApi<{ seals: Seal[]; account: string | null }>('/api/seals?tenant=stellarcope')
   const last = data?.seals[0]
   return (
     <Terminal title="anchor / latest seal, live">

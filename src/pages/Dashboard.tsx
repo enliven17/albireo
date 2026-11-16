@@ -201,7 +201,7 @@ function TrustView({ s, tenant }: { s: Stats; tenant: string }) {
 
 export default function Dashboard() {
   const [params] = useSearchParams()
-  const tenant = params.get('tenant') ?? 'albireo'
+  const tenant = params.get('tenant') ?? 'stellarcope'
   const [range, setRange] = useState<(typeof RANGES)[number]>('30d')
   const [view, setView] = useState<View>('Web')
   const days = Number(range.replace('d', ''))

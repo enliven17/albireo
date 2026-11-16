@@ -12,7 +12,7 @@ const COLUMNS = [
   { title: 'Product', links: [
     { label: 'Live demo', to: '/demo' },
     { label: 'Operator view', to: '/operator' },
-    { label: 'Public card', to: '/p/albireo' },
+    { label: 'Public card', to: '/p/stellarcope' },
   ] },
   { title: 'Project', links: [
     { label: 'Docs', to: '/docs' },

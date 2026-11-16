@@ -29,7 +29,7 @@ const SIDES = [
 export default function TwoLights() {
   const root = useRef<HTMLElement>(null)
   useReveal(root)
-  const { data } = useApi<Stats>('/api/stats?tenant=albireo&days=30')
+  const { data } = useApi<Stats>('/api/stats?tenant=stellarcope&days=30')
 
   return (
     <section ref={root} className="py-32">

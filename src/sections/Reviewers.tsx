@@ -24,7 +24,7 @@ export default function Reviewers() {
             </p>
             <div className="mt-8 flex flex-wrap gap-3" data-reveal>
               <Link to="/operator" className="btn btn-solid">Open operator view <span className="arrow">→</span></Link>
-              <Link to="/p/albireo" className="btn">See a public card</Link>
+              <Link to="/p/stellarcope" className="btn">See a public card</Link>
             </div>
           </div>
 

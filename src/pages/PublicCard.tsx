@@ -13,7 +13,7 @@ import { ledgerRoot, sha256, walk } from '../lib/seal'
 type Step = { label: string; detail: string; ok: boolean }
 
 export default function PublicCard() {
-  const { slug = 'albireo' } = useParams()
+  const { slug = 'stellarcope' } = useParams()
   const stats = useApi<Stats>(`/api/stats?tenant=${slug}&days=30`)
   const proof = useApi<Proof>(`/api/proof?tenant=${slug}`)
   const [steps, setSteps] = useState<Step[]>([])

@@ -7,7 +7,7 @@ import { loadConfig, type IngressConfig } from './config.ts'
 
 const page = {
   version: 1,
-  siteId: 'albireo',
+  siteId: 'stellarcope',
   eventId: '9d94ec7c-b593-4632-9880-19d87b7a2875',
   type: 'pageview',
   path: '/swap',

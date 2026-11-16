@@ -1,6 +1,7 @@
 {
   "regions": ["iad1"],
   "crons": [{ "path": "/api/cron/seal", "schedule": "30 0 * * *" }],
+  "redirects": [{ "source": "/p/albireo", "destination": "/p/stellarcope", "permanent": true }],
   "rewrites": [
     { "source": "/e", "destination": "/api/e" },
     { "source": "/((?!api/|t/).*)", "destination": "/index.html" }
