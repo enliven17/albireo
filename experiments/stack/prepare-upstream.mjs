@@ -1,7 +1,8 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { createHash } from 'node:crypto'
 import ts from 'typescript'
-const source = process.env.UMAMI_SOURCE ?? '/private/tmp/albireo-umami-v3.5.0'
+const source = process.env.UMAMI_SOURCE
+if (!source) throw new Error('Set UMAMI_SOURCE to a local Umami v3.5.0 checkout.')
 const directory = new URL('./upstream/', import.meta.url)
 await mkdir(directory, { recursive: true })
 const manifest = { upstream: 'https://github.com/umami-software/umami/tree/v3.5.0', revision: 'd3c62a8', files: {} }

@@ -11,8 +11,9 @@
       "HIGH": 4
     },
     "uniqueAdvisories": 13,
-    "report": "/private/tmp/albireo-service-cve-review/umami.json",
-    "rawSha256": "a817e12ef0ecd391839e9b8ce009bc4215a03660211757652e70a1f863d882ff"
+    "rawSha256": "a817e12ef0ecd391839e9b8ce009bc4215a03660211757652e70a1f863d882ff",
+    "originalReport": "umami.json",
+    "retainedReport": "umami-image-findings.json"
   },
   {
     "name": "collector",
@@ -24,8 +25,9 @@
       "UNKNOWN": 2
     },
     "uniqueAdvisories": 2,
-    "report": "/private/tmp/albireo-service-cve-review/collector.json",
-    "rawSha256": "b361e9754303b926f67677a3dd13abe2f865ea0c68c57562aae2d002fb43aba6"
+    "rawSha256": "b361e9754303b926f67677a3dd13abe2f865ea0c68c57562aae2d002fb43aba6",
+    "originalReport": "collector.json",
+    "retainedReport": "collector-image-findings.json"
   },
   {
     "name": "postgres",
@@ -41,8 +43,9 @@
       "LOW": 3
     },
     "uniqueAdvisories": 62,
-    "report": "/private/tmp/albireo-service-cve-review/postgres.json",
-    "rawSha256": "ff0d71e6cf2f1f0e011b4808fb64a2ccd4f288fc63ca80d126c501c8273e90f3"
+    "rawSha256": "ff0d71e6cf2f1f0e011b4808fb64a2ccd4f288fc63ca80d126c501c8273e90f3",
+    "originalReport": "postgres.json",
+    "retainedReport": "postgres-image-findings.json"
   },
   {
     "name": "elasticmq",
@@ -57,8 +60,9 @@
       "LOW": 32
     },
     "uniqueAdvisories": 39,
-    "report": "/private/tmp/albireo-service-cve-review/elasticmq.json",
-    "rawSha256": "40e75b712b14a756392a8e91526ab97b7995c2873b203b962f64b1f53f7e3fbd"
+    "rawSha256": "40e75b712b14a756392a8e91526ab97b7995c2873b203b962f64b1f53f7e3fbd",
+    "originalReport": "elasticmq.json",
+    "retainedReport": "elasticmq-image-findings.json"
   },
   {
     "name": "stack-node26",
@@ -74,8 +78,9 @@
       "CRITICAL": 20
     },
     "uniqueAdvisories": 2656,
-    "report": "/private/tmp/albireo-service-cve-review/stack-node26.json",
-    "rawSha256": "9fbe06ce015112fbc245a805f30a6c7e92716397e637a12b43ff044be8480da5"
+    "rawSha256": "9fbe06ce015112fbc245a805f30a6c7e92716397e637a12b43ff044be8480da5",
+    "originalReport": "stack-node26.json",
+    "retainedReport": "stack-node26-image-findings.json.gz"
   },
   {
     "name": "sink-node24",
@@ -93,6 +98,7 @@
     "uniqueAdvisories": 4494,
     "rawSha256": "c68484f1bb41509877d6bc2ffff1fdc1dad4b11bfcacee539dff1cbdfbdef191",
     "retry": "First concurrent scan hit local cache lock; standalone retry completed.",
-    "report": "/private/tmp/albireo-service-cve-review/sink-node24.json"
+    "originalReport": "sink-node24.json",
+    "retainedReport": "sink-node24-image-findings.json.gz"
   }
 ]

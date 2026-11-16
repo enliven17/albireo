@@ -11,3 +11,9 @@ Use conventional prefixes for branches and commits.
 
 Examples: `feat/ingress-service`, `fix/receipt-validation`,
 `chore/security-dependencies`, and `fix(ingestion): reject malformed events`.
+
+This repository is public. Keep environment files, real credentials, customer
+payloads and machine-specific logs out of commits. `.env.example` may contain
+documented placeholders only. Experiment credentials are disposable local test
+values; never reuse them in a deployed service. Review generated evidence before
+committing it, and retain upstream licenses and source attribution.
