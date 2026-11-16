@@ -1,6 +1,6 @@
 {
   "startedAt": "2026-11-15T15:53:44.117Z",
-  "project": "albireo-stack-1794758024113",
+  "project": "stellarcope-stack-1794758024113",
   "checks": [
     {
       "name": "strict-typecheck",
@@ -136,9 +136,9 @@
     }
   ],
   "images": {
-    "albireo-stack-lab:24": "[\"albireo-stack-lab@sha256:2e4f594b62c02e07babc06d89d3329af27430cb7f43fdaeb5c527119ed4392a4\"] sha256:2e4f594b62c02e07babc06d89d3329af27430cb7f43fdaeb5c527119ed4392a4",
-    "albireo-stack-lab:26": "[\"albireo-stack-lab@sha256:f540bc2b99773cfe82caf676db6b71bf5c7cce923b71a448239ba0b1dea3d13c\"] sha256:f540bc2b99773cfe82caf676db6b71bf5c7cce923b71a448239ba0b1dea3d13c",
-    "albireo-app-snapshot:26": "[\"albireo-app-snapshot@sha256:e8f6b141ddfc484d0a0e58b00878764bc035878d8d5e45ab7a4bdc7754b5e25a\"] sha256:e8f6b141ddfc484d0a0e58b00878764bc035878d8d5e45ab7a4bdc7754b5e25a",
+    "stellarcope-stack-lab:24": "[\"stellarcope-stack-lab@sha256:2e4f594b62c02e07babc06d89d3329af27430cb7f43fdaeb5c527119ed4392a4\"] sha256:2e4f594b62c02e07babc06d89d3329af27430cb7f43fdaeb5c527119ed4392a4",
+    "stellarcope-stack-lab:26": "[\"stellarcope-stack-lab@sha256:f540bc2b99773cfe82caf676db6b71bf5c7cce923b71a448239ba0b1dea3d13c\"] sha256:f540bc2b99773cfe82caf676db6b71bf5c7cce923b71a448239ba0b1dea3d13c",
+    "stellarcope-app-snapshot:26": "[\"stellarcope-app-snapshot@sha256:e8f6b141ddfc484d0a0e58b00878764bc035878d8d5e45ab7a4bdc7754b5e25a\"] sha256:e8f6b141ddfc484d0a0e58b00878764bc035878d8d5e45ab7a4bdc7754b5e25a",
     "node:26.13.1-bookworm": "[\"node@sha256:b7087bc4d973034b30854b378ba107f9fab622b47514cb7e2592e41b8bab8d49\"] sha256:b7087bc4d973034b30854b378ba107f9fab622b47514cb7e2592e41b8bab8d49",
     "postgres:17.12-alpine": "[\"postgres@sha256:a77aa70e641402a21411b92b721c58d10f23b50ae5fdd2333efd22d166e1e5f7\"] sha256:a77aa70e641402a21411b92b721c58d10f23b50ae5fdd2333efd22d166e1e5f7",
     "softwaremill/elasticmq-native:1.7.1": "[\"softwaremill/elasticmq-native@sha256:e4580ab9ad1bd5cd37b4ba04911bc5ccc8cd2d9ab4de56ece65acee71c24e05c\"] sha256:e4580ab9ad1bd5cd37b4ba04911bc5ccc8cd2d9ab4de56ece65acee71c24e05c",
@@ -190,7 +190,7 @@
     "migrations/1730000000000-fixture.sql": "95f5d9cbb7d2a8863a86645d2fc087cba40b36875c10902284e96650ee25252c"
   },
   "packages": {
-    "name": "albireo-stack-decision-lab",
+    "name": "stellarcope-stack-decision-lab",
     "private": true,
     "type": "module",
     "scripts": {
@@ -251,7 +251,7 @@
         "rendered": true
       },
       {
-        "path": "/p/albireo",
+        "path": "/p/stellarcope",
         "uncaughtErrors": 0,
         "rendered": true
       },

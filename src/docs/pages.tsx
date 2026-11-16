@@ -180,10 +180,10 @@ export const PAGES: DocPage[] = [
       <List items={[
         'At 00:30 UTC each active tenant gets a canonical JSON summary of the previous day.',
         'Each summary is hashed with SHA-256. Leaves are sorted by tenant id and folded into a Merkle tree.',
-        <>The root is written to Stellar with <C>manage_data</C> under the key <C>albireo:YYYY-MM-DD</C> from the anchor account.</>,
+        <>The root is written to Stellar with <C>manage_data</C> under the key <C>stellarcope:YYYY-MM-DD</C> from the anchor account.</>,
       ]} />
       <H2>Verify a proof</H2>
-      <Code file="terminal" code={`curl ${HOST}/api/proof?tenant=stellarcope\n# then: sha256(summary) == leaf, walk path to root,\n# and compare with the ledger entry:\ncurl https://horizon-testnet.stellar.org/accounts/GDHDZ57XLMH3JGZJETKLT3JDMBEPU2HYB3YH7FRLJGXREZVVV4TEBKIS/data/albireo:2026-11-13`} />
+      <Code file="terminal" code={`curl ${HOST}/api/proof?tenant=stellarcope\n# then: sha256(summary) == leaf, walk path to root,\n# and compare with the ledger entry:\ncurl https://horizon-testnet.stellar.org/accounts/GDHDZ57XLMH3JGZJETKLT3JDMBEPU2HYB3YH7FRLJGXREZVVV4TEBKIS/data/stellarcope:2026-11-13`} />
       <P>The <A to="/p/stellarcope">public card</A> runs exactly these steps in your browser.</P>
       <Note kind="status">Seals are written to Stellar testnet during the build phase and move to mainnet at launch.</Note>
     </>,

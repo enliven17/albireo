@@ -66,8 +66,8 @@
   },
   {
     "name": "stack-node26",
-    "image": "albireo-stack-lab:26",
-    "localIdentity": "\"sha256:f540bc2b99773cfe82caf676db6b71bf5c7cce923b71a448239ba0b1dea3d13c\" [\"albireo-stack-lab@sha256:f540bc2b99773cfe82caf676db6b71bf5c7cce923b71a448239ba0b1dea3d13c\"] \"linux\" \"arm64\"",
+    "image": "stellarcope-stack-lab:26",
+    "localIdentity": "\"sha256:f540bc2b99773cfe82caf676db6b71bf5c7cce923b71a448239ba0b1dea3d13c\" [\"stellarcope-stack-lab@sha256:f540bc2b99773cfe82caf676db6b71bf5c7cce923b71a448239ba0b1dea3d13c\"] \"linux\" \"arm64\"",
     "scannerExit": 0,
     "scannerError": "",
     "counts": {
@@ -84,8 +84,8 @@
   },
   {
     "name": "sink-node24",
-    "image": "albireo-reliability-sink:local",
-    "localIdentity": "\"sha256:e4a8abff28e250aecb20b33967ae00fa5d68fc0f4a902366993358f36732f84b\" [\"albireo-reliability-sink@sha256:e4a8abff28e250aecb20b33967ae00fa5d68fc0f4a902366993358f36732f84b\"] \"linux\" \"arm64\"",
+    "image": "stellarcope-reliability-sink:local",
+    "localIdentity": "\"sha256:e4a8abff28e250aecb20b33967ae00fa5d68fc0f4a902366993358f36732f84b\" [\"stellarcope-reliability-sink@sha256:e4a8abff28e250aecb20b33967ae00fa5d68fc0f4a902366993358f36732f84b\"] \"linux\" \"arm64\"",
     "scannerExit": 0,
     "scannerError": "",
     "counts": {

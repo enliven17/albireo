@@ -27,7 +27,7 @@ function SealTerminal() {
       <Dim>$ stellarcope seal --date {last?.day ?? 'yesterday'}</Dim>{'\n'}
       leaves    {last ? `${last.leaves} project${last.leaves === 1 ? '' : 's'}, sha256` : 'loading'}{'\n'}
       root      <span className="text-blue">{last ? short(last.root, 10) : '...'}</span>{'\n'}
-      op        manage_data albireo:{last?.day ?? ''}{'\n'}
+      op        manage_data stellarcope:{last?.day ?? ''}{'\n'}
       network   stellar testnet{'\n'}
       tx        {last?.tx_hash ? short(last.tx_hash, 10) : 'pending'} {last?.tx_hash && <Ok />}{'\n'}
       {'\n'}

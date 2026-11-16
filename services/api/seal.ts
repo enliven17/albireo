@@ -4,7 +4,7 @@ import { buildTree, canonical, proofFor, sha256 } from '../../packages/core/merk
 import { BOUNDS_MS, quantile } from '../../packages/core/histogram.ts'
 
 // Daily seal: one canonical summary per active tenant, hashed into a Merkle tree whose root
-// is written to Stellar with manage_data under the key albireo:YYYY-MM-DD.
+// is written to Stellar with manage_data under the key stellarcope:YYYY-MM-DD.
 
 export const DEFINITIONS = 'metrics-v1'
 export const HORIZON = process.env.HORIZON_URL ?? 'https://horizon-testnet.stellar.org'
@@ -69,7 +69,7 @@ export async function anchor(sql: Sql, day: string, secret = process.env.ANCHOR_
   const account = await server.loadAccount(kp.publicKey())
   const passphrase = HORIZON.includes('testnet') ? sdk.Networks.TESTNET : sdk.Networks.PUBLIC
   const tx = new sdk.TransactionBuilder(account, { fee: '1000', networkPassphrase: passphrase })
-    .addOperation(sdk.Operation.manageData({ name: `albireo:${day}`, value: Buffer.from(rows[0].root, 'hex') }))
+    .addOperation(sdk.Operation.manageData({ name: `stellarcope:${day}`, value: Buffer.from(rows[0].root, 'hex') }))
     .addMemo(sdk.Memo.text(`stellarcope seal ${day}`))
     .setTimeout(120)
     .build()
@@ -98,6 +98,6 @@ export async function proof(sql: Sql, tenant: string, day: string) {
     tx_hash: s.rows[0].tx_hash,
     account: process.env.ANCHOR_PUBLIC ?? null,
     horizon: HORIZON,
-    data_key: `albireo:${day}`,
+    data_key: `stellarcope:${day}`,
   }
 }

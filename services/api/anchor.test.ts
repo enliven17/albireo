@@ -28,7 +28,7 @@ await test('anchor preserves the signed Stellar root and retries failed submissi
     assert.equal(tx.operations.length, 1)
     const operation = tx.operations[0]!
     assert.equal(operation.type, 'manageData')
-    assert.equal(operation.name, `albireo:${day}`)
+    assert.equal(operation.name, `stellarcope:${day}`)
     assert.deepEqual(Buffer.from(operation.value!), Buffer.from(root, 'hex'))
     assert.equal(key.verify(tx.hash(), tx.signatures[0]!.signature), true)
     assert.ok(Number(tx.timeBounds!.maxTime) >= Math.floor(Date.now() / 1000))

@@ -104,7 +104,7 @@ test('Stellar SDK 17.4: SEP-10 and summary transaction sign/verify without a net
     fee: '1000',
     networkPassphrase: Networks.TESTNET,
   })
-    .addOperation(Operation.manageData({ name: 'albireo:2026-11-15', value: Buffer.alloc(32, 1) }))
+    .addOperation(Operation.manageData({ name: 'stellarcope:2026-11-15', value: Buffer.alloc(32, 1) }))
     .setTimeout(120)
     .build()
   summary.sign(client)

@@ -21,9 +21,9 @@ export async function walk(leaf: string, path: { hash: string; side: 'left' | 'r
   return h
 }
 
-/** the 32 byte value stored under albireo:YYYY-MM-DD on the anchor account, as hex */
+/** the 32 byte value stored under stellarcope:YYYY-MM-DD on the anchor account, as hex */
 export async function ledgerRoot(horizon: string, account: string, key: string) {
-  // Horizon rejects a percent encoded colon; keys are albireo:YYYY-MM-DD, already URL safe
+  // Horizon rejects a percent encoded colon; keys are stellarcope:YYYY-MM-DD, already URL safe
   if (!/^stellarcope:\d{4}-\d{2}-\d{2}$/.test(key)) return null
   const res = await fetch(`${horizon}/accounts/${account}/data/${key}`)
   if (!res.ok) return null

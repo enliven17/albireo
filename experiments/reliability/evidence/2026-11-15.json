@@ -1,10 +1,10 @@
 {
   "startedAt": "2026-11-15T15:09:32.332Z",
-  "project": "albireo-lab-1794755372332",
+  "project": "stellarcope-lab-1794755372332",
   "outageHoldMs": 15000,
   "versions": {
-    "albireo-reliability-sink:local": "sha256:e4a8abff28e250aecb20b33967ae00fa5d68fc0f4a902366993358f36732f84b",
-    "albireo-reliability-collector:0.165.0": "sha256:638a3cf06ac74be7c61f3169348fef6af3daf9b224c788ceba8982d215b32b64",
+    "stellarcope-reliability-sink:local": "sha256:e4a8abff28e250aecb20b33967ae00fa5d68fc0f4a902366993358f36732f84b",
+    "stellarcope-reliability-collector:0.165.0": "sha256:638a3cf06ac74be7c61f3169348fef6af3daf9b224c788ceba8982d215b32b64",
     "ghcr.io/umami-software/umami:3.5.0": [
       "ghcr.io/umami-software/umami@sha256:b64f40400d77bcadd39cf5c62a1e368c99524ca442024f96e1133355a19a5dbc"
     ],
@@ -429,7 +429,7 @@
   ],
   "limitations": [
     "Disposable local PostgreSQL; no managed database failover or availability-zone loss is simulated.",
-    "OTel sink is test-only OTLP/HTTP JSON ingestion, not a completed Albireo OTLP implementation.",
+    "OTel sink is test-only OTLP/HTTP JSON ingestion, not a completed Stellarcope OTLP implementation.",
     "Local queue-volume removal models lost storage, not a replicated storage or availability-zone failover.",
     "Atomic web/counter fixtures prove database patterns; they are not an implemented Umami patch or a complete OTLP backend.",
     "Finite retry/restart experiments do not establish an availability SLO."

@@ -10,7 +10,7 @@ Repository baseline: `d2e5280`. Current branch: `feat/implementation-foundation`
 - Downloaded official Trivy **0.76.2** and verified its release checksum: `ae7ea358326960406b703c77b2ac490190797d80b306b5b50c2a27221da0a5b8`. Refreshed its database; database update time is **2026-11-15T18:56:37Z**, download time **20:07:29Z**, recorded in [database metadata](trivy-db-metadata.json).
 - Scanned six existing Linux/arm64 images by their actual local image identities. All six completed. The sink's first scan hit a local cache lock; its standalone retry succeeded. [Image identities/status](image-scan-status.json) include report hashes. No unrelated workspace images were assessed.
 - Compared package matches with vendor advisories, affected ranges, package paths, architecture and enabled Collector configuration. Scanner severity/counts are preserved; they are not all proven remotely reachable application defects.
-- Planned AWS services have no Albireo deployment to inspect. Their public bulletins and implementation obligations are discussed below; no AWS account, IAM, security-group or deployed-engine review was performed.
+- Planned AWS services have no Stellarcope deployment to inspect. Their public bulletins and implementation obligations are discussed below; no AWS account, IAM, security-group or deployed-engine review was performed.
 
 ## npm results
 
@@ -28,7 +28,7 @@ These are **affected-package counts**, including parents flagged through a depen
 
 `@stellar/stellar-sdk@13.1.0` pulls in `toml@3.0.0`. Advisory matches include prototype pollution and resource-exhaustion issues, including [CVE-2026-114142](https://github.com/advisories/GHSA-h895-cgqg-jf52), plus the other TOML advisories in the saved audit. A prototype-pollution payload can change shared JavaScript object behavior when a vulnerable parser processes it.
 
-This is a confirmed dependency match, not a demonstrated attack through Albireo: the current SDK call site in `services/api/seal.ts` submits Stellar transactions, while `services/verifier/verify.ts` uses its own account extractor. I did not establish that the SDK's vulnerable TOML resolver is called on attacker input today. It is still unsuitable to carry this old dependency chain into the planned SEP-10/domain implementation.
+This is a confirmed dependency match, not a demonstrated attack through Stellarcope: the current SDK call site in `services/api/seal.ts` submits Stellar transactions, while `services/verifier/verify.ts` uses its own account extractor. I did not establish that the SDK's vulnerable TOML resolver is called on attacker input today. It is still unsuitable to carry this old dependency chain into the planned SEP-10/domain implementation.
 
 The selected `@stellar/stellar-sdk@17.4.0` experiment has no runtime npm matches. Move the actual application to the selected SDK with seal/signing and SEP-10/domain tests, then repeat the runtime audit. Do not override the old SDK to a new TOML major blindly.
 
@@ -91,7 +91,7 @@ The full Bookworm images are test/build environments with hundreds of OS/develop
 
 ## Planned managed services and remaining security obligations
 
-SQS Standard, ECS/Fargate and RDS are selected services, not local lockfile packages. No live Albireo resources exist to certify. AWS's [CVE-2026-98432 bulletin](https://aws.amazon.com/security/security-bulletins/2026-160-aws/) says newly launched Fargate tasks after November 1 use a patched platform; existing tasks need retirement/replacement according to maintenance settings. Select maintained platform/engine revisions and keep that lifecycle in deployment/runbooks.
+SQS Standard, ECS/Fargate and RDS are selected services, not local lockfile packages. No live Stellarcope resources exist to certify. AWS's [CVE-2026-98432 bulletin](https://aws.amazon.com/security/security-bulletins/2026-160-aws/) says newly launched Fargate tasks after November 1 use a patched platform; existing tasks need retirement/replacement according to maintenance settings. Select maintained platform/engine revisions and keep that lifecycle in deployment/runbooks.
 
 The current selected runtime npm graph, including Fastify 5.12.8, TypeBox 1.4.7, JOSE 6.2.17, pg 8.23.1, Stellar SDK 17.4.0, AWS SQS SDK 3.1169.0 and the OTel JS packages, has no npm advisory matches at query time. [Fastify's recent timeout advisory](https://github.com/fastify/fastify/security/advisories/GHSA-3qgw-9275-xf8w) is fixed at the selected **5.12.8**. None of these facts establishes correct authorization, TLS, tenant isolation, network access or deletion handling in our future application. Those remain required implementation/test boundaries already in the rollout plan.
 
