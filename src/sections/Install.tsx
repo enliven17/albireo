@@ -8,7 +8,7 @@ const SNIPPETS = [
     label: 'HTML',
     file: 'index.html',
     code: `<script defer
-  src="https://a.stellarcope.dev/t/1.4.2/a.js"
+  src="https://stellarcope.xyz/t/1.0.0/a.js"
   integrity="sha384-Qm9yZXN0aW5nIGlzIG5vdCBhIHJlYWwgaGFzaA"
   crossorigin="anonymous"
   data-site="hx_7f3a"></script>`,
@@ -42,7 +42,7 @@ const kit = withStellarcope(new StellarWalletsKit(config))
   otlphttp/apm:        # your own APM, unchanged
     endpoint: https://otlp.your-apm.example
   otlphttp/stellarcope:    # the second copy for SCF
-    endpoint: https://otel.stellarcope.dev
+    endpoint: https://stellarcope.xyz/otlp
     headers: { authorization: "Bearer \${STELLARCOPE_KEY}" }
 
 service:

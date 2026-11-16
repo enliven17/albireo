@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
 // local dev reads live data from production
-const LIVE = 'https://albireo-theta.vercel.app'
+const LIVE = 'https://stellarcope.xyz'
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],

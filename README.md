@@ -72,7 +72,7 @@ The local spool is a prototype buffer, not a highly available durable queue. It 
 
 ## Prototype links
 
-[Dashboard](https://albireo-theta.vercel.app/demo) · [Operator view](https://albireo-theta.vercel.app/operator) · [Public card](https://albireo-theta.vercel.app/p/albireo) · [Rendered prototype docs](https://albireo-theta.vercel.app/docs)
+[Dashboard](https://stellarcope.xyz/demo) · [Operator view](https://stellarcope.xyz/operator) · [Public card](https://stellarcope.xyz/p/albireo) · [Rendered prototype docs](https://stellarcope.xyz/docs)
 
 These are prototype deployment links. Local verification does not establish their deployed revision or current availability.
 

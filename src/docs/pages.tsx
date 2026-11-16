@@ -3,7 +3,7 @@ import { A, C, Code, H2, List, Note, P, Table } from './kit'
 
 export type DocPage = { slug: string; group: string; title: string; lead: string; body: ReactNode }
 
-const HOST = 'https://albireo-theta.vercel.app'
+const HOST = 'https://stellarcope.xyz'
 const SRI = 'sha384-Bojht8aEcX48AVJBF54vUubF9KBOHvNBMC5Cph1gi8AEJMJbc0xFa16aS/xZDokK'
 
 export const PAGES: DocPage[] = [
@@ -33,7 +33,7 @@ export const PAGES: DocPage[] = [
     slug: 'quickstart', group: 'Getting started', title: 'Quickstart',
     lead: 'From enrollment to the first event in a few minutes.',
     body: <>
-      <Note kind="status">Self service enrollment with a Stellar wallet ships in the next milestone. Until then, enrollment is done on request: open an issue on the <A to="https://github.com/enliven17/albireo/issues">repository</A> with your project name and domain.</Note>
+      <Note kind="status">Self service enrollment with a Stellar wallet ships in the next milestone. Until then, enrollment is done on request: open an issue on the <A to="https://github.com/enliven17/stellarcope/issues">repository</A> with your project name and domain.</Note>
       <H2>1. Get a site id</H2>
       <P>Each enrolled project gets a tenant id and one or more site ids. The site id is public and goes into the script tag.</P>
       <H2>2. Verify your domain</H2>

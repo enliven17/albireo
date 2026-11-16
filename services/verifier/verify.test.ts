@@ -17,7 +17,7 @@ test('reads the stellarcope meta tag in either attribute order', () => {
 })
 
 test('domain validation', () => {
-  assert.ok(DOMAIN_RE.test('albireo-theta.vercel.app'))
+  assert.ok(DOMAIN_RE.test('stellarcope.xyz'))
   assert.ok(!DOMAIN_RE.test('localhost'))
   assert.ok(!DOMAIN_RE.test('-bad.com'))
   assert.ok(!DOMAIN_RE.test('http://x.com'))

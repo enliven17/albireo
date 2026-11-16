@@ -1,4 +1,4 @@
-export const REPO = 'https://github.com/enliven17/albireo'
+export const REPO = 'https://github.com/enliven17/stellarcope'
 export const SPEC = '/docs'
 
 export const SECTIONS = [

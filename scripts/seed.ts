@@ -3,7 +3,7 @@
 import { connect, migrate } from '../services/shared/db.ts'
 import { checkMeta } from '../services/verifier/verify.ts'
 
-const DOMAIN = process.env.SITE_DOMAIN ?? 'albireo-theta.vercel.app'
+const DOMAIN = process.env.SITE_DOMAIN ?? 'stellarcope.xyz'
 const token = process.env.VERIFY_TOKEN
 if (!token) throw new Error('VERIFY_TOKEN is not set')
 

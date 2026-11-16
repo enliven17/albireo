@@ -41,12 +41,12 @@ const STEPS: { title: string; body: string; panel: ReactNode }[] = [
     title: 'Verify',
     body: 'Sign in with your Stellar wallet through SEP-10. Prove the domain with stellar.toml, a DNS record or a meta tag. Only verified origins can send data.',
     panel: (
-      <Terminal title="verifier / albireo-theta.vercel.app">
-        <Dim>$ stellarcope verify albireo-theta.vercel.app</Dim>{'\n'}
+      <Terminal title="verifier / stellarcope.xyz">
+        <Dim>$ stellarcope verify stellarcope.xyz</Dim>{'\n'}
         {'<meta name="stellarcope-verify" content="51a6...ecc8">'}{'\n'}
         {'\n'}
         meta token matches enrollment           <Ok />{'\n'}
-        origin bound to albireo-theta.vercel.app <Ok />{'\n'}
+        origin bound to stellarcope.xyz <Ok />{'\n'}
         stellar.toml ACCOUNTS check             <Dim>[ next ]</Dim>{'\n'}
         re-check scheduled  every 24h
       </Terminal>
@@ -58,7 +58,7 @@ const STEPS: { title: string; body: string; panel: ReactNode }[] = [
     panel: (
       <Terminal title="collector / ingest path">
         <span className="text-gold">{'<script defer'}</span>{'\n'}
-        {'  src="https://a.stellarcope.dev/t/1.4.2/a.js"'}{'\n'}
+        {'  src="https://stellarcope.xyz/t/1.0.0/a.js"'}{'\n'}
         {'  integrity="sha384-Qm9yZ...2kL"'}{'\n'}
         {'  data-site="hx_7f3a"'}<span className="text-gold">{'></script>'}</span>{'\n'}
         {'\n'}
