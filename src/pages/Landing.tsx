@@ -6,9 +6,7 @@ import Hero from '../sections/Hero'
 import Statement from '../sections/Statement'
 import How from '../sections/How'
 import TwoLights from '../sections/TwoLights'
-import Trust from '../sections/Trust'
 import Privacy from '../sections/Privacy'
-import Reviewers from '../sections/Reviewers'
 import Install from '../sections/Install'
 import Open from '../sections/Open'
 import { scrollToId } from '../lib/smooth'
@@ -33,9 +31,7 @@ export default function Landing() {
         <Statement />
         <How />
         <TwoLights />
-        <Trust />
         <Privacy />
-        <Reviewers />
         <Install />
         <Open />
       </main>

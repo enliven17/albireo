@@ -8,15 +8,15 @@ import { short } from '../lib/format'
 
 const LOG = [
   ['14:02:11', '/swap', 'accept', 'NG mobile'],
-  ['14:02:11', '/swap', 'drop', 'origin mismatch'],
-  ['14:02:12', '/pools', 'drop', 'datacenter ASN'],
+  ['14:02:11', '/swap', 'drop', 'unverified site'],
+  ['14:02:12', '/pools', 'drop', 'no script token'],
   ['14:02:12', '/', 'accept', 'DE desktop'],
-  ['14:02:13', '/portfolio', 'drop', 'headless browser'],
+  ['14:02:13', '/portfolio', 'drop', 'known bot'],
   ['14:02:13', '/rewards', 'accept', 'AR mobile'],
   ['14:02:14', '/', 'drop', 'rate limit'],
   ['14:02:15', '/docs', 'accept', 'US desktop'],
   ['14:02:15', '/swap', 'accept', 'PH mobile'],
-  ['14:02:16', '/pools', 'drop', 'known crawler'],
+  ['14:02:16', '/pools', 'drop', 'known bot'],
 ]
 
 function SealTerminal() {
@@ -39,7 +39,7 @@ function SealTerminal() {
 const STEPS: { title: string; body: string; panel: ReactNode }[] = [
   {
     title: 'Verify',
-    body: 'Sign in with your Stellar wallet through SEP-10. Prove the domain with stellar.toml, a DNS record or a meta tag. Only verified origins can send data.',
+    body: 'Sign in with your Stellar wallet and prove your domain with stellar.toml, a DNS record or a meta tag. Only verified sites can send data.',
     panel: (
       <Terminal title="verifier / stellarcope.xyz">
         <Dim>$ stellarcope verify stellarcope.xyz</Dim>{'\n'}
@@ -54,22 +54,22 @@ const STEPS: { title: string; body: string; panel: ReactNode }[] = [
   },
   {
     title: 'Collect',
-    body: 'One pinned script with a subresource integrity hash, or OpenTelemetry for APIs. Stateless collectors answer in milliseconds and park events in a replicated queue, so a database outage never loses a visit.',
+    body: 'One pinned script for the web, a second OpenTelemetry exporter for APIs. Every event is queued before it is accepted, so an outage delays data instead of losing it.',
     panel: (
       <Terminal title="collector / ingest path">
         <span className="text-gold">{'<script defer'}</span>{'\n'}
-        {'  src="https://stellarcope.xyz/t/1.0.0/a.js"'}{'\n'}
+        {'  src="https://stellarcope.xyz/v2.0.0/s.js"'}{'\n'}
         {'  integrity="sha384-Qm9yZ...2kL"'}{'\n'}
         {'  data-site="hx_7f3a"'}<span className="text-gold">{'></script>'}</span>{'\n'}
         {'\n'}
-        tracker  ──▶ collector ──▶ queue ──▶ postgres{'\n'}
-        <Dim>{'           202 in 4ms    3 replicas   rollups'}</Dim>
+        tracker  ──▶ intake ──▶ queue ──▶ postgres{'\n'}
+        <Dim>{'           202 after publish   written once'}</Dim>
       </Terminal>
     ),
   },
   {
     title: 'Filter',
-    body: 'Origin binding, bot lists, datacenter networks, headless signals, rate limits and anomaly detection. Filtered traffic is counted, never hidden, and feeds an open trust score.',
+    body: 'Umami bot detection, a signed token that proves the script ran, and rate limits behind a firewall. Rejected events are never stored.',
     panel: (
       <Terminal title="collector / live decisions">
         <LogStream lines={LOG} render={(l) => (
@@ -82,7 +82,7 @@ const STEPS: { title: string; body: string; panel: ReactNode }[] = [
   },
   {
     title: 'Seal',
-    body: 'Every night each project summary becomes a leaf in a Merkle tree. One Stellar transaction stores the root. Anyone can walk a proof back to the ledger and confirm the numbers were never edited.',
+    body: 'Every night each project summary becomes a leaf in a Merkle tree, and one Stellar transaction stores the root. Anyone can check a number was not changed afterwards.',
     panel: <SealTerminal />,
   },
 ]

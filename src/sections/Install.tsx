@@ -5,50 +5,25 @@ import { useReveal } from '../lib/reveal'
 const SNIPPETS = [
   {
     id: 'html',
-    label: 'HTML',
+    label: 'Web',
     file: 'index.html',
     code: `<script defer
-  src="https://stellarcope.xyz/t/1.0.0/a.js"
-  integrity="sha384-Qm9yZXN0aW5nIGlzIG5vdCBhIHJlYWwgaGFzaA"
+  src="https://stellarcope.xyz/v2.0.0/s.js"
+  integrity="sha384-..."
   crossorigin="anonymous"
-  data-site="hx_7f3a"></script>`,
-  },
-  {
-    id: 'npm',
-    label: 'npm',
-    file: 'src/main.ts',
-    code: `// npm i @stellarcope/tracker
-import { init, track } from '@stellarcope/tracker'
-
-init({ site: 'hx_7f3a' })        // page views, SPA routes included
-track('quote_requested', { pair: 'XLM/USDC' })`,
-  },
-  {
-    id: 'swk',
-    label: 'Wallets Kit',
-    file: 'src/wallet.ts',
-    code: `// npm i @stellarcope/swk
-import { withStellarcope } from '@stellarcope/swk'
-
-const kit = withStellarcope(new StellarWalletsKit(config))
-// emits wallet_connected, tx_signed and friends
-// with the wallet id and network, never the address`,
+  data-site="YOUR_SITE_ID"></script>`,
   },
   {
     id: 'otel',
-    label: 'OpenTelemetry',
-    file: 'otel-collector.yaml',
-    code: `exporters:
-  otlphttp/apm:        # your own APM, unchanged
-    endpoint: https://otlp.your-apm.example
-  otlphttp/stellarcope:    # the second copy for SCF
-    endpoint: https://stellarcope.xyz/otlp
-    headers: { authorization: "Bearer \${STELLARCOPE_KEY}" }
-
-service:
-  pipelines:
-    traces:
-      exporters: [otlphttp/apm, otlphttp/stellarcope]`,
+    label: 'API',
+    file: 'metrics.ts',
+    code: `// keep your exporter, add a second one
+new PeriodicExportingMetricReader({
+  exporter: new OTLPMetricExporter({
+    url: 'https://otlp.stellarcope.xyz/v1/metrics',
+    headers: { authorization: \`Bearer \${process.env.STELLARCOPE_INGEST_KEY}\` },
+  }),
+})`,
   },
 ]
 
@@ -75,10 +50,10 @@ export default function Install() {
         <div className="grid gap-14 lg:grid-cols-[1fr_1.5fr]">
           <div>
             <h2 className="text-[clamp(2.2rem,5vw,4.2rem)] font-medium leading-[1] tracking-[-0.035em]" data-reveal>
-              Five minutes from sign in to first event.
+              Three steps to your first event.
             </h2>
             <ol className="mt-10" data-reveal>
-              {['Sign in with your Stellar wallet', 'Verify your domain', 'Paste the snippet or add the package', 'Watch the first event arrive live'].map((s) => (
+              {['Sign in with your Stellar wallet', 'Verify your domain', 'Paste the snippet'].map((s) => (
                 <li key={s} className="hair border-t py-4 text-[15px]">
                   {s}
                 </li>

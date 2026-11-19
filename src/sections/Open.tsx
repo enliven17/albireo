@@ -8,7 +8,7 @@ import { REPO } from '../lib/site'
 const TARGETS = [
   { value: 99.99, decimals: 2, suffix: '%', label: 'Ingestion availability target' },
   { value: 24, decimals: 0, suffix: 'h', label: 'Critical patch window' },
-  { value: 24, decimals: 0, suffix: ' mo', label: 'Aggregate retention' },
+  { value: 99.9, decimals: 2, suffix: '%', label: 'Dashboard availability target' },
   { value: 0, decimals: 0, suffix: '', label: 'Fees, for every project' },
 ]
 
@@ -26,7 +26,7 @@ export default function Open() {
               Built in the open. Handed over by design.
             </h2>
             <p className="max-w-lg text-[15px] leading-relaxed text-mute" data-reveal>
-              One MIT licensed monorepo with the code, infrastructure as code, runbooks and metric definitions. Hosted for twelve months, then handed to the Stellar Community Fund after a rehearsed dry run, data and domain included.
+              MIT licensed, infrastructure included. During the twelve-month service window, Stellarcope passes to a community-appointed operator with its data, domain and anchor account.
             </p>
           </div>
           <dl className="mt-20 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
