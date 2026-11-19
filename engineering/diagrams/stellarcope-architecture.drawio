@@ -2999,7 +2999,7 @@
           <mxGeometry x="208" y="484" width="1324" height="102" as="geometry" />
         </mxCell>
         <mxCell id="p10-group-24" value="" style="rounded=1;arcSize=3;html=1;fillColor=#FFF8EE;strokeColor=#D79B00;strokeWidth=1.5;" vertex="1" parent="1">
-          <mxGeometry x="120" y="640" width="440" height="620" as="geometry" />
+          <mxGeometry x="120" y="640" width="440" height="630" as="geometry" />
         </mxCell>
         <mxCell id="p10-t-25" value="Availability zone a" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=18;fontColor=#262626;fontStyle=1;align=left;verticalAlign=middle;spacingLeft=14;spacingRight=14;fillColor=none;strokeColor=none;" vertex="1" parent="1">
           <mxGeometry x="126" y="648" width="290" height="30" as="geometry" />
@@ -3014,7 +3014,7 @@
           <mxGeometry x="228" y="704" width="304" height="152" as="geometry" />
         </mxCell>
         <mxCell id="p10-group-29" value="" style="rounded=1;arcSize=3;html=1;fillColor=#FFF8EE;strokeColor=#D79B00;strokeWidth=1.5;" vertex="1" parent="1">
-          <mxGeometry x="600" y="640" width="440" height="620" as="geometry" />
+          <mxGeometry x="600" y="640" width="440" height="630" as="geometry" />
         </mxCell>
         <mxCell id="p10-t-30" value="Availability zone b" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=18;fontColor=#262626;fontStyle=1;align=left;verticalAlign=middle;spacingLeft=14;spacingRight=14;fillColor=none;strokeColor=none;" vertex="1" parent="1">
           <mxGeometry x="606" y="648" width="290" height="30" as="geometry" />
@@ -3029,7 +3029,7 @@
           <mxGeometry x="708" y="704" width="304" height="152" as="geometry" />
         </mxCell>
         <mxCell id="p10-group-34" value="" style="rounded=1;arcSize=3;html=1;fillColor=#FFF8EE;strokeColor=#D79B00;strokeWidth=1.5;" vertex="1" parent="1">
-          <mxGeometry x="1080" y="640" width="440" height="620" as="geometry" />
+          <mxGeometry x="1080" y="640" width="440" height="630" as="geometry" />
         </mxCell>
         <mxCell id="p10-t-35" value="Availability zone c" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=18;fontColor=#262626;fontStyle=1;align=left;verticalAlign=middle;spacingLeft=14;spacingRight=14;fillColor=none;strokeColor=none;" vertex="1" parent="1">
           <mxGeometry x="1086" y="648" width="290" height="30" as="geometry" />
@@ -3043,97 +3043,106 @@
         <mxCell id="p10-t-38" value="&lt;b&gt;ECS FARGATE TASKS&lt;/b&gt;&lt;br&gt;Intake, Collector, relay&lt;br&gt;API, Umami, workers, jobs" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#262626;fontStyle=0;align=left;verticalAlign=middle;spacingLeft=14;spacingRight=14;fillColor=none;strokeColor=none;" vertex="1" parent="1">
           <mxGeometry x="1188" y="704" width="304" height="152" as="geometry" />
         </mxCell>
-        <mxCell id="p10-db-39" value="&lt;b&gt;RDS POSTGRESQL 17&lt;/b&gt;&lt;br&gt;Primary&lt;br&gt;stellarcope + umami" style="shape=cylinder3;size=14;boundedLbl=1;backgroundOutline=1;whiteSpace=wrap;html=1;fontFamily=Arial;fontSize=17;fontColor=#262626;align=center;verticalAlign=middle;spacingLeft=12;spacingRight=12;spacingTop=14;fillColor=#FAFAFA;strokeColor=#777777;strokeWidth=1.8;" vertex="1" parent="1">
-          <mxGeometry x="140" y="960" width="400" height="200" as="geometry" />
+        <mxCell id="p10-c-39" value="" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Arial;fontSize=17;fontColor=#262626;align=center;verticalAlign=middle;spacingLeft=12;spacingRight=12;spacingTop=5;spacingBottom=5;fillColor=#FAFAFA;strokeColor=#777777;strokeWidth=1.8;" vertex="1" parent="1">
+          <mxGeometry x="100" y="930" width="1460" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="p10-db-40" value="&lt;b&gt;RDS POSTGRESQL 17&lt;/b&gt;&lt;br&gt;Synchronous standby" style="shape=cylinder3;size=14;boundedLbl=1;backgroundOutline=1;whiteSpace=wrap;html=1;fontFamily=Arial;fontSize=17;fontColor=#262626;align=center;verticalAlign=middle;spacingLeft=12;spacingRight=12;spacingTop=14;fillColor=#FAFAFA;strokeColor=#777777;strokeWidth=1.8;" vertex="1" parent="1">
-          <mxGeometry x="620" y="960" width="400" height="200" as="geometry" />
+        <mxCell id="p10-i-40" value="" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#C925D1;strokeColor=#ffffff;dashed=0;html=1;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.rds;" vertex="1" parent="1">
+          <mxGeometry x="116" y="938.0" width="64" height="64" as="geometry" />
         </mxCell>
-        <mxCell id="p10-c-41" value="" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Arial;fontSize=17;fontColor=#262626;align=center;verticalAlign=middle;spacingLeft=12;spacingRight=12;spacingTop=5;spacingBottom=5;fillColor=#FFF2CC;strokeColor=#D6B656;strokeWidth=1.8;" vertex="1" parent="1">
+        <mxCell id="p10-t-41" value="&lt;b&gt;RDS ENDPOINT&lt;/b&gt;&lt;br&gt;One database address for all three zones; it follows the primary on failover" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#262626;fontStyle=0;align=left;verticalAlign=middle;spacingLeft=14;spacingRight=14;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="188" y="934" width="1364" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="p10-db-42" value="&lt;b&gt;RDS POSTGRESQL 17&lt;/b&gt;&lt;br&gt;Primary&lt;br&gt;stellarcope + umami" style="shape=cylinder3;size=14;boundedLbl=1;backgroundOutline=1;whiteSpace=wrap;html=1;fontFamily=Arial;fontSize=17;fontColor=#262626;align=center;verticalAlign=middle;spacingLeft=12;spacingRight=12;spacingTop=14;fillColor=#FAFAFA;strokeColor=#777777;strokeWidth=1.8;" vertex="1" parent="1">
+          <mxGeometry x="140" y="1070" width="400" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="p10-db-43" value="&lt;b&gt;RDS POSTGRESQL 17&lt;/b&gt;&lt;br&gt;Synchronous standby&lt;br&gt;Takes over on failover" style="shape=cylinder3;size=14;boundedLbl=1;backgroundOutline=1;whiteSpace=wrap;html=1;fontFamily=Arial;fontSize=17;fontColor=#262626;align=center;verticalAlign=middle;spacingLeft=12;spacingRight=12;spacingTop=14;fillColor=#FAFAFA;strokeColor=#777777;strokeWidth=1.8;" vertex="1" parent="1">
+          <mxGeometry x="620" y="1070" width="400" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="p10-c-44" value="" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Arial;fontSize=17;fontColor=#262626;align=center;verticalAlign=middle;spacingLeft=12;spacingRight=12;spacingTop=5;spacingBottom=5;fillColor=#FFF2CC;strokeColor=#D6B656;strokeWidth=1.8;" vertex="1" parent="1">
           <mxGeometry x="120" y="1320" width="335" height="130" as="geometry" />
         </mxCell>
-        <mxCell id="p10-i-42" value="" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#E7157B;strokeColor=#ffffff;dashed=0;html=1;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.sqs;" vertex="1" parent="1">
+        <mxCell id="p10-i-45" value="" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#E7157B;strokeColor=#ffffff;dashed=0;html=1;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.sqs;" vertex="1" parent="1">
           <mxGeometry x="136" y="1353.0" width="64" height="64" as="geometry" />
         </mxCell>
-        <mxCell id="p10-t-43" value="&lt;b&gt;SQS&lt;/b&gt;&lt;br&gt;Web and metric&lt;br&gt;queues, DLQs" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#262626;fontStyle=0;align=left;verticalAlign=middle;spacingLeft=14;spacingRight=14;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+        <mxCell id="p10-t-46" value="&lt;b&gt;SQS&lt;/b&gt;&lt;br&gt;Web and metric&lt;br&gt;queues, DLQs" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#262626;fontStyle=0;align=left;verticalAlign=middle;spacingLeft=14;spacingRight=14;fillColor=none;strokeColor=none;" vertex="1" parent="1">
           <mxGeometry x="208" y="1324" width="239" height="122" as="geometry" />
         </mxCell>
-        <mxCell id="p10-c-44" value="" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Arial;fontSize=17;fontColor=#262626;align=center;verticalAlign=middle;spacingLeft=12;spacingRight=12;spacingTop=5;spacingBottom=5;fillColor=#DAE8FC;strokeColor=#6C8EBF;strokeWidth=1.8;" vertex="1" parent="1">
+        <mxCell id="p10-c-47" value="" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Arial;fontSize=17;fontColor=#262626;align=center;verticalAlign=middle;spacingLeft=12;spacingRight=12;spacingTop=5;spacingBottom=5;fillColor=#DAE8FC;strokeColor=#6C8EBF;strokeWidth=1.8;" vertex="1" parent="1">
           <mxGeometry x="475" y="1320" width="335" height="130" as="geometry" />
         </mxCell>
-        <mxCell id="p10-i-45" value="" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#DD344C;strokeColor=#ffffff;dashed=0;html=1;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.secrets_manager;" vertex="1" parent="1">
+        <mxCell id="p10-i-48" value="" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#DD344C;strokeColor=#ffffff;dashed=0;html=1;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.secrets_manager;" vertex="1" parent="1">
           <mxGeometry x="491" y="1353.0" width="64" height="64" as="geometry" />
         </mxCell>
-        <mxCell id="p10-t-46" value="&lt;b&gt;SECRETS + KMS&lt;/b&gt;&lt;br&gt;Per task role" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#262626;fontStyle=0;align=left;verticalAlign=middle;spacingLeft=14;spacingRight=14;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+        <mxCell id="p10-t-49" value="&lt;b&gt;SECRETS + KMS&lt;/b&gt;&lt;br&gt;Per task role" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#262626;fontStyle=0;align=left;verticalAlign=middle;spacingLeft=14;spacingRight=14;fillColor=none;strokeColor=none;" vertex="1" parent="1">
           <mxGeometry x="563" y="1324" width="239" height="122" as="geometry" />
         </mxCell>
-        <mxCell id="p10-c-47" value="" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Arial;fontSize=17;fontColor=#262626;align=center;verticalAlign=middle;spacingLeft=12;spacingRight=12;spacingTop=5;spacingBottom=5;fillColor=#FFE6CC;strokeColor=#D79B00;strokeWidth=1.8;" vertex="1" parent="1">
+        <mxCell id="p10-c-50" value="" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Arial;fontSize=17;fontColor=#262626;align=center;verticalAlign=middle;spacingLeft=12;spacingRight=12;spacingTop=5;spacingBottom=5;fillColor=#FFE6CC;strokeColor=#D79B00;strokeWidth=1.8;" vertex="1" parent="1">
           <mxGeometry x="830" y="1320" width="335" height="130" as="geometry" />
         </mxCell>
-        <mxCell id="p10-i-48" value="" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#E7157B;strokeColor=#ffffff;dashed=0;html=1;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudwatch_2;" vertex="1" parent="1">
+        <mxCell id="p10-i-51" value="" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#E7157B;strokeColor=#ffffff;dashed=0;html=1;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudwatch_2;" vertex="1" parent="1">
           <mxGeometry x="846" y="1353.0" width="64" height="64" as="geometry" />
         </mxCell>
-        <mxCell id="p10-t-49" value="&lt;b&gt;CLOUDWATCH&lt;/b&gt;&lt;br&gt;Metrics, alarms,&lt;br&gt;logs" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#262626;fontStyle=0;align=left;verticalAlign=middle;spacingLeft=14;spacingRight=14;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+        <mxCell id="p10-t-52" value="&lt;b&gt;CLOUDWATCH&lt;/b&gt;&lt;br&gt;Metrics, alarms,&lt;br&gt;logs" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#262626;fontStyle=0;align=left;verticalAlign=middle;spacingLeft=14;spacingRight=14;fillColor=none;strokeColor=none;" vertex="1" parent="1">
           <mxGeometry x="918" y="1324" width="239" height="122" as="geometry" />
         </mxCell>
-        <mxCell id="p10-c-50" value="" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Arial;fontSize=17;fontColor=#262626;align=center;verticalAlign=middle;spacingLeft=12;spacingRight=12;spacingTop=5;spacingBottom=5;fillColor=#FFF2CC;strokeColor=#D6B656;strokeWidth=1.8;" vertex="1" parent="1">
+        <mxCell id="p10-c-53" value="" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Arial;fontSize=17;fontColor=#262626;align=center;verticalAlign=middle;spacingLeft=12;spacingRight=12;spacingTop=5;spacingBottom=5;fillColor=#FFF2CC;strokeColor=#D6B656;strokeWidth=1.8;" vertex="1" parent="1">
           <mxGeometry x="1185" y="1320" width="335" height="130" as="geometry" />
         </mxCell>
-        <mxCell id="p10-i-51" value="" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#8C4FFF;strokeColor=#ffffff;dashed=0;html=1;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudfront;" vertex="1" parent="1">
+        <mxCell id="p10-i-54" value="" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#8C4FFF;strokeColor=#ffffff;dashed=0;html=1;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudfront;" vertex="1" parent="1">
           <mxGeometry x="1201" y="1353.0" width="64" height="64" as="geometry" />
         </mxCell>
-        <mxCell id="p10-t-52" value="&lt;b&gt;CLOUDFRONT&lt;/b&gt;&lt;br&gt;Dashboard assets&lt;br&gt;from S3" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#262626;fontStyle=0;align=left;verticalAlign=middle;spacingLeft=14;spacingRight=14;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+        <mxCell id="p10-t-55" value="&lt;b&gt;CLOUDFRONT&lt;/b&gt;&lt;br&gt;Dashboard assets&lt;br&gt;from S3" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#262626;fontStyle=0;align=left;verticalAlign=middle;spacingLeft=14;spacingRight=14;fillColor=none;strokeColor=none;" vertex="1" parent="1">
           <mxGeometry x="1273" y="1324" width="239" height="122" as="geometry" />
         </mxCell>
-        <mxCell id="p10-c-53" value="" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Arial;fontSize=17;fontColor=#262626;align=center;verticalAlign=middle;spacingLeft=12;spacingRight=12;spacingTop=5;spacingBottom=5;fillColor=#F3EEF8;strokeColor=#9673A6;strokeWidth=1.8;" vertex="1" parent="1">
+        <mxCell id="p10-c-56" value="" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Arial;fontSize=17;fontColor=#262626;align=center;verticalAlign=middle;spacingLeft=12;spacingRight=12;spacingTop=5;spacingBottom=5;fillColor=#F3EEF8;strokeColor=#9673A6;strokeWidth=1.8;" vertex="1" parent="1">
           <mxGeometry x="1650" y="520" width="320" height="130" as="geometry" />
         </mxCell>
-        <mxCell id="p10-i-54" value="" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#8C4FFF;strokeColor=#ffffff;dashed=0;html=1;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.api_gateway;" vertex="1" parent="1">
+        <mxCell id="p10-i-57" value="" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#8C4FFF;strokeColor=#ffffff;dashed=0;html=1;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.api_gateway;" vertex="1" parent="1">
           <mxGeometry x="1666" y="553.0" width="64" height="64" as="geometry" />
         </mxCell>
-        <mxCell id="p10-t-55" value="&lt;b&gt;API GATEWAY&lt;/b&gt;&lt;br&gt;Failover target" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#262626;fontStyle=0;align=left;verticalAlign=middle;spacingLeft=14;spacingRight=14;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+        <mxCell id="p10-t-58" value="&lt;b&gt;API GATEWAY&lt;/b&gt;&lt;br&gt;Failover target" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#262626;fontStyle=0;align=left;verticalAlign=middle;spacingLeft=14;spacingRight=14;fillColor=none;strokeColor=none;" vertex="1" parent="1">
           <mxGeometry x="1738" y="524" width="224" height="122" as="geometry" />
         </mxCell>
-        <mxCell id="p10-c-56" value="" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Arial;fontSize=17;fontColor=#262626;align=center;verticalAlign=middle;spacingLeft=12;spacingRight=12;spacingTop=5;spacingBottom=5;fillColor=#F3EEF8;strokeColor=#9673A6;strokeWidth=1.8;" vertex="1" parent="1">
+        <mxCell id="p10-c-59" value="" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Arial;fontSize=17;fontColor=#262626;align=center;verticalAlign=middle;spacingLeft=12;spacingRight=12;spacingTop=5;spacingBottom=5;fillColor=#F3EEF8;strokeColor=#9673A6;strokeWidth=1.8;" vertex="1" parent="1">
           <mxGeometry x="1650" y="720" width="320" height="130" as="geometry" />
         </mxCell>
-        <mxCell id="p10-i-57" value="" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;html=1;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;" vertex="1" parent="1">
+        <mxCell id="p10-i-60" value="" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;html=1;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;" vertex="1" parent="1">
           <mxGeometry x="1666" y="753.0" width="64" height="64" as="geometry" />
         </mxCell>
-        <mxCell id="p10-t-58" value="&lt;b&gt;LAMBDA&lt;/b&gt;&lt;br&gt;Admission code" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#262626;fontStyle=0;align=left;verticalAlign=middle;spacingLeft=14;spacingRight=14;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+        <mxCell id="p10-t-61" value="&lt;b&gt;LAMBDA&lt;/b&gt;&lt;br&gt;Admission code" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#262626;fontStyle=0;align=left;verticalAlign=middle;spacingLeft=14;spacingRight=14;fillColor=none;strokeColor=none;" vertex="1" parent="1">
           <mxGeometry x="1738" y="724" width="224" height="122" as="geometry" />
         </mxCell>
-        <mxCell id="p10-c-59" value="" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Arial;fontSize=17;fontColor=#262626;align=center;verticalAlign=middle;spacingLeft=12;spacingRight=12;spacingTop=5;spacingBottom=5;fillColor=#FFF2CC;strokeColor=#D6B656;strokeWidth=1.8;" vertex="1" parent="1">
+        <mxCell id="p10-c-62" value="" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Arial;fontSize=17;fontColor=#262626;align=center;verticalAlign=middle;spacingLeft=12;spacingRight=12;spacingTop=5;spacingBottom=5;fillColor=#FFF2CC;strokeColor=#D6B656;strokeWidth=1.8;" vertex="1" parent="1">
           <mxGeometry x="1650" y="920" width="320" height="130" as="geometry" />
         </mxCell>
-        <mxCell id="p10-i-60" value="" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#E7157B;strokeColor=#ffffff;dashed=0;html=1;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.sqs;" vertex="1" parent="1">
+        <mxCell id="p10-i-63" value="" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#E7157B;strokeColor=#ffffff;dashed=0;html=1;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.sqs;" vertex="1" parent="1">
           <mxGeometry x="1666" y="953.0" width="64" height="64" as="geometry" />
         </mxCell>
-        <mxCell id="p10-t-61" value="&lt;b&gt;FALLBACK SQS&lt;/b&gt;&lt;br&gt;Drained by primary" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#262626;fontStyle=0;align=left;verticalAlign=middle;spacingLeft=14;spacingRight=14;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+        <mxCell id="p10-t-64" value="&lt;b&gt;FALLBACK SQS&lt;/b&gt;&lt;br&gt;Drained by primary" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#262626;fontStyle=0;align=left;verticalAlign=middle;spacingLeft=14;spacingRight=14;fillColor=none;strokeColor=none;" vertex="1" parent="1">
           <mxGeometry x="1738" y="924" width="224" height="122" as="geometry" />
         </mxCell>
-        <mxCell id="p10-c-62" value="" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Arial;fontSize=17;fontColor=#262626;align=center;verticalAlign=middle;spacingLeft=12;spacingRight=12;spacingTop=5;spacingBottom=5;fillColor=#FAFAFA;strokeColor=#777777;strokeWidth=1.8;" vertex="1" parent="1">
+        <mxCell id="p10-c-65" value="" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Arial;fontSize=17;fontColor=#262626;align=center;verticalAlign=middle;spacingLeft=12;spacingRight=12;spacingTop=5;spacingBottom=5;fillColor=#FAFAFA;strokeColor=#777777;strokeWidth=1.8;" vertex="1" parent="1">
           <mxGeometry x="2120" y="450" width="600" height="130" as="geometry" />
         </mxCell>
-        <mxCell id="p10-i-63" value="" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#7AA116;strokeColor=#ffffff;dashed=0;html=1;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.backup;" vertex="1" parent="1">
+        <mxCell id="p10-i-66" value="" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#7AA116;strokeColor=#ffffff;dashed=0;html=1;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.backup;" vertex="1" parent="1">
           <mxGeometry x="2136" y="483.0" width="64" height="64" as="geometry" />
         </mxCell>
-        <mxCell id="p10-t-64" value="&lt;b&gt;AWS BACKUP VAULT&lt;/b&gt;&lt;br&gt;Snapshots, cross-account copy" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#262626;fontStyle=0;align=left;verticalAlign=middle;spacingLeft=14;spacingRight=14;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+        <mxCell id="p10-t-67" value="&lt;b&gt;AWS BACKUP VAULT&lt;/b&gt;&lt;br&gt;Snapshots, cross-account copy" style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#262626;fontStyle=0;align=left;verticalAlign=middle;spacingLeft=14;spacingRight=14;fillColor=none;strokeColor=none;" vertex="1" parent="1">
           <mxGeometry x="2208" y="454" width="504" height="122" as="geometry" />
         </mxCell>
-        <mxCell id="p10-c-65" value="&lt;b&gt;EU OBJECT STORAGE&lt;/b&gt;&lt;br&gt;Daily encrypted database copy&lt;br&gt;Outside the AWS account" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Arial;fontSize=17;fontColor=#262626;align=center;verticalAlign=middle;spacingLeft=12;spacingRight=12;spacingTop=5;spacingBottom=5;fillColor=#E2EFDA;strokeColor=#82B366;strokeWidth=1.8;" vertex="1" parent="1">
+        <mxCell id="p10-c-68" value="&lt;b&gt;EU OBJECT STORAGE&lt;/b&gt;&lt;br&gt;Daily encrypted database copy&lt;br&gt;Outside the AWS account" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Arial;fontSize=17;fontColor=#262626;align=center;verticalAlign=middle;spacingLeft=12;spacingRight=12;spacingTop=5;spacingBottom=5;fillColor=#E2EFDA;strokeColor=#82B366;strokeWidth=1.8;" vertex="1" parent="1">
           <mxGeometry x="2120" y="900" width="600" height="130" as="geometry" />
         </mxCell>
-        <mxCell id="p10-c-66" value="&lt;b&gt;STATUS PAGE&lt;/b&gt;&lt;br&gt;Public availability and incidents" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Arial;fontSize=17;fontColor=#262626;align=center;verticalAlign=middle;spacingLeft=12;spacingRight=12;spacingTop=5;spacingBottom=5;fillColor=#E2EFDA;strokeColor=#82B366;strokeWidth=1.8;" vertex="1" parent="1">
+        <mxCell id="p10-c-69" value="&lt;b&gt;STATUS PAGE&lt;/b&gt;&lt;br&gt;Public availability and incidents" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Arial;fontSize=17;fontColor=#262626;align=center;verticalAlign=middle;spacingLeft=12;spacingRight=12;spacingTop=5;spacingBottom=5;fillColor=#E2EFDA;strokeColor=#82B366;strokeWidth=1.8;" vertex="1" parent="1">
           <mxGeometry x="2120" y="1120" width="600" height="130" as="geometry" />
         </mxCell>
-        <mxCell id="p10-c-67" value="&lt;b&gt;EXTERNAL UPTIME CHECKS&lt;/b&gt;&lt;br&gt;Every minute, several regions" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Arial;fontSize=17;fontColor=#262626;align=center;verticalAlign=middle;spacingLeft=12;spacingRight=12;spacingTop=5;spacingBottom=5;fillColor=#E2EFDA;strokeColor=#82B366;strokeWidth=1.8;" vertex="1" parent="1">
+        <mxCell id="p10-c-70" value="&lt;b&gt;EXTERNAL UPTIME CHECKS&lt;/b&gt;&lt;br&gt;Every minute, several regions" style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fontFamily=Arial;fontSize=17;fontColor=#262626;align=center;verticalAlign=middle;spacingLeft=12;spacingRight=12;spacingTop=5;spacingBottom=5;fillColor=#E2EFDA;strokeColor=#82B366;strokeWidth=1.8;" vertex="1" parent="1">
           <mxGeometry x="2120" y="1340" width="600" height="130" as="geometry" />
         </mxCell>
-        <mxCell id="p10-edge-68" value="Primary" style="edgeStyle=none;rounded=0;html=1;strokeWidth=2;strokeColor=#6C8EBF;endArrow=block;endFill=1;startArrow=none;startFill=0;dashed=0;exitX=0.2692;exitY=1.0;exitPerimeter=0;entryX=0.6197;entryY=0.0;entryPerimeter=0;fontFamily=Arial;fontSize=14;fontColor=#262626;labelBackgroundColor=#FFFFFF;spacing=4;" edge="1" parent="1" source="p10-c-4" target="p10-c-21">
+        <mxCell id="p10-edge-71" value="Primary" style="edgeStyle=none;rounded=0;html=1;strokeWidth=2;strokeColor=#6C8EBF;endArrow=block;endFill=1;startArrow=none;startFill=0;dashed=0;exitX=0.2692;exitY=1.0;exitPerimeter=0;entryX=0.6197;entryY=0.0;entryPerimeter=0;fontFamily=Arial;fontSize=14;fontColor=#262626;labelBackgroundColor=#FFFFFF;spacing=4;" edge="1" parent="1" source="p10-c-4" target="p10-c-21">
           <mxGeometry relative="1" as="geometry" x="0.2" />
         </mxCell>
-        <mxCell id="p10-edge-69" value="Failover" style="edgeStyle=none;rounded=0;html=1;strokeWidth=2;strokeColor=#9673A6;endArrow=block;endFill=1;startArrow=none;startFill=0;dashed=1;exitX=0.7308;exitY=1.0;exitPerimeter=0;entryX=0.7812;entryY=0.0;entryPerimeter=0;fontFamily=Arial;fontSize=14;fontColor=#262626;labelBackgroundColor=#FFFFFF;spacing=4;" edge="1" parent="1" source="p10-c-4" target="p10-c-53">
+        <mxCell id="p10-edge-72" value="Failover" style="edgeStyle=none;rounded=0;html=1;strokeWidth=2;strokeColor=#9673A6;endArrow=block;endFill=1;startArrow=none;startFill=0;dashed=1;exitX=0.7308;exitY=1.0;exitPerimeter=0;entryX=0.7812;entryY=0.0;entryPerimeter=0;fontFamily=Arial;fontSize=14;fontColor=#262626;labelBackgroundColor=#FFFFFF;spacing=4;" edge="1" parent="1" source="p10-c-4" target="p10-c-56">
           <mxGeometry relative="1" as="geometry" x="0.2">
             <Array as="points">
               <mxPoint x="1240" y="380" />
@@ -3141,52 +3150,64 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="p10-edge-70" value="" style="edgeStyle=none;rounded=0;html=1;strokeWidth=2;strokeColor=#6C8EBF;endArrow=block;endFill=1;startArrow=none;startFill=0;dashed=0;exitX=0.2254;exitY=1.0;exitPerimeter=0;entryX=0.75;entryY=0.0;entryPerimeter=0;fontFamily=Arial;fontSize=14;fontColor=#262626;labelBackgroundColor=#FFFFFF;spacing=4;" edge="1" parent="1" source="p10-c-21" target="p10-c-26">
+        <mxCell id="p10-edge-73" value="" style="edgeStyle=none;rounded=0;html=1;strokeWidth=2;strokeColor=#6C8EBF;endArrow=block;endFill=1;startArrow=none;startFill=0;dashed=0;exitX=0.2254;exitY=1.0;exitPerimeter=0;entryX=0.75;entryY=0.0;entryPerimeter=0;fontFamily=Arial;fontSize=14;fontColor=#262626;labelBackgroundColor=#FFFFFF;spacing=4;" edge="1" parent="1" source="p10-c-21" target="p10-c-26">
           <mxGeometry relative="1" as="geometry" x="0.0" />
         </mxCell>
-        <mxCell id="p10-edge-71" value="" style="edgeStyle=none;rounded=0;html=1;strokeWidth=2;strokeColor=#6C8EBF;endArrow=block;endFill=1;startArrow=none;startFill=0;dashed=0;exitX=0.5634;exitY=1.0;exitPerimeter=0;entryX=0.75;entryY=0.0;entryPerimeter=0;fontFamily=Arial;fontSize=14;fontColor=#262626;labelBackgroundColor=#FFFFFF;spacing=4;" edge="1" parent="1" source="p10-c-21" target="p10-c-31">
+        <mxCell id="p10-edge-74" value="" style="edgeStyle=none;rounded=0;html=1;strokeWidth=2;strokeColor=#6C8EBF;endArrow=block;endFill=1;startArrow=none;startFill=0;dashed=0;exitX=0.5634;exitY=1.0;exitPerimeter=0;entryX=0.75;entryY=0.0;entryPerimeter=0;fontFamily=Arial;fontSize=14;fontColor=#262626;labelBackgroundColor=#FFFFFF;spacing=4;" edge="1" parent="1" source="p10-c-21" target="p10-c-31">
           <mxGeometry relative="1" as="geometry" x="0.0" />
         </mxCell>
-        <mxCell id="p10-edge-72" value="" style="edgeStyle=none;rounded=0;html=1;strokeWidth=2;strokeColor=#6C8EBF;endArrow=block;endFill=1;startArrow=none;startFill=0;dashed=0;exitX=0.9014;exitY=1.0;exitPerimeter=0;entryX=0.75;entryY=0.0;entryPerimeter=0;fontFamily=Arial;fontSize=14;fontColor=#262626;labelBackgroundColor=#FFFFFF;spacing=4;" edge="1" parent="1" source="p10-c-21" target="p10-c-36">
+        <mxCell id="p10-edge-75" value="" style="edgeStyle=none;rounded=0;html=1;strokeWidth=2;strokeColor=#6C8EBF;endArrow=block;endFill=1;startArrow=none;startFill=0;dashed=0;exitX=0.9014;exitY=1.0;exitPerimeter=0;entryX=0.75;entryY=0.0;entryPerimeter=0;fontFamily=Arial;fontSize=14;fontColor=#262626;labelBackgroundColor=#FFFFFF;spacing=4;" edge="1" parent="1" source="p10-c-21" target="p10-c-36">
           <mxGeometry relative="1" as="geometry" x="0.0" />
         </mxCell>
-        <mxCell id="p10-edge-73" value="SQL" style="edgeStyle=none;rounded=0;html=1;strokeWidth=2;strokeColor=#D79B00;endArrow=block;endFill=1;startArrow=none;startFill=0;dashed=0;exitX=0.5;exitY=1.0;exitPerimeter=0;entryX=0.5;entryY=0.0;entryPerimeter=0;fontFamily=Arial;fontSize=14;fontColor=#262626;labelBackgroundColor=#FFFFFF;spacing=4;" edge="1" parent="1" source="p10-c-26" target="p10-db-39">
+        <mxCell id="p10-edge-76" value="SQL" style="edgeStyle=none;rounded=0;html=1;strokeWidth=2;strokeColor=#D79B00;endArrow=block;endFill=1;startArrow=none;startFill=0;dashed=0;exitX=0.5;exitY=1.0;exitPerimeter=0;entryX=0.1644;entryY=0.0;entryPerimeter=0;fontFamily=Arial;fontSize=14;fontColor=#262626;labelBackgroundColor=#FFF8EE;spacing=4;" edge="1" parent="1" source="p10-c-26" target="p10-c-39">
           <mxGeometry relative="1" as="geometry" x="0.0" />
         </mxCell>
-        <mxCell id="p10-edge-74" value="Sync" style="edgeStyle=none;rounded=0;html=1;strokeWidth=2;strokeColor=#777777;endArrow=block;endFill=1;startArrow=none;startFill=0;dashed=0;exitX=1.0;exitY=0.5;exitPerimeter=0;entryX=0.0;entryY=0.5;entryPerimeter=0;fontFamily=Arial;fontSize=14;fontColor=#262626;labelBackgroundColor=#FFFFFF;spacing=4;" edge="1" parent="1" source="p10-db-39" target="p10-db-40">
+        <mxCell id="p10-edge-77" value="SQL" style="edgeStyle=none;rounded=0;html=1;strokeWidth=2;strokeColor=#D79B00;endArrow=block;endFill=1;startArrow=none;startFill=0;dashed=0;exitX=0.5;exitY=1.0;exitPerimeter=0;entryX=0.4932;entryY=0.0;entryPerimeter=0;fontFamily=Arial;fontSize=14;fontColor=#262626;labelBackgroundColor=#FFF8EE;spacing=4;" edge="1" parent="1" source="p10-c-31" target="p10-c-39">
           <mxGeometry relative="1" as="geometry" x="0.0" />
         </mxCell>
-        <mxCell id="p10-edge-75" value="" style="edgeStyle=none;rounded=0;html=1;strokeWidth=2;strokeColor=#9673A6;endArrow=block;endFill=1;startArrow=none;startFill=0;dashed=0;exitX=0.5;exitY=1.0;exitPerimeter=0;entryX=0.5;entryY=0.0;entryPerimeter=0;fontFamily=Arial;fontSize=14;fontColor=#262626;labelBackgroundColor=#FFFFFF;spacing=4;" edge="1" parent="1" source="p10-c-53" target="p10-c-56">
+        <mxCell id="p10-edge-78" value="SQL" style="edgeStyle=none;rounded=0;html=1;strokeWidth=2;strokeColor=#D79B00;endArrow=block;endFill=1;startArrow=none;startFill=0;dashed=0;exitX=0.5;exitY=1.0;exitPerimeter=0;entryX=0.8219;entryY=0.0;entryPerimeter=0;fontFamily=Arial;fontSize=14;fontColor=#262626;labelBackgroundColor=#FFF8EE;spacing=4;" edge="1" parent="1" source="p10-c-36" target="p10-c-39">
           <mxGeometry relative="1" as="geometry" x="0.0" />
         </mxCell>
-        <mxCell id="p10-edge-76" value="Publish" style="edgeStyle=none;rounded=0;html=1;strokeWidth=2;strokeColor=#9673A6;endArrow=block;endFill=1;startArrow=none;startFill=0;dashed=0;exitX=0.5;exitY=1.0;exitPerimeter=0;entryX=0.5;entryY=0.0;entryPerimeter=0;fontFamily=Arial;fontSize=14;fontColor=#262626;labelBackgroundColor=#FFFFFF;spacing=4;" edge="1" parent="1" source="p10-c-56" target="p10-c-59">
+        <mxCell id="p10-edge-79" value="Writes" style="edgeStyle=none;rounded=0;html=1;strokeWidth=2;strokeColor=#777777;endArrow=block;endFill=1;startArrow=none;startFill=0;dashed=0;exitX=0.1644;exitY=1.0;exitPerimeter=0;entryX=0.5;entryY=0.0;entryPerimeter=0;fontFamily=Arial;fontSize=14;fontColor=#262626;labelBackgroundColor=#FFF8EE;spacing=4;" edge="1" parent="1" source="p10-c-39" target="p10-db-42">
           <mxGeometry relative="1" as="geometry" x="0.0" />
         </mxCell>
-        <mxCell id="p10-edge-77" value="Snapshots to the backup account" style="edgeStyle=none;rounded=0;html=1;strokeWidth=2;strokeColor=#777777;endArrow=block;endFill=1;startArrow=none;startFill=0;dashed=0;exitX=0.5;exitY=1.0;exitPerimeter=0;entryX=0.0;entryY=0.5;entryPerimeter=0;fontFamily=Arial;fontSize=14;fontColor=#262626;labelBackgroundColor=#FFFFFF;spacing=4;" edge="1" parent="1" source="p10-db-39" target="p10-c-62">
+        <mxCell id="p10-edge-80" value="After failover" style="edgeStyle=none;rounded=0;html=1;strokeWidth=2;strokeColor=#777777;endArrow=block;endFill=1;startArrow=none;startFill=0;dashed=1;exitX=0.4932;exitY=1.0;exitPerimeter=0;entryX=0.5;entryY=0.0;entryPerimeter=0;fontFamily=Arial;fontSize=14;fontColor=#262626;labelBackgroundColor=#FFF8EE;spacing=4;" edge="1" parent="1" source="p10-c-39" target="p10-db-43">
+          <mxGeometry relative="1" as="geometry" x="0.0" />
+        </mxCell>
+        <mxCell id="p10-edge-81" value="Sync" style="edgeStyle=none;rounded=0;html=1;strokeWidth=2;strokeColor=#777777;endArrow=block;endFill=1;startArrow=none;startFill=0;dashed=0;exitX=1.0;exitY=0.5;exitPerimeter=0;entryX=0.0;entryY=0.5;entryPerimeter=0;fontFamily=Arial;fontSize=14;fontColor=#262626;labelBackgroundColor=#FFFFFF;spacing=4;" edge="1" parent="1" source="p10-db-42" target="p10-db-43">
+          <mxGeometry relative="1" as="geometry" x="0.0" />
+        </mxCell>
+        <mxCell id="p10-edge-82" value="" style="edgeStyle=none;rounded=0;html=1;strokeWidth=2;strokeColor=#9673A6;endArrow=block;endFill=1;startArrow=none;startFill=0;dashed=0;exitX=0.5;exitY=1.0;exitPerimeter=0;entryX=0.5;entryY=0.0;entryPerimeter=0;fontFamily=Arial;fontSize=14;fontColor=#262626;labelBackgroundColor=#FFFFFF;spacing=4;" edge="1" parent="1" source="p10-c-56" target="p10-c-59">
+          <mxGeometry relative="1" as="geometry" x="0.0" />
+        </mxCell>
+        <mxCell id="p10-edge-83" value="Publish" style="edgeStyle=none;rounded=0;html=1;strokeWidth=2;strokeColor=#9673A6;endArrow=block;endFill=1;startArrow=none;startFill=0;dashed=0;exitX=0.5;exitY=1.0;exitPerimeter=0;entryX=0.5;entryY=0.0;entryPerimeter=0;fontFamily=Arial;fontSize=14;fontColor=#262626;labelBackgroundColor=#FFFFFF;spacing=4;" edge="1" parent="1" source="p10-c-59" target="p10-c-62">
+          <mxGeometry relative="1" as="geometry" x="0.0" />
+        </mxCell>
+        <mxCell id="p10-edge-84" value="Snapshots to the backup account" style="edgeStyle=none;rounded=0;html=1;strokeWidth=2;strokeColor=#777777;endArrow=block;endFill=1;startArrow=none;startFill=0;dashed=0;exitX=0.5;exitY=1.0;exitPerimeter=0;entryX=0.0;entryY=0.5;entryPerimeter=0;fontFamily=Arial;fontSize=14;fontColor=#262626;labelBackgroundColor=#FFFFFF;spacing=4;" edge="1" parent="1" source="p10-db-42" target="p10-c-65">
           <mxGeometry relative="1" as="geometry" x="-0.3">
             <Array as="points">
-              <mxPoint x="340" y="1290" />
-              <mxPoint x="2050" y="1290" />
+              <mxPoint x="340" y="1295" />
+              <mxPoint x="2050" y="1295" />
               <mxPoint x="2050" y="515" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="p10-edge-78" value="Encrypted copy" style="edgeStyle=none;rounded=0;html=1;strokeWidth=2;strokeColor=#777777;endArrow=block;endFill=1;startArrow=none;startFill=0;dashed=0;exitX=0.5;exitY=1.0;exitPerimeter=0;entryX=0.5;entryY=0.0;entryPerimeter=0;fontFamily=Arial;fontSize=14;fontColor=#262626;labelBackgroundColor=#FFFFFF;spacing=4;" edge="1" parent="1" source="p10-c-62" target="p10-c-65">
+        <mxCell id="p10-edge-85" value="Encrypted copy" style="edgeStyle=none;rounded=0;html=1;strokeWidth=2;strokeColor=#777777;endArrow=block;endFill=1;startArrow=none;startFill=0;dashed=0;exitX=0.5;exitY=1.0;exitPerimeter=0;entryX=0.5;entryY=0.0;entryPerimeter=0;fontFamily=Arial;fontSize=14;fontColor=#262626;labelBackgroundColor=#FFFFFF;spacing=4;" edge="1" parent="1" source="p10-c-65" target="p10-c-68">
           <mxGeometry relative="1" as="geometry" x="0.0" />
         </mxCell>
-        <mxCell id="p10-edge-79" value="Publish" style="edgeStyle=none;rounded=0;html=1;strokeWidth=2;strokeColor=#82B366;endArrow=block;endFill=1;startArrow=none;startFill=0;dashed=0;exitX=0.5;exitY=0.0;exitPerimeter=0;entryX=0.5;entryY=1.0;entryPerimeter=0;fontFamily=Arial;fontSize=14;fontColor=#262626;labelBackgroundColor=#FFFFFF;spacing=4;" edge="1" parent="1" source="p10-c-67" target="p10-c-66">
+        <mxCell id="p10-edge-86" value="Publish" style="edgeStyle=none;rounded=0;html=1;strokeWidth=2;strokeColor=#82B366;endArrow=block;endFill=1;startArrow=none;startFill=0;dashed=0;exitX=0.5;exitY=0.0;exitPerimeter=0;entryX=0.5;entryY=1.0;entryPerimeter=0;fontFamily=Arial;fontSize=14;fontColor=#262626;labelBackgroundColor=#FFFFFF;spacing=4;" edge="1" parent="1" source="p10-c-70" target="p10-c-69">
           <mxGeometry relative="1" as="geometry" x="0.0" />
         </mxCell>
-        <mxCell id="p10-t-80" value="&lt;b&gt;Two accounts&lt;/b&gt;&lt;br&gt;A compromise of production credentials cannot delete the backup vault." style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#262626;fontStyle=0;align=left;verticalAlign=top;spacingLeft=14;spacingRight=14;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+        <mxCell id="p10-t-87" value="&lt;b&gt;Two accounts&lt;/b&gt;&lt;br&gt;A compromise of production credentials cannot delete the backup vault." style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#262626;fontStyle=0;align=left;verticalAlign=top;spacingLeft=14;spacingRight=14;fillColor=none;strokeColor=none;" vertex="1" parent="1">
           <mxGeometry x="40" y="1584" width="1300" height="82" as="geometry" />
         </mxCell>
-        <mxCell id="p10-t-81" value="&lt;b&gt;Three zones&lt;/b&gt;&lt;br&gt;Intake and workers run in every zone; RDS fails over to its synchronous standby." style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#262626;fontStyle=0;align=left;verticalAlign=top;spacingLeft=14;spacingRight=14;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+        <mxCell id="p10-t-88" value="&lt;b&gt;Three zones, one database address&lt;/b&gt;&lt;br&gt;Every zone runs the same tasks and writes through one RDS endpoint. The primary has a live standby in a second zone; on failover the endpoint follows it." style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#262626;fontStyle=0;align=left;verticalAlign=top;spacingLeft=14;spacingRight=14;fillColor=none;strokeColor=none;" vertex="1" parent="1">
           <mxGeometry x="1400" y="1584" width="1300" height="82" as="geometry" />
         </mxCell>
-        <mxCell id="p10-t-82" value="&lt;b&gt;Serverless standby&lt;/b&gt;&lt;br&gt;Idle cost near zero; Route 53 moves intake there if the primary is unhealthy." style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#262626;fontStyle=0;align=left;verticalAlign=top;spacingLeft=14;spacingRight=14;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+        <mxCell id="p10-t-89" value="&lt;b&gt;Serverless standby&lt;/b&gt;&lt;br&gt;Idle cost near zero; Route 53 moves intake there if the primary is unhealthy." style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#262626;fontStyle=0;align=left;verticalAlign=top;spacingLeft=14;spacingRight=14;fillColor=none;strokeColor=none;" vertex="1" parent="1">
           <mxGeometry x="40" y="1674" width="1300" height="82" as="geometry" />
         </mxCell>
-        <mxCell id="p10-t-83" value="&lt;b&gt;Outside AWS&lt;/b&gt;&lt;br&gt;An EU copy, the status page and the uptime checks survive an AWS account problem." style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#262626;fontStyle=0;align=left;verticalAlign=top;spacingLeft=14;spacingRight=14;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+        <mxCell id="p10-t-90" value="&lt;b&gt;Outside AWS&lt;/b&gt;&lt;br&gt;An EU copy, the status page and the uptime checks survive an AWS account problem." style="text;html=1;whiteSpace=wrap;fontFamily=Arial;fontSize=16;fontColor=#262626;fontStyle=0;align=left;verticalAlign=top;spacingLeft=14;spacingRight=14;fillColor=none;strokeColor=none;" vertex="1" parent="1">
           <mxGeometry x="1400" y="1674" width="1300" height="82" as="geometry" />
         </mxCell>
       </root>
