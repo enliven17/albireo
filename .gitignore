@@ -13,3 +13,6 @@ dist
 tsconfig.tsbuildinfo
 spool
 public/t
+
+# pitch deck, hosted separately
+pitch/

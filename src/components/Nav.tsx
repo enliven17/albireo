@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import { Logo } from './Mark'
-import { getLenis, reducedMotion, scrollToId } from '../lib/smooth'
-import { REPO, SECTIONS } from '../lib/site'
+import { getLenis, reducedMotion } from '../lib/smooth'
+import { REPO } from '../lib/site'
 
 function useUtcClock() {
   const [now, setNow] = useState(() => new Date())
@@ -19,11 +19,7 @@ export default function Nav() {
   const sheet = useRef<HTMLDivElement>(null)
   const [solid, setSolid] = useState(false)
   const [open, setOpen] = useState(false)
-  const [active, setActive] = useState('')
-  const { pathname } = useLocation()
-  const navigate = useNavigate()
   const clock = useUtcClock()
-  const home = pathname === '/'
 
   // solid after the first scroll; hides while reading down, returns on the way up
   useEffect(() => {
@@ -44,17 +40,6 @@ export default function Nav() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [open])
 
-  // which section is under the reading line
-  useEffect(() => {
-    if (!home) return setActive('')
-    const els = SECTIONS.map((s) => document.getElementById(s.id)).filter(Boolean) as HTMLElement[]
-    const io = new IntersectionObserver((entries) => {
-      for (const e of entries) if (e.isIntersecting) setActive(e.target.id)
-    }, { rootMargin: '-45% 0px -50% 0px' })
-    els.forEach((el) => io.observe(el))
-    return () => io.disconnect()
-  }, [home])
-
   // full screen sheet on small screens, scroll locked while open
   useEffect(() => {
     const lenis = getLenis()
@@ -69,12 +54,6 @@ export default function Nav() {
     return () => window.removeEventListener('keydown', onKey)
   }, [open])
 
-  const go = (id: string) => {
-    setOpen(false)
-    if (home) scrollToId(id)
-    else navigate(`/#${id}`)
-  }
-
   return (
     <>
       <a href="#main" className="fixed left-4 top-4 z-[120] -translate-y-24 bg-ink px-4 py-3 font-mono text-xs text-space focus:translate-y-0">Skip to content</a>
@@ -83,17 +62,6 @@ export default function Nav() {
           <Link to="/" aria-label="Stellarcope home" onClick={() => setOpen(false)}>
             <Logo />
           </Link>
-
-          <ul className="hidden items-center gap-7 lg:flex">
-            {SECTIONS.map((s) => (
-              <li key={s.id}>
-                <button type="button" onClick={() => go(s.id)} aria-current={active === s.id ? 'true' : undefined}
-                  className={`group flex items-baseline gap-1.5 text-[13px] transition-colors ${active === s.id ? 'text-ink' : 'text-mute hover:text-ink'}`}>
-                  {s.label}
-                </button>
-              </li>
-            ))}
-          </ul>
 
           <div className="flex items-center gap-5">
             <span className="hidden font-mono text-[11px] text-dim xl:inline" aria-label="Coordinated universal time">UTC {clock}</span>
@@ -108,16 +76,7 @@ export default function Nav() {
       </header>
 
       {open && (
-        <div id="menu-sheet" ref={sheet} className="fixed inset-0 z-[90] flex flex-col justify-between bg-space px-4 pb-8 pt-24 sm:px-8 lg:hidden">
-          <ul className="space-y-2">
-            {SECTIONS.map((s) => (
-              <li key={s.id} className="overflow-hidden">
-                <button type="button" data-item onClick={() => go(s.id)} className="flex w-full items-baseline gap-4 py-1 text-left text-[clamp(2rem,9vw,3.5rem)] font-medium tracking-tight text-ink">
-                  {s.label}
-                </button>
-              </li>
-            ))}
-          </ul>
+        <div id="menu-sheet" ref={sheet} className="fixed inset-0 z-[90] flex flex-col justify-end bg-space px-4 pb-8 pt-24 sm:px-8 lg:hidden">
           <div className="overflow-hidden">
             <div data-item className="flex flex-wrap gap-3">
               <Link to="/demo" onClick={() => setOpen(false)} className="btn btn-solid">Live demo <span className="arrow">→</span></Link>

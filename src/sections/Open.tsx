@@ -2,20 +2,12 @@ import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import AsciiSky from '../components/AsciiSky'
 import { Container } from '../components/Section'
-import { useCountUp, useReveal } from '../lib/reveal'
+import { useReveal } from '../lib/reveal'
 import { REPO } from '../lib/site'
-
-const TARGETS = [
-  { value: 99.99, decimals: 2, suffix: '%', label: 'Ingestion availability target' },
-  { value: 24, decimals: 0, suffix: 'h', label: 'Critical patch window' },
-  { value: 99.9, decimals: 2, suffix: '%', label: 'Dashboard availability target' },
-  { value: 0, decimals: 0, suffix: '', label: 'Fees, for every project' },
-]
 
 export default function Open() {
   const root = useRef<HTMLElement>(null)
   useReveal(root)
-  useCountUp(root)
 
   return (
     <>
@@ -29,14 +21,6 @@ export default function Open() {
               MIT licensed, infrastructure included. During the twelve-month service window, Stellarcope passes to a community-appointed operator with its data, domain and anchor account.
             </p>
           </div>
-          <dl className="mt-20 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-            {TARGETS.map((t) => (
-              <div key={t.label} className="hair border-t pt-5" data-reveal>
-                <dd className="num text-5xl"><span data-count={t.value} data-decimals={t.decimals}>{t.value.toFixed(t.decimals)}</span><span className="text-mute">{t.suffix}</span></dd>
-                <dt className="label mt-4">{t.label}</dt>
-              </div>
-            ))}
-          </dl>
         </Container>
       </section>
 
