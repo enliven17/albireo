@@ -107,6 +107,7 @@ sequenceDiagram
   W->>Q: delete message
 ```
 
+- **Rejections.** An invalid payload gets 400. An event for an unknown or unverified site, or one that fails the bot checks, gets 403. Nothing is stored in either case.
 - **Exactly-once effects.** A retry carries the same event ID. The worker's receipt insert conflicts and the transaction does nothing. The same ID with different content is a conflict and is quarantined.
 - **Commit before acknowledge.** The worker deletes a queue message only after its database transaction commits. A crash in between causes a redelivery, which the receipt makes harmless.
 - **Tenant from the server, never the payload.** The tenant is resolved from the site's verified domain. A `tenantId` field in a payload is rejected as an unknown field.
@@ -131,6 +132,23 @@ At 00:30 UTC, a job builds one canonical JSON summary per project for the previo
 
 The prototype has anchored daily on testnet since 13 November 2026. The seal proves that a published summary was not changed after anchoring. It does not prove that every event was real; bot defenses (section 7) address that separately.
 
+### 4.5 Queue message lifecycle
+
+Web and metric queues are SQS Standard, so delivery is at least once and unordered. Every message moves through these states:
+
+| State | Meaning |
+|---|---|
+| PUBLISHED | In the queue; admission has already returned 2xx |
+| IN_FLIGHT | Received by a worker and hidden from other workers until its visibility timeout expires |
+| COMMITTED | New receipt and effects committed |
+| DUPLICATE | The receipt already existed, so nothing was written |
+| QUARANTINED | Same identity with different content, or invalid; the quarantine record is committed |
+| SKIPPED | The tenant is tombstoned, so no effects are written |
+| DELETED | Removed from the queue after one of the four outcomes above committed |
+| DEAD_LETTERED | Moved to the dead letter queue after reaching the receive limit; kept 14 days for investigation |
+
+If a worker crashes, or its visibility timeout expires before it deletes the message, the message becomes visible again and is redelivered. The receipt turns the replay into a no-op. A message that keeps failing reaches the receive limit and moves to the dead letter queue instead of blocking the queue.
+
 ## 5. Tenancy, identity and access control
 
 | Principal | Authenticates with | Can do |
@@ -143,13 +161,26 @@ The prototype has anchored daily on testnet since 13 November 2026. The seal pro
 
 Isolation is enforced in three layers:
 
-1. **API authorization** checks the principal's role and tenant on every request.
+1. **API authorization** checks the principal's role and tenant on every request. An invalid session or API key gets 401; a valid principal whose role does not permit the action gets 403. Operators read the global view through a dedicated read-only role that returns aggregates across tenants, never another tenant's raw rows.
 2. **PostgreSQL row-level security.** Runtime roles do not own tenant tables and cannot bypass RLS. Each transaction pins one connection and sets the tenant context for that transaction only, so pooled connections cannot leak context.
 3. **Separate Umami database role.** It is restricted to the tables the adapter needs. Dashboard callers never get direct database access.
 
 Login identities (wallet addresses of owners and operators) live only in the control plane and are never joined with anonymous analytics.
 
-**Enrollment.** Self-service by default. Operators can switch to approval-required enrollment at any time. Removing a project writes a tombstone: ingestion for it is rejected, its data is hidden, and erasure is scheduled. Tombstones take precedence over queue replay and are reapplied after any database restore. Deleted tenant IDs are never reused.
+**Enrollment.** Self-service by default. Operators can switch to approval-required enrollment at any time. Creating the project and its owner membership is a single transaction. Every project is in one of these states, and each transition records the actor and the reason:
+
+| State | Meaning | Entered when |
+|---|---|---|
+| PENDING_APPROVAL | Waiting for an operator; accepts no data | A project enrolls while approval mode is on |
+| ACTIVE | Accepts data; visible to its owner | A project enrolls in self-service mode, an operator approves it, or an operator reinstates a suspended project |
+| DECLINED | Never accepted data | An operator declines a pending project |
+| SUSPENDED | Ingestion rejected; data kept | An operator suspends an active project |
+| REMOVED | Tombstone written; data hidden; erasure scheduled | An operator removes the project, or its owner deletes it |
+| ERASED | Data deleted; the tenant ID is never reused | The erasure job completes |
+
+Tombstones take precedence over queue replay and are reapplied after any database restore.
+
+**Domain verification.** A site accepts events only while its domain is verified through stellar.toml, a DNS record or a meta tag. Verification is rechecked on a schedule. A domain that fails a recheck stops accepting events until it is verified again.
 
 **Ingest registry.** A signed registry of credential and tenant suspensions is published every minute and cached by every intake. If it goes stale, admission continues for up to 60 minutes, then fails closed. Events admitted under a stale registry are reconciled against revocations afterwards and quarantined if their credential was revoked.
 
@@ -257,6 +288,7 @@ flowchart TB
 - **Infrastructure as code.** All infrastructure is defined in OpenTofu under `infra/`, with staging and production environments. Every change runs a plan in CI.
 - **Portability.** The system uses standard containers, standard PostgreSQL and a queue behind our own `QueuePublisher` interface, so a future operator can rebuild it in their own AWS account, or move to another provider.
 - **Account separation.** Production and backups use separate AWS accounts, so one compromised account cannot delete both data and backups.
+- **Monitoring.** CloudWatch collects metrics, alarms and logs inside AWS. The public status page and the independent uptime checks run outside AWS, so they stay available during an AWS incident (section 8).
 
 ## 10. Monorepo structure
 
@@ -332,7 +364,8 @@ Standard HTTP server instrumentation produces the required attributes. Set `http
 4. DNS moves to the new deployment; `stellarcope.xyz` is transferred or permanently redirected.
 5. The anchor account changes hands on chain: the operator adds their signer with `set_options`, then ours is removed.
 6. Repository ownership is transferred.
-7. Handover is complete once the operator runs the system independently.
+7. A shadow period follows: the operator runs the system while our team supports it.
+8. Handover is complete once SCF confirms the operator runs the system independently.
 
 ## 13. Decentralization and verifiability
 
