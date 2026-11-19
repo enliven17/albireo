@@ -1,6 +1,6 @@
-# Stellarcope architecture proposal — 15 November 2026
+# Stellarcope architecture proposal
 
-Status: **historical proposal**, superseded where choices differ by the [selected technical baseline](2026-11-15-decisions.md). In particular, the selected deployment uses stateless Collector admission into a managed metric queue and a narrow transactional Umami schema adapter. The earlier proposal and experiments remain evidence of how those decisions evolved; the running application has not been migrated.
+Status: **historical proposal**, superseded where choices differ by the [selected technical baseline](decisions.md). In particular, the selected deployment uses stateless Collector admission into a managed metric queue and a narrow transactional Umami schema adapter. The earlier proposal and experiments remain evidence of how those decisions evolved; the running application has not been migrated.
 
 ## Intent and constraints
 
@@ -155,6 +155,12 @@ Builder discretion covers module filenames, SQL migration tooling, schema librar
 
 The local decision experiment is complete for its stated scenarios. These are deployment and production implementation gates, not claims that the disposable sink is production-ready.
 
-## Review record
+## Open questions at the time
 
-A fresh builder review identified four planning ambiguities: first-release ingestion scope, human authentication/enrollment, existing client/data compatibility, and long-term report resolution. This revision supplies author recommendations for all four. They remain proposed choices for discussion; only the internal-Umami direction was selected by the user. No production implementation plan has been executed.
+This proposal left four questions open:
+- the first-release ingestion scope
+- human authentication and enrollment
+- compatibility with existing clients and data
+- long-term report resolution
+
+The [technology decisions](decisions.md) resolve all four.

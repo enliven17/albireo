@@ -1,33 +1,29 @@
-# Engineering guide
+# Engineering documentation
 
-## Current implementation
+Stellarcope uses **Umami internally**, behind its own admission layer. Ingress is stateless, web events and metrics flow through managed queues, and workers write to PostgreSQL with exactly-once effects.
 
-The selected direction is **Umami internally behind Stellarcope**, a stateless Collector admission path, managed web/metric queues and PostgreSQL-backed idempotent effects/rollups. The [technical baseline](2026-11-15-decisions.md) records the decisions and tradeoffs. The [roadmap](plans/2026-11-15-rollout.md) separates delivered steps from future integrations.
+## Documents
 
-| Component | Status | Entry point |
-|---|---|---|
-| Runtime/frontend/contracts | Implemented and tested | [Foundation results](plans/2026-11-15-foundation-results.md) |
-| Security maintenance | Patched dependency graphs and service-image definitions; dated scans must be repeated | [Maintained images](../infra/images/README.md) |
-| Fastify skeleton | Implemented; readiness/admission remain disabled | [Ingress guide](ingress.md), [step-4 plan](plans/2026-11-16-ingress.md) |
-| Legacy application | Prototype remains separate | [Repository overview](../README.md) |
-| Production persistence, access and queues | Pending; no cloud deployment | [Steps 5–22](plans/2026-11-15-rollout.md) |
+| Document | Contents |
+|---|---|
+| [Technical architecture](technical-architecture.md) | The target system: data flows, tenant isolation, privacy, security, the 99.99% availability design, infrastructure, integration and handover |
+| [Architecture diagrams](diagrams/stellarcope-architecture.drawio) | Fourteen draw.io pages: system overview, web and access sequences, API and onchain flows, state machines, data models, infrastructure, failover, privacy and handover. Open with [diagrams.net](https://app.diagrams.net). |
+| [Roadmap](roadmap.md) | What exists today and what each milestone delivers |
+| [Technology decisions](decisions.md) | The selected stack, the evidence behind each choice, delivery semantics and coding practices |
+| [Ingress service](ingress.md) | Running the ingress service: commands, routes, configuration, limits, logging and known limitations |
+| [Service images](../infra/images/README.md) | Reproducible image definitions and upstream coupling |
+| [Initial advisory review](security/initial-advisory-review/README.md) | Dependency and image findings at the recorded revision; the active definitions and lockfiles were patched afterwards |
 
-For backend work, run `npm ci` and `npm run check` using the maintained Node version. New service/package code receives strict indexed/optional checking, typed lint and formatting; the frontend and Node compiler configurations stay distinct. [Contribution conventions](../CONTRIBUTING.md) apply to branches and commits.
+## Background
 
-## Reading order
+- [Stack lab](../experiments/stack/README.md) and [findings](../experiments/stack/FINDINGS.md): package compatibility, schemas, real Umami reporting, signed identities, queue admission and histograms.
+- [Reliability lab](../experiments/reliability/README.md) and [findings](../experiments/reliability/FINDINGS.md): retries and duplicates, database and process failures, persistence limits, transactions and row-level security.
+- [Original architecture proposal](architecture-proposal.md) and [stack research](stack-research.md): earlier analysis; the technology decisions supersede them wherever they differ.
 
-1. [Ingress operation and boundary contract](ingress.md): exact local commands, route/config tables, isolation, limits and shutdown.
-2. [Selected technical baseline](2026-11-15-decisions.md): current architecture, ownership, failure semantics and coding practices.
-3. [Implementation roadmap](plans/2026-11-15-rollout.md): prerequisites and concrete acceptance gates for subsequent steps.
-4. [Maintained service images](../infra/images/README.md): reproducible build definitions and upstream coupling.
+The experiments are isolated fixtures. They are not production handlers, and they do not prove the availability targets. Never import their token-issuance, message-consumption or failure-control endpoints into application services.
 
-## Experiments and historical evidence
+## Development
 
-- [Stack decision lab](../experiments/stack/README.md) and [findings](../experiments/stack/FINDINGS.md): package compatibility, schemas, real migrations/Umami reporting, signed identities, queue admission and histogram assumptions.
-- [Reliability lab](../experiments/reliability/README.md) and [findings](../experiments/reliability/FINDINGS.md): retries/duplicates, database/process failures, persistence limits and transaction/RLS patterns.
-- [Initial service advisory review](security/2026-11-15/README.md): pre-remediation package/image findings at its recorded revision. The active definitions and locks were subsequently patched.
-- [Original architecture proposal](2026-11-15-architecture.md) and [stack research](2026-11-15-stack-research.md): dated background, superseded wherever they conflict with the selected baseline.
+Run `npm ci` and `npm run check` with the maintained Node version. New services and packages use strict indexed and optional checking, typed linting and formatting. Branch and commit conventions are in [CONTRIBUTING.md](../CONTRIBUTING.md).
 
-Experiments are separate fixtures, not production handlers or proof of the availability targets. Old results identify their original source/image hashes; changed artifacts require fresh verification. Never import the labs' token-issuance, message-consumption or failure-control endpoints into application services.
-
-Documentation lives in `engineering/` because `/docs` is ignored; `src/docs/` is the separately rendered prototype documentation. Feature work in this batch stops at roadmap step 4. The next implementation batch would start with production migrations and tenant transaction isolation, after a separate instruction to continue.
+Documentation lives in `engineering/`. The `src/docs/` directory holds the separately rendered product documentation.

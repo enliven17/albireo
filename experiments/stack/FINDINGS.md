@@ -25,4 +25,4 @@ The bounded local transport burst delivered all 1000 requests at concurrency eig
 
 The upstream resolver test also records same-hour visit-ID reuse after an inactivity boundary. Preserve and document the pinned Umami behavior; do not advertise a different generic session definition.
 
-The fresh builder review found no important planning choices left unresolved. The [selected baseline](../../engineering/2026-11-15-decisions.md) separates these decisions from remaining production implementation and cloud acceptance obligations. No production dependencies, application code, cloud resources or data were changed.
+The [technology decisions](../../engineering/decisions.md) separate these decisions from remaining production implementation and cloud acceptance obligations. No production dependencies, application code, cloud resources or data were changed.
