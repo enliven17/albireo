@@ -4,7 +4,7 @@ This is the target architecture of Stellarcope, a shared web and API analytics s
 
 - The [roadmap](roadmap.md) shows what exists today and which milestone delivers each part.
 - The [technology decisions](decisions.md) record the evidence behind each choice.
-- The [architecture diagrams](diagrams/stellarcope-architecture.drawio) show every view in detail. Open them with [diagrams.net](https://app.diagrams.net).
+- The [architecture diagrams](diagrams/) show every view in detail, with an editable [draw.io source](diagrams/stellarcope-architecture.drawio).
 
 ## 1. Overview
 
