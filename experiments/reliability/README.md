@@ -1,6 +1,6 @@
 # Local reliability experiment
 
-Runs real Umami 3.5.0, OTel Collector Contrib 0.165.0, PostgreSQL 17.12, and a real OpenTelemetry JS SDK 3.0 histogram exporter. It does not modify Stellarcope's application or connect to production. See [findings](FINDINGS.md) and the [architecture proposal](../../engineering/2026-11-15-architecture.md).
+Runs real Umami 3.5.0, OTel Collector Contrib 0.165.0, PostgreSQL 17.12, and a real OpenTelemetry JS SDK 3.0 histogram exporter. It does not modify Stellarcope's application or connect to production. See [findings](FINDINGS.md) and the [architecture proposal](../../engineering/architecture-proposal.md).
 
 Run from the repository root after installing its existing dependencies:
 

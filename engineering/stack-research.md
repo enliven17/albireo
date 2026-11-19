@@ -1,8 +1,8 @@
-# Stack research — 15 November 2026
+# Stack research
 
 Scope: Stellarcope's actual code and the reliability problems reproduced in the local experiment. This is a dated review of primary documentation, releases, and specifications. A release announcement establishes availability and documented behavior; it does not establish a performance improvement for our workload. Recommendations below are engineering judgments.
 
-The later [selected baseline](2026-11-15-decisions.md) resolves the options below using package compatibility and architecture experiments. In particular, TypeScript 6.0.3 is selected because the current typed-lint package does not support TS 7, despite that compiler's release.
+The later [selected baseline](decisions.md) resolves the options below using package compatibility and architecture experiments. In particular, TypeScript 6.0.3 is selected because the current typed-lint package does not support TS 7, despite that compiler's release.
 
 ## What the repository actually uses
 

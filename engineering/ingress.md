@@ -1,6 +1,6 @@
-# Ingress skeleton: operations and boundaries
+# Ingress service
 
-Status: **roadmap step 4 implemented, 16 November 2026**. This service runs independently of the legacy collector/Vercel functions. It performs no authentication, queue publication, database access, metrics normalization or persistence. Registered ingestion placeholders always reject with 503, and readiness is deliberately false.
+Status: **skeleton implemented; admission disabled.** This service runs independently of the legacy collector/Vercel functions. It performs no authentication, queue publication, database access, metrics normalization or persistence. Registered ingestion placeholders always reject with 503, and readiness is deliberately false.
 
 ## Start locally
 
@@ -107,16 +107,14 @@ The focused suite covers configuration, independent route trees, spoofed headers
 | [app tests](../services/ingress/app.test.ts) | Injected HTTP boundary cases |
 | [lifecycle tests](../services/ingress/main.test.ts) | Real sockets and child-process lifecycle |
 
-## Recorded follow-ups
+## Known limitations
 
-These minor follow-ups were identified in review and remain outside this batch's fix pass:
+- Malformed-URL framework errors omit `Cache-Control: no-store`.
+- Sending the same termination signal again during a drain can end the process before graceful shutdown completes.
+- Invalid UTF-8 inside JSON strings decodes to replacement characters. Strict byte validation is required before admission is enabled.
+- The private metrics placeholder accepts bodyless requests; its body becomes mandatory with the metrics contract.
+- Encoded private-path isolation is verified through injection; real-socket tests cover the literal path.
 
-- Add `no-store` to the malformed-URL framework error path.
-- Keep repeated same-signal shutdown within the graceful drain guard.
-- Decide/enforce strict UTF-8 byte validation before admission is activated.
-- Require the private metrics body when its real contract is implemented.
-- Extend encoded-private-path coverage from injection to the real-socket test; current TCP checks cover the literal path.
+## Scope
 
-## Stop boundary
-
-Feature work stops here for this batch. Database migrations/RLS, SEP-10 and membership, credentials/registry, privacy preparation, queue publication, Umami worker effects and production metrics processing remain later [roadmap steps](plans/2026-11-15-rollout.md). The service is not connected to the existing Collector experiment or dashboard proxy. Those integrations must not inherit a success/readiness claim from this skeleton.
+This service does not yet include database migrations, row-level security, SEP-10 and memberships, credentials and the registry, privacy preparation, queue publication, Umami writes or metrics processing. Those arrive in later [roadmap](roadmap.md) milestones. The service is not connected to the Collector experiment or the dashboard proxy. Those integrations must not inherit a success or readiness claim from it.

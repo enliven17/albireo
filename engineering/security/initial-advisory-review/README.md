@@ -1,8 +1,8 @@
-# Service and dependency advisory review — 2026-11-15
+# Service and dependency advisory review
 
 **Result: there are open security findings. An all-clear is not supported.** This is a current dependency/service advisory review, not a complete source-code audit or a penetration test. No vulnerable service was attacked or production deployment changed.
 
-Repository baseline: `d2e5280`. Current branch: `feat/implementation-foundation`, renamed from the former tool-prefixed branch at the user's request. New branch/commit conventions are in [CONTRIBUTING.md](../../../CONTRIBUTING.md).
+Repository baseline: `d2e5280`.
 
 ## Method and coverage
 
@@ -93,7 +93,7 @@ The full Bookworm images are test/build environments with hundreds of OS/develop
 
 SQS Standard, ECS/Fargate and RDS are selected services, not local lockfile packages. No live Stellarcope resources exist to certify. AWS's [CVE-2026-98432 bulletin](https://aws.amazon.com/security/security-bulletins/2026-160-aws/) says newly launched Fargate tasks after November 1 use a patched platform; existing tasks need retirement/replacement according to maintenance settings. Select maintained platform/engine revisions and keep that lifecycle in deployment/runbooks.
 
-The current selected runtime npm graph, including Fastify 5.12.8, TypeBox 1.4.7, JOSE 6.2.17, pg 8.23.1, Stellar SDK 17.4.0, AWS SQS SDK 3.1169.0 and the OTel JS packages, has no npm advisory matches at query time. [Fastify's recent timeout advisory](https://github.com/fastify/fastify/security/advisories/GHSA-3qgw-9275-xf8w) is fixed at the selected **5.12.8**. None of these facts establishes correct authorization, TLS, tenant isolation, network access or deletion handling in our future application. Those remain required implementation/test boundaries already in the rollout plan.
+The current selected runtime npm graph, including Fastify 5.12.8, TypeBox 1.4.7, JOSE 6.2.17, pg 8.23.1, Stellar SDK 17.4.0, AWS SQS SDK 3.1169.0 and the OTel JS packages, has no npm advisory matches at query time. [Fastify's recent timeout advisory](https://github.com/fastify/fastify/security/advisories/GHSA-3qgw-9275-xf8w) is fixed at the selected **5.12.8**. None of these facts establishes correct authorization, TLS, tenant isolation, network access or deletion handling in our future application. Those remain required implementation and test boundaries, described in the [technical architecture](../../technical-architecture.md).
 
 ## Remediation order before production approval
 

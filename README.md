@@ -54,7 +54,7 @@ This repository contains a working legacy prototype, a tested build/dependency b
 
 The current legacy application uses its own collection/reporting SQL. The Umami and Collector experiments verify integration assumptions; they are separate from production application code. Availability targets and end-to-end privacy/tenant guarantees require the later implementation and operational gates.
 
-Start with the [engineering guide](engineering/README.md), [ingress operations](engineering/ingress.md), [selected architecture](engineering/2026-11-15-decisions.md) and [implementation roadmap](engineering/plans/2026-11-15-rollout.md).
+Start with the [engineering guide](engineering/README.md), [ingress operations](engineering/ingress.md), [technology decisions](engineering/decisions.md) and [roadmap](engineering/roadmap.md).
 
 ## Local development
 

@@ -1,6 +1,6 @@
-# Selected technical baseline — 15 November 2026
+# Technology decisions
 
-This resolves the choices left open in the earlier architecture and stack research, at the user's request. Decisions below guide implementation. The foundation/security-maintenance batches migrated the build/dependency baseline; roadmap step 4 adds a separate [Fastify skeleton](ingress.md). Production admission, persistence and cloud deployment remain future work. This document supersedes conflicting recommendations in the earlier proposal.
+This document records Stellarcope's technology and design decisions and the evidence behind each one. It resolves the choices left open in the [original architecture proposal](architecture-proposal.md) and [stack research](stack-research.md), and supersedes them wherever they differ. The [technical architecture](technical-architecture.md) describes the resulting system.
 
 ## Selected stack
 
@@ -25,7 +25,24 @@ The frontend snapshot needed `RefObject<HTMLElement | null>` in two hook signatu
 
 ## Refined architecture
 
-Choose regional AWS managed services in **eu-central-1**: stateless ECS/Fargate ingress and worker roles, internal Umami, RDS PostgreSQL Multi-AZ, and **SQS Standard with separate web and metric queues and dead-letter queues**. Start with two ingress replicas across two AZs and independent worker capacity. Size CPU, memory and database connections from staging measurements before committing an operating budget. No resources were provisioned and no spend is authorized by these tests.
+The primary region is AWS **eu-central-1** (Frankfurt). It runs:
+
+- stateless ECS/Fargate ingress and worker roles
+- internal Umami
+- RDS PostgreSQL Multi-AZ
+- **SQS Standard with separate web and metric queues and dead-letter queues**
+
+Run at least three ingress replicas across three availability zones, with worker capacity scaled independently.
+
+A **standby intake in eu-west-1** (Ireland) receives traffic through Route 53 health-check failover. It publishes to a **fallback queue** in that region, which the primary workers also drain. Both regions are in the EU, so the declared data residency holds.
+
+Dashboards and processing stay in the primary region. If the primary region fails, the standby still accepts events; they wait in the fallback queue and are processed once the primary recovers.
+
+- **Accounts and backups:** production and backups use separate AWS accounts. Daily encrypted database backups are also copied to storage outside AWS.
+- **Measurement:** the public status page and the availability checks run outside AWS.
+- **Portability:** infrastructure is defined in OpenTofu and uses standard containers and PostgreSQL, with the queue behind `QueuePublisher`. A future operator can rebuild it on another provider.
+
+Size CPU, memory and database connections from staging measurements. No resources were provisioned and no spend is authorized by these tests.
 
 ```mermaid
 flowchart TD
@@ -79,7 +96,7 @@ Choose seven days of source/replay points, eight days of receipts, and 30 days o
 
 Use SEP-10 human authentication, protected sessions, explicit memberships, and administratively granted operator access. Public cards remain opt-in. Keep human login identities in the control plane, outside anonymous analytics. SDK signing/domain checks are tested; the complete owner invitation/recovery flow still needs implementation tests.
 
-For ingestion, choose scoped signed credentials usable in ordinary OTLP headers; do not require a tenant's SDK to perform a custom daily token-refresh protocol. Set an initial 90-day maximum validity with rotation warnings and overlapping replacement keys. Store credential hashes/IDs and scopes; validate issuer/audience/expiry locally. Publish a signed credential/tenant suspension registry every minute, cache it, and fail closed after five minutes of staleness. Bind credential and tenant context from verified claims, removing caller-supplied attribution **before** setting trusted values. Registry checks and rotation/suspension behavior are implementation gates, not proven by the JWT fixture alone.
+For ingestion, choose scoped signed credentials usable in ordinary OTLP headers; do not require a tenant's SDK to perform a custom daily token-refresh protocol. Set an initial 90-day maximum validity with rotation warnings and overlapping replacement keys. Store credential hashes/IDs and scopes; validate issuer/audience/expiry locally. Publish a signed credential/tenant suspension registry every minute and cache it. If the registry goes stale, keep admitting for up to 60 minutes so a registry outage doesn't eat into the ingestion error budget, then fail closed. Events admitted under a stale registry record its version. After the registry recovers, check them against revocations and quarantine any whose credential or tenant was revoked. The 60-minute window deliberately trades some security for availability, and the threat model records it. Bind credential and tenant context from verified claims, removing caller-supplied attribution **before** setting trusted values. Registry checks and rotation/suspension behavior are implementation gates, not proven by the JWT fixture alone.
 
 Sanitize before queues, database, quarantine, and logs. Resource/scope/data-point allowlists and exemplar removal are exercised. Allowed values also need bounds and semantic rules; a field-name allowlist alone is insufficient. Disable raw request/access-body logging; redact credentials and cookies. Preserve only country-level geographic metadata. Authentication cookies for the dashboard are separate from cookieless visitor tracking.
 
@@ -96,7 +113,7 @@ Choose a 24-hour seal lateness window and explicit revisions for later correctio
 3. Keep tenant context explicit in domain calls and persisted envelopes. Request-local logging context is not authorization for later work. Never use a public tenant header as authority.
 4. Use recommended type-aware linting plus strict promise handling, including `void`-discarded promises. Await correctness-critical work; explicitly handle best-effort tasks and errors. Cancellation must reach a cooperative client; a timeout wrapper alone cannot undo a completed publish.
 5. Use small domain modules, parameterized SQL, and explicit transactions. Prefer plain functions and discriminated states over a new effects framework, generic repository layer, custom broker, or dependency-injection framework.
-6. Use one formatter configuration for changed code. Keep lockfiles, run `npm ci` with strict peers, avoid forced peer resolution, and check advisory updates. The [2026-11-15 service review](security/2026-11-15/README.md) records the pre-fix findings. The security-maintenance batch upgrades the actual application and active experiment graphs, applies narrow tested dependency overrides, and uses the [maintained service images](../infra/images/README.md). Its four active npm graph audits and nine final image scans report zero matches at verification time. Node 24.19.0 and original image findings remain historical evidence; repeat the checks for each release.
+6. Use one formatter configuration for changed code. Keep lockfiles, run `npm ci` with strict peers, avoid forced peer resolution, and check advisory updates. The [initial service review](security/initial-advisory-review/README.md) records the pre-fix findings. Subsequent security maintenance upgraded the application and active experiment graphs, applied narrow tested dependency overrides, and moved to the [maintained service images](../infra/images/README.md). Its four active npm graph audits and nine final image scans report zero matches at verification time. Node 24.19.0 and original image findings remain historical evidence; repeat the checks for each release.
 7. Test behavior and failure boundaries: unauthorized/oversized inputs, commit-before-ack, rollback, replay, resets, concurrency, degraded dependencies, and restored state. Keep integration tests in real PostgreSQL alongside fast PGlite tests. Schema generation, type checking, lint, build and browser smoke are separate checks.
 8. Observe admission attempts/success, rejected/duplicate/quarantined points, queue age, freshness and completeness at consistent units. Keep request IDs in diagnostic context, not metric dimensions. Set route/cardinality budgets and expose overflow instead of silently treating missing detail as zero traffic.
 
@@ -117,10 +134,41 @@ The isolated app upgrade demonstrates compatibility, not permission to hide its 
 | Authentication state can be trusted after persistence | Verified tenant survives; missing claim cannot preserve a forged tenant; expiry/audience reject | Bind and validate before publication. |
 | Compression limits apply to decoded data | Valid >4 MiB gzip payload rejected with native “request body too large” | Explicit decoded limit; native error is 400 in this image. |
 | Local speed establishes cloud capacity/availability | Local burst is tiny and excludes WAN, real SQS, RDS failover and long-duration behavior | No such claim; funded staging acceptance remains mandatory. |
-| A broker SLA establishes the RFP target | SQS's published commitment is 99.9%, below the desired application SLO | Engineering target only; do not promise a contractual four-nines guarantee on this evidence. |
+| A broker SLA establishes the RFP target | SQS's published commitment is 99.9%, below the RFP's ingestion target | No supplier SLA establishes the target, so the commitment rests on our own design: three-zone intake, a standby intake region with a fallback queue, bounded registry staleness, and client retries with stable event IDs. External measurement verifies it. |
 
-99.99% ingestion and 99.90% dashboard availability remain the target, not an achieved result. The queue removes database failover from the normal admission path, but queue/IAM/network outages, stale authorization, deployments and regional failures still consume the error budget. [SQS SLA](https://aws.amazon.com/messaging/sla/), [SLO design](https://sre.google/workbook/implementing-slos/)
+For the twelve-month service window, the submission commits to the RFP's targets: **99.99% ingestion and 99.90% dashboard availability**.
 
-Before production, implement and test the complete enrollment/authorization and erasure flows, adapter fields/worker leases/retention anchors, SDK profile interoperability, poison-message recovery, and real cloud networking/IAM. Then run sustained/burst load, failover, rolling replacement, backup restore, key rotation, and deletion-replay drills on the selected deployment. Check actual cost and admission/freshness/error-budget measurements before making the submission's operational commitment. Local emulation cannot replace those checks; adding more infrastructure solely to claim a higher availability number would not establish them either.
+Ingestion availability is the share of valid ingestion requests answered with 2xx within 2 seconds. Independent external checks from multiple regions measure it every minute, with no maintenance exclusions, and a monthly report publishes the result.
 
-A fresh builder review found no important planning questions left and no material guarantee exceeding the stated evidence. The remaining obligations above are implementation and production acceptance work, not unresolved stack choices.
+Two parts of the design protect admission:
+
+- The queue keeps database failover out of the admission path.
+- The standby region means the primary region alone can't stop admission.
+
+These still consume the error budget:
+
+- IAM or network faults
+- registry staleness beyond the 60-minute window
+- deployments
+- simultaneous failures in both regions
+
+To protect the budget, use rolling deployments with automatic rollback, burn-rate alerts, and an error-budget policy that freezes releases once the monthly budget is spent. [SQS SLA](https://aws.amazon.com/messaging/sla/), [SLO design](https://sre.google/workbook/implementing-slos/)
+
+Before production:
+
+1. Implement and test the remaining flows:
+   - complete enrollment, authorization and erasure
+   - adapter fields, worker leases and retention anchors
+   - SDK profile interoperability
+   - poison-message recovery
+   - real cloud networking and IAM
+2. Run these drills on the selected deployment:
+   - sustained and burst load
+   - zone and regional failover
+   - rolling replacement
+   - backup restore, including from the copy outside AWS
+   - key rotation
+   - deletion-replay
+3. Confirm actual cost, plus admission, freshness and error-budget measurements, before the service window begins.
+
+Local emulation can't replace those checks.
