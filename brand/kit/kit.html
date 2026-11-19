@@ -12,6 +12,7 @@
   body { background: #000; font-family: Inter, sans-serif; color: var(--ink); }
   .board { position: relative; width: 1920px; height: 1080px; background: var(--space); overflow: hidden; padding: 96px; display: flex; flex-direction: column; }
   .og { width: 1200px; height: 630px; padding: 64px; }
+  .og.wide { height: 675px; }
   .label { font-family: JBM, monospace; font-size: 15px; letter-spacing: .14em; text-transform: uppercase; color: var(--mute); }
   .label b { color: var(--gold); font-weight: 400; margin-right: 18px; }
   .head { display: flex; justify-content: space-between; align-items: baseline; }
@@ -144,6 +145,17 @@
   <div style="position:relative; margin-top:auto;">
     <p style="font-size:76px; font-weight:500; letter-spacing:-.045em; line-height:.95;">Every number,<br><span style="color:var(--mute)">verified.</span></p>
     <p class="mono" style="font-size:17px; color:var(--mute); margin-top:22px;">Trusted, privacy-first web and API analytics for Stellar.</p>
+  </div>
+</section>
+
+<!-- social card, 16:9 -->
+<section class="board og wide" id="og-16x9" style="padding:72px;">
+  <img src="src/sky.png" style="position:absolute; left:0; top:-40px; width:100%; height:120%; object-fit:cover; object-position:center 25%;">
+  <div style="position:absolute; inset:0; background:linear-gradient(0deg, var(--space) 18%, transparent 70%);"></div>
+  <img class="px" src="../logo/lockup-color.svg" style="position:relative; height:58px; width:fit-content;">
+  <div style="position:relative; margin-top:auto;">
+    <p style="font-size:124px; font-weight:500; letter-spacing:-.05em; line-height:.92;">Every number,<br><span style="color:var(--mute)">verified.</span></p>
+    <p class="mono" style="font-size:28px; color:var(--mute); margin-top:32px;">Trusted, privacy-first web and API analytics for Stellar.</p>
   </div>
 </section>
 

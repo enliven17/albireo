@@ -8,7 +8,7 @@
 logo/       mark and lockup in colour, white, ink and gold, SVG and PNG, plus the app icon
 kit/        01 logo, 02 colour, 03 type, 04 usage, 05 applications (1920 x 1080)
 kit/kit.html  source of the boards, kit/src holds the screenshots they use
-social/     og.png, the 1200 x 630 social card
+social/     og.png, the 1200 x 630 social card, and og-16x9.png at 1200 x 675
 mark.js     the pixel cells of the mark and the wordmark, shared by the site and the generator
 ```
 
